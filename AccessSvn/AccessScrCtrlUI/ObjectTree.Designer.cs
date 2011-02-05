@@ -29,6 +29,7 @@
             this.selectAllMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.unselectAllMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.toogleNodesMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.contextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,6 +74,13 @@
             this.toogleNodesMenu.Text = "&Toogle nodes";
             this.toogleNodesMenu.Click += new System.EventHandler(this.toogleNodesMenu_Click);
             // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+            // 
             // ObjectTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -92,5 +100,6 @@
         private System.Windows.Forms.ToolStripMenuItem selectAllMenu;
         private System.Windows.Forms.ToolStripMenuItem unselectAllMenu;
         private System.Windows.Forms.ToolStripMenuItem toogleNodesMenu;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }

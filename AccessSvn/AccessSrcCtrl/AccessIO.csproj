@@ -54,14 +54,30 @@
     <Compile Include="AccessObject.cs" />
     <Compile Include="AccessProjectType.cs" />
     <Compile Include="AuxiliarObject.cs" />
+    <Compile Include="ContainerNames.cs" />
+    <Compile Include="Containers.cs" />
+    <Compile Include="ContainersAdp.cs" />
+    <Compile Include="ContainersMdb.cs" />
     <Compile Include="CustomObject.cs" />
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseDao.cs" />
     <Compile Include="DatabasePrj.cs" />
-    <Compile Include="DataLostException.cs" />
+    <Compile Include="Exceptions.cs" />
     <Compile Include="EmbeddedResources.cs" />
     <Compile Include="ExportObject.cs" />
     <Compile Include="Field.cs" />
+    <Compile Include="FileExtensions.cs" />
+    <Compile Include="ImportObject.cs" />
+    <Compile Include="Properties\ImportRes.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImportRes.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Names.Designer.cs">
+      <DependentUpon>Names.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Transformers.cs" />
     <Compile Include="ICustomObject.cs" />
     <Compile Include="Index.cs" />
@@ -127,8 +143,17 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Include="Properties\ImportRes.resx">
       <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportRes.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Names.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Names.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

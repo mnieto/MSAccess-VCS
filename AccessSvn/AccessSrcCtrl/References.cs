@@ -14,6 +14,11 @@ namespace AccessIO {
 
         public References(AccessApp app, string name, ObjectType objectType) : base(app, name, objectType) { }
 
+        /// <summary>
+        /// Save to <paramref name="fileName"/> the list of references
+        /// </summary>
+        /// <param name="fileName">output file name</param>
+        /// <remarks>Do not write out the builtin references neither broken references. If you need to export a broken reference, first fix it</remarks>
         public override void Save(string fileName) {
             //Make sure the path exists
             MakePath(System.IO.Path.GetDirectoryName(fileName));
@@ -23,7 +28,7 @@ namespace AccessIO {
                 
                 export.WriteBegin(ClassName);
                 foreach (Access.Reference reference in App.Application.References) {
-                    if (!reference.BuiltIn) {
+                    if (!reference.BuiltIn && !reference.IsBroken) {
                         export.WriteBegin("Reference", reference.Name);
                         export.WriteProperty("FullPath", reference.FullPath);
                         export.WriteProperty("Guid", reference.Guid);

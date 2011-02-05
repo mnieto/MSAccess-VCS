@@ -10,6 +10,7 @@ namespace AccessScrCtrl {
         /// </summary>
         [STAThread]
         static void Main() {
+            //TODO: see http://www.codeproject.com/KB/exception/ExceptionHandling.aspx for error handling
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainFrm());

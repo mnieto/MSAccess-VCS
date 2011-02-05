@@ -51,7 +51,7 @@
   <Class Name="AccessIO.AccessApp" Collapsed="true">
     <Position X="2.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ABKAAABAADAACAAAAAAAAAEEQAAQAAAAAAAAAABAEUA=</HashCode>
+      <HashCode>ABKAAABAADAACAAABAAAAAEEQAAQAAAAAAAAAABAEUA=</HashCode>
       <FileName>AccessApp.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -62,7 +62,7 @@
   <Class Name="AccessIO.AccessMdb" Collapsed="true">
     <Position X="1.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AkAAAAAAAEAACABAAAAAAAEAAAAEAEAAgAAAAAAQAAA=</HashCode>
+      <HashCode>AkAAAAAAAEAACCBAAAAAAAEAAAAEAEAAgAAAAAAQAAA=</HashCode>
       <FileName>AccessMdb.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -81,21 +81,21 @@
     </TypeIdentifier>
   </Class>
   <Class Name="AccessIO.Index" Collapsed="true">
-    <Position X="7.5" Y="5.5" Width="1.5" />
+    <Position X="8.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAMAAAAA=</HashCode>
       <FileName>Index.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AccessIO.Field" Collapsed="true">
-    <Position X="7.5" Y="6.75" Width="1.5" />
+    <Position X="8.75" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEAAAAACAAAAACAAAAAAAAAEAAAAAAAAAAEAAAAA=</HashCode>
       <FileName>Field.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AccessIO.AuxiliarObject" Collapsed="true">
-    <Position X="5.5" Y="4.25" Width="1.5" />
+    <Position X="7.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAFAAAAACAAAIACAAAAAQAAAAAAAAAAIAAAEACAAA=</HashCode>
       <FileName>AuxiliarObject.cs</FileName>
@@ -119,10 +119,42 @@
   <Class Name="AccessIO.ObjectName">
     <Position X="3.25" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>ObjectName.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.Containers">
+    <Position X="5.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICIAAAAAAAAAABAAAAAAAAACAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Containers.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="NamesList" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.ContainersAdp" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>ContainersAdp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.ContainersMdb" Collapsed="true">
+    <Position X="6.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>ContainersMdb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.ContainerNames" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAAAAAAAAAAAACAAAAIAAAAAAgAA=</HashCode>
+      <FileName>ContainerNames.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="AccessIO.ICustomObject">
     <Position X="0.75" Y="4.5" Width="1.5" />
@@ -134,14 +166,14 @@
   <Interface Name="AccessIO.IObjectName" Collapsed="true">
     <Position X="0.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAAAAAAAAA=</HashCode>
       <FileName>IObjectName.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="AccessIO.AccessProjectType" Collapsed="true">
     <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ACIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>ADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>AccessProjectType.cs</FileName>
     </TypeIdentifier>
   </Enum>

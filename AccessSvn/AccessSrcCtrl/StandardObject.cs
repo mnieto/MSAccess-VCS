@@ -5,7 +5,7 @@ using Access = Microsoft.Office.Interop.Access;
 
 namespace AccessIO {
     /// <summary>
-    /// Objets that have an implmentation for LoadObject and SaveObject
+    /// Objets that have an implmentation for LoadFromText and SaveAsText
     /// </summary>
     public class StandardObject : AccessObject {
 

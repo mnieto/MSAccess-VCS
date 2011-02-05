@@ -117,8 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="AccessScrCtrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\accessscrctrl.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1137.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Import" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1145.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LoadingObjectsTree" xml:space="preserve">
+    <value>Loading objects names...</value>
+  </data>
   <data name="ObjectsSaved" xml:space="preserve">
     <value>{0} objects saved</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Saving {0}</value>
   </data>
   <data name="WorkingCopyMissing" xml:space="preserve">
     <value>You must specify the working copy path before this action</value>

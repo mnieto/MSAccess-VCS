@@ -17,13 +17,13 @@ namespace AccessIO {
 
         public virtual ObjectType ObjectType { get; set; }
 
-        public virtual string Path {
-            get {
-                return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
-                                     System.IO.Path.DirectorySeparatorChar,
-                                     Name);
-            }
-        }
+        //public virtual string Path {
+        //    get {
+        //        return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
+        //                             System.IO.Path.DirectorySeparatorChar,
+        //                             Name);
+        //    }
+        //}
 
         public virtual List<string> Properties {
             get {

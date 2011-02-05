@@ -38,6 +38,7 @@ namespace AccessIO {
         public AccessMdb(string fileName) {
             this.FileName = fileName;
             this.ProjectType = AccessProjectType.Mdb;
+            this.AllowedContainers = new ContainersMdb();
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace AccessIO {
                 ObjectType.Query,
                 ObjectType.Form,
                 ObjectType.Report,
-                ObjectType.DataAccessPage,
+                ObjectType.DataAccessPage,  //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
                 ObjectType.Module,
                 ObjectType.Macro,
                 ObjectType.Default
@@ -61,7 +62,8 @@ namespace AccessIO {
             
             Database = Application.CurrentDb();
 
-            if (!IsAllowedType(objectType))
+            ContainerNames containerName = AllowedContainers.Find(objectType);
+            if (containerName == null)
                 throw new ArgumentException(Properties.Resources.NotAllowedObjectTypeException, "objectType");
 
             List<IObjectName> lst = new List<IObjectName>();
@@ -69,16 +71,13 @@ namespace AccessIO {
                 lst.Add(new ObjectName(Properties.Resources.DatabaseProperties, ObjectType.DatabaseDao));
                 lst.Add(new ObjectName(Properties.Resources.References, ObjectType.References));
                 lst.Add(new ObjectName(Properties.Resources.Relations, ObjectType.Relations));
-            } else {
-                string containerName = GetContainerNameFromObjectType(objectType);
-                if (IsStandardContainerName(containerName)) {
-                    dao.Container container = Database.Containers[containerName];
-                    foreach (dao.Document doc in container.Documents) {
-                        lst.Add(new ObjectName(doc.Name, objectType));
-                    }
-                } else {
-                    lst.AddRange(GetDaoObjects(containerName));
+            } else if (IsStandardContainerName(containerName.InvariantName)) {
+                dao.Container container = Database.Containers[containerName.InvariantName];
+                foreach (dao.Document doc in container.Documents) {
+                    lst.Add(new ObjectName(doc.Name, objectType));
                 }
+            } else {
+                lst.AddRange(GetDaoObjects(containerName.InvariantName));
             }
             return lst;
         }

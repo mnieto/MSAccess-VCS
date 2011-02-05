@@ -13,6 +13,7 @@ namespace AccessIO {
         public AccessAdp(string fileName) {
             this.FileName = fileName;
             this.ProjectType = AccessProjectType.Adp;
+            this.AllowedContainers = new ContainersAdp();
         }
 
         /// <summary>
@@ -22,7 +23,7 @@ namespace AccessIO {
             AllowedObjetTypes = new ObjectType[]  {
                 ObjectType.Form,
                 ObjectType.Report,
-                ObjectType.DataAccessPage,
+                ObjectType.DataAccessPage,  //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
                 ObjectType.Module,
                 ObjectType.Macro,
                 ObjectType.Property,
@@ -31,8 +32,8 @@ namespace AccessIO {
         }
 
 
-        public override System.Collections.Generic.List<AccessIO.IObjectName> LoadObjectNames(ObjectType objectType) {
-            if (!IsAllowedType(objectType))
+        public override List<AccessIO.IObjectName> LoadObjectNames(ObjectType objectType) {
+            if (AllowedContainers.Find(objectType) == null)
                 throw new ArgumentException(Properties.Resources.NotAllowedObjectTypeException, "objectType");
 
             List<IObjectName> lst = new List<IObjectName>();
@@ -40,7 +41,7 @@ namespace AccessIO {
                 lst.Add(new ObjectName(Properties.Resources.DatabaseProperties, ObjectType.DatabasePrj));
                 lst.Add(new ObjectName(Properties.Resources.References, ObjectType.References));
             } else {
-                foreach (AccessObject obj in GetObjectCollectionFromObjectType(objectType)) {
+                foreach (Access.AccessObject obj in GetObjectCollectionFromObjectType(objectType)) {
                     lst.Add(new ObjectName(obj.Name, objectType));
                 }
             }

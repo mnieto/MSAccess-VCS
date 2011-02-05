@@ -60,12 +60,51 @@ namespace AccessScrCtrl.Properties {
             }
         }
         
+        internal static System.Drawing.Icon AccessScrCtrl {
+            get {
+                object obj = ResourceManager.GetObject("AccessScrCtrl", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon Export {
+            get {
+                object obj = ResourceManager.GetObject("Export", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon Import {
+            get {
+                object obj = ResourceManager.GetObject("Import", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loading objects names....
+        /// </summary>
+        internal static string LoadingObjectsTree {
+            get {
+                return ResourceManager.GetString("LoadingObjectsTree", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to {0} objects saved.
         /// </summary>
         internal static string ObjectsSaved {
             get {
                 return ResourceManager.GetString("ObjectsSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving {0}.
+        /// </summary>
+        internal static string Saving {
+            get {
+                return ResourceManager.GetString("Saving", resourceCulture);
             }
         }
         

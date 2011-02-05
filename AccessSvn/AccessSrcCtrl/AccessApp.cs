@@ -32,6 +32,11 @@ namespace AccessIO {
         /// <summary>
         /// List of ObjectType object allowed depending on the file type: database or project
         /// </summary>
+        public Containers AllowedContainers { get; protected set; }
+        
+        /// <summary>
+        /// List of ObjectType object allowed depending on the file type: database or project
+        /// </summary>
         public ObjectType[] AllowedObjetTypes {
             get;
             protected set;
@@ -62,12 +67,37 @@ namespace AccessIO {
         }
 
         /// <summary>
+        /// Create a new instance of <see cref="Containers"/> derived class, depending on the file name extension of <paramref name="fileName"/>
+        /// </summary>
+        /// <param name="fileName">File name of the Access database/project file</param>
+        /// <returns>specialiced Containers object</returns>
+        public static Containers ContainersFactory(string fileName) {
+            Containers containers = null;
+            switch (Path.GetExtension(fileName).ToUpperInvariant()) {
+                case ".MDE":
+                case ".MDB":
+                case ".MDA":
+                    containers = new ContainersMdb();
+                    break;
+                case ".ADP":
+                case ".ADE":
+                    containers = new ContainersAdp();
+                    break;            
+            }
+            return containers;
+        }
+
+        /// <summary>
         /// Creates a new instance of Access.Application interop object and loads the database or project file
         /// </summary>
+        /// <exception cref="COMException">when user cancel security message in databases with VBA code or when Macros security level is high</exception>
         protected virtual void IntanceAccessApplication() {
+
             Application = new Access.Application();
             Application.UserControl = false;
             Application.Visible = false;
+            //TODO: Check for password protected databases
+            //TODO: Check for databases attached to workgroup database
             if (ProjectType == AccessProjectType.Adp)
                 Application.OpenAccessProject(FileName);
             else
@@ -84,6 +114,7 @@ namespace AccessIO {
         /// </summary>
         /// <param name="objectType">Access object Type</param>
         /// <returns>string with the container name</returns>
+        [Obsolete("Use Containers object", true)]
         public static string GetContainerNameFromObjectType(ObjectType objectType) {
             switch (objectType) {
                 case ObjectType.DatabaseDao:
@@ -149,6 +180,7 @@ namespace AccessIO {
         /// </summary>
         /// <param name="objectType">ObjectType to query</param>
         /// <returns><c>true</c> if is an allowed type, else returns <c>false</c></returns>
+        [Obsolete("Use AllowedContainers.Find: if returns null, then the object type is not allowed")]
         protected virtual bool IsAllowedType(ObjectType objectType) {
             foreach (ObjectType ot in AllowedObjetTypes) {
                 if (ot == objectType)

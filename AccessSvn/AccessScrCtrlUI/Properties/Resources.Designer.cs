@@ -60,12 +60,56 @@ namespace AccessScrCtrlUI.Properties {
             }
         }
         
+        internal static System.Drawing.Icon _1120 {
+            get {
+                object obj = ResourceManager.GetObject("_1120", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The async operation is already running.
+        /// </summary>
+        internal static string AsyncOperationAlreadyRunning {
+            get {
+                return ResourceManager.GetString("AsyncOperationAlreadyRunning", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon bas {
+            get {
+                object obj = ResourceManager.GetObject("bas", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon dap {
+            get {
+                object obj = ResourceManager.GetObject("dap", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to DataAccessPages.
         /// </summary>
         internal static string DataAccessPagePlural {
             get {
                 return ResourceManager.GetString("DataAccessPagePlural", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon db {
+            get {
+                object obj = ResourceManager.GetObject("db", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Icon dbp {
+            get {
+                object obj = ResourceManager.GetObject("dbp", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -106,11 +150,36 @@ namespace AccessScrCtrlUI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;No available files&gt;.
+        /// </summary>
+        internal static string EmptyFileStructure {
+            get {
+                return ResourceManager.GetString("EmptyFileStructure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End.
         /// </summary>
         internal static string End {
             get {
                 return ResourceManager.GetString("End", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File &apos;{0}&apos; not found.
+        /// </summary>
+        internal static string FileNotFound {
+            get {
+                return ResourceManager.GetString("FileNotFound", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon folder {
+            get {
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -129,6 +198,13 @@ namespace AccessScrCtrlUI.Properties {
         internal static string FormPlural {
             get {
                 return ResourceManager.GetString("FormPlural", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon frm {
+            get {
+                object obj = ResourceManager.GetObject("frm", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -168,6 +244,13 @@ namespace AccessScrCtrlUI.Properties {
             }
         }
         
+        internal static System.Drawing.Icon mcr {
+            get {
+                object obj = ResourceManager.GetObject("mcr", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Module.
         /// </summary>
@@ -183,6 +266,13 @@ namespace AccessScrCtrlUI.Properties {
         internal static string ModulePlural {
             get {
                 return ResourceManager.GetString("ModulePlural", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon MSACCESS_258 {
+            get {
+                object obj = ResourceManager.GetObject("MSACCESS_258", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -210,6 +300,13 @@ namespace AccessScrCtrlUI.Properties {
         internal static string PropertyPlural {
             get {
                 return ResourceManager.GetString("PropertyPlural", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon qry {
+            get {
+                object obj = ResourceManager.GetObject("qry", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -249,6 +346,13 @@ namespace AccessScrCtrlUI.Properties {
             }
         }
         
+        internal static System.Drawing.Icon rel {
+            get {
+                object obj = ResourceManager.GetObject("rel", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
@@ -264,6 +368,22 @@ namespace AccessScrCtrlUI.Properties {
         internal static string ReportPlural {
             get {
                 return ResourceManager.GetString("ReportPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The root folder do not exists or is invalid.
+        /// </summary>
+        internal static string RootPathNotValid {
+            get {
+                return ResourceManager.GetString("RootPathNotValid", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon rpt {
+            get {
+                object obj = ResourceManager.GetObject("rpt", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         
@@ -318,6 +438,13 @@ namespace AccessScrCtrlUI.Properties {
         internal static string TablePlural {
             get {
                 return ResourceManager.GetString("TablePlural", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Icon tbl {
+            get {
+                object obj = ResourceManager.GetObject("tbl", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
     }

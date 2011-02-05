@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Access = Microsoft.Office.Interop.Access;
 
 namespace AccessIO {
 
@@ -28,6 +29,17 @@ namespace AccessIO {
             }
             export.WriteProperty(property.Name, Transform(propertyValue));
         }
+
+        public virtual void WriteTransform(ExportObject export, Access.AccessObjectProperty property) {
+            object propertyValue;
+            try {
+                propertyValue = property.Value;
+            } catch {
+                propertyValue = String.Empty;
+            }
+            export.WriteProperty(property.Name, Transform(propertyValue));
+        }
+
     }
 
     /// <summary>
@@ -67,6 +79,10 @@ namespace AccessIO {
         }
 
         public override void WriteTransform(ExportObject export, dao.Property property) {
+            //write nothing at all
+        }
+
+        public override void WriteTransform(ExportObject export, Access.AccessObjectProperty accessObjectProperty) {
             //write nothing at all
         }
 

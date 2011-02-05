@@ -117,8 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AsyncOperationAlreadyRunning" xml:space="preserve">
+    <value>The async operation is already running</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="bas" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\567.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="DataAccessPagePlural" xml:space="preserve">
     <value>DataAccessPages</value>
+  </data>
+  <data name="db" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\230.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dbp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\187.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Default" xml:space="preserve">
     <value>Default</value>
@@ -132,14 +145,23 @@
   <data name="DiagramPlural" xml:space="preserve">
     <value>Diagrams</value>
   </data>
+  <data name="EmptyFileStructure" xml:space="preserve">
+    <value>&lt;No available files&gt;</value>
+  </data>
   <data name="End" xml:space="preserve">
     <value>End</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value>File '{0}' not found</value>
   </data>
   <data name="Form" xml:space="preserve">
     <value>Form</value>
   </data>
   <data name="FormPlural" xml:space="preserve">
     <value>Forms</value>
+  </data>
+  <data name="frm" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\564.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Function" xml:space="preserve">
     <value>Function</value>
@@ -152,6 +174,9 @@
   </data>
   <data name="MacroPlural" xml:space="preserve">
     <value>Macros</value>
+  </data>
+  <data name="mcr" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\566.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Module" xml:space="preserve">
     <value>Module</value>
@@ -167,6 +192,9 @@
   </data>
   <data name="PropertyPlural" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="qry" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\563.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Query" xml:space="preserve">
     <value>Query</value>
@@ -186,6 +214,12 @@
   <data name="ReportPlural" xml:space="preserve">
     <value>Reports</value>
   </data>
+  <data name="RootPathNotValid" xml:space="preserve">
+    <value>The root folder do not exists or is invalid</value>
+  </data>
+  <data name="rpt" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\565.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="ServerView" xml:space="preserve">
     <value>ServerView</value>
   </data>
@@ -203,5 +237,23 @@
   </data>
   <data name="TablePlural" xml:space="preserve">
     <value>Tables</value>
+  </data>
+  <data name="tbl" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\562.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="_1120" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1120.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="rel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\500.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="dap" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MSACCESS_308.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="folder" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\002.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="MSACCESS_258" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\MSACCESS_258.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

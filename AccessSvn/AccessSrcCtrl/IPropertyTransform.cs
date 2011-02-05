@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Access = Microsoft.Office.Interop.Access;
 namespace AccessIO {
 
     /// <summary>
@@ -20,5 +20,12 @@ namespace AccessIO {
         /// <param name="export">ExportObject used to write properties</param>
         /// <param name="value">Value to transform and, then, write</param>
         void WriteTransform(ExportObject export, dao.Property value);
+
+        /// <summary>
+        /// Writes the result of a transformation with the <see cref="ExportObject"/>
+        /// </summary>
+        /// <param name="export">ExportObject used to write properties</param>
+        /// <param name="value">Value to transform and, then, write</param>
+        void WriteTransform(ExportObject export, Access.AccessObjectProperty property);
     }
 }

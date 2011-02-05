@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilesTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FilesTree.Designer.cs">
+      <DependentUpon>FilesTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -58,6 +65,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TreeImages.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccessSrcCtrl\AccessIO.csproj">
@@ -66,6 +74,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FilesTree.resx">
+      <DependentUpon>FilesTree.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ObjectTree.resx">
       <DependentUpon>ObjectTree.cs</DependentUpon>
     </EmbeddedResource>
@@ -73,6 +84,54 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\479.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\230.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\562.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\563.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\564.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\565.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\566.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\567.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\594.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1120.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\187.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\500.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\588.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSACCESS_308.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\002.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\MSACCESS_258.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

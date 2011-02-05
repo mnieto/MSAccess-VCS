@@ -13,16 +13,16 @@ namespace AccessIO {
         /// </summary>
         public string Name { get; set; }
         
-        /// <summary>
-        /// Container name\Object name
-        /// </summary>
-        public string Path {
-            get {
-                return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
-                                     System.IO.Path.DirectorySeparatorChar,
-                                     Name);
-            }
-        }
+        ///// <summary>
+        ///// Container name\Object name
+        ///// </summary>
+        //public string Path {
+        //    get {
+        //        return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
+        //                             System.IO.Path.DirectorySeparatorChar,
+        //                             Name);
+        //    }
+        //}
         
         /// <summary>
         /// Object type

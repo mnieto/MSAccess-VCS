@@ -25,16 +25,16 @@ namespace AccessIO {
         /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets Container\Object name
-        /// </summary>
-        public string Path {
-            get {
-                return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
-                                     System.IO.Path.DirectorySeparatorChar,
-                                     Name);
-            }
-        }
+        ///// <summary>
+        ///// Gets Container\Object name
+        ///// </summary>
+        //public string Path {
+        //    get {
+        //        return String.Concat(AccessApp.GetContainerNameFromObjectType(ObjectType),
+        //                             System.IO.Path.DirectorySeparatorChar,
+        //                             Name);
+        //    }
+        //}
 
         /// <summary>
         /// Get access to <see cref="AccessApp"/> object
@@ -60,13 +60,16 @@ namespace AccessIO {
             if (String.IsNullOrEmpty(App.WorkingCopyPath))
                 throw new InvalidOperationException(Properties.Resources.WorkingCopyMissing);
 
-            string container = AccessApp.GetContainerNameFromObjectType(this.ObjectType);
-            string fileName = NormalizeObjectName(this.Name) + ".txt";
-            string filePath;
-            if (container == String.Empty)
+            string filePath = null;
+            ContainerNames containerNames = App.AllowedContainers.Find(ObjectType);
+            string fileName = null;
+            if (containerNames == null) {
+                fileName = string.Format("{0}.{1}.txt", NormalizeObjectName(this.Name), FileExtensions.dbp);
                 filePath = System.IO.Path.Combine(App.WorkingCopyPath, fileName);
-            else
-                filePath = System.IO.Path.Combine(App.WorkingCopyPath, String.Concat(container, System.IO.Path.DirectorySeparatorChar, fileName));
+            } else {
+                fileName = string.Format("{0}.{1}.txt", NormalizeObjectName(this.Name), containerNames.FileExtension);
+                filePath = System.IO.Path.Combine(App.WorkingCopyPath, String.Concat(containerNames.InvariantName, System.IO.Path.DirectorySeparatorChar, fileName));
+            }
             Save(filePath);
         }
 

@@ -22,7 +22,7 @@ namespace AccessIO.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace AccessIO.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AccessIO.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace AccessIO.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Begin.
         /// </summary>
-        internal static string Begin {
+        public static string Begin {
             get {
                 return ResourceManager.GetString("Begin", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DaoObject must be of type {0} for this object.
         /// </summary>
-        internal static string DaoObjectIsNotAValidType {
+        public static string DaoObjectIsNotAValidType {
             get {
                 return ResourceManager.GetString("DaoObjectIsNotAValidType", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DataAccessPage.
         /// </summary>
-        internal static string DataAccessPage {
+        public static string DataAccessPage {
             get {
                 return ResourceManager.GetString("DataAccessPage", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Database properties.
         /// </summary>
-        internal static string DatabaseProperties {
+        public static string DatabaseProperties {
             get {
                 return ResourceManager.GetString("DatabaseProperties", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Loading &apos;{0}&apos; table will cause data lost. If this is correct, please check Allow data lost property..
         /// </summary>
-        internal static string DataLostExceptionMessage {
+        public static string DataLostExceptionMessage {
             get {
                 return ResourceManager.GetString("DataLostExceptionMessage", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Default.
         /// </summary>
-        internal static string Default {
+        public static string Default {
             get {
                 return ResourceManager.GetString("Default", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Diagram.
         /// </summary>
-        internal static string Diagram {
+        public static string Diagram {
             get {
                 return ResourceManager.GetString("Diagram", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to End.
         /// </summary>
-        internal static string End {
+        public static string End {
             get {
                 return ResourceManager.GetString("End", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Form.
         /// </summary>
-        internal static string Form {
+        public static string Form {
             get {
                 return ResourceManager.GetString("Form", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Function.
         /// </summary>
-        internal static string Function {
+        public static string Function {
             get {
                 return ResourceManager.GetString("Function", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Macro.
         /// </summary>
-        internal static string Macro {
+        public static string Macro {
             get {
                 return ResourceManager.GetString("Macro", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Module.
         /// </summary>
-        internal static string Module {
+        public static string Module {
             get {
                 return ResourceManager.GetString("Module", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Object type not allowed for this type of Access file.
         /// </summary>
-        internal static string NotAllowedObjectTypeException {
+        public static string NotAllowedObjectTypeException {
             get {
                 return ResourceManager.GetString("NotAllowedObjectTypeException", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Property.
         /// </summary>
-        internal static string Property {
+        public static string Property {
             get {
                 return ResourceManager.GetString("Property", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Query.
         /// </summary>
-        internal static string Query {
+        public static string Query {
             get {
                 return ResourceManager.GetString("Query", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Reference.
         /// </summary>
-        internal static string Reference {
+        public static string Reference {
             get {
                 return ResourceManager.GetString("Reference", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to References.
         /// </summary>
-        internal static string References {
+        public static string References {
             get {
                 return ResourceManager.GetString("References", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Relations.
         /// </summary>
-        internal static string Relations {
+        public static string Relations {
             get {
                 return ResourceManager.GetString("Relations", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
-        internal static string Report {
+        public static string Report {
             get {
                 return ResourceManager.GetString("Report", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to ServerView.
         /// </summary>
-        internal static string ServerView {
+        public static string ServerView {
             get {
                 return ResourceManager.GetString("ServerView", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to StoredProcedure.
         /// </summary>
-        internal static string StoredProcedure {
+        public static string StoredProcedure {
             get {
                 return ResourceManager.GetString("StoredProcedure", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Table.
         /// </summary>
-        internal static string Table {
+        public static string Table {
             get {
                 return ResourceManager.GetString("Table", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace AccessIO.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You must specify the working copy path before this action.
         /// </summary>
-        internal static string WorkingCopyMissing {
+        public static string WorkingCopyMissing {
             get {
                 return ResourceManager.GetString("WorkingCopyMissing", resourceCulture);
             }

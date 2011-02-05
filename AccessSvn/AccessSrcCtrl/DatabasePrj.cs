@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Access = Microsoft.Office.Interop.Access;
+using System.IO;
 
 namespace AccessIO {
     
@@ -39,6 +40,36 @@ namespace AccessIO {
 
         public override void Load(string fileName) {
             throw new NotImplementedException();
+        }
+
+        public override void Save(string fileName) {
+
+            Dictionary<string, IPropertyTransform> propsToWrite = new Dictionary<string, IPropertyTransform>();
+            NullTransform nullTransform = new NullTransform();  
+            NoActionTransform noActionTransform = new NoActionTransform();
+            propsToWrite.Add("AccessVersion", nullTransform);
+            propsToWrite.Add("Build", nullTransform);
+            propsToWrite.Add("ProjVer", nullTransform);
+
+            foreach (Access.AccessObjectProperty prop in App.Application.CurrentProject.Properties) {
+                if (!propsToWrite.ContainsKey(prop.Name))
+                    propsToWrite.Add(prop.Name, noActionTransform);
+            }
+
+            //Make sure the path exists
+            MakePath(System.IO.Path.GetDirectoryName(fileName));
+
+            //Write the properties with help of an ExportObject
+            using (StreamWriter sw = new StreamWriter(fileName)) {
+                ExportObject export = new ExportObject(sw);
+                string dbFileName = System.IO.Path.GetFileName(App.FileName);
+                export.WriteBegin(ClassName, dbFileName);
+                foreach (string item in propsToWrite.Keys) {
+                    propsToWrite[item].WriteTransform(export, App.Application.CurrentProject.Properties[item]);
+                }
+                export.WriteEnd();
+            }
+
         }
 
         public override void SaveProperties(ExportObject export) {
