@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="91ae271b-e0ea-4c19-8658-80718d2f372d" Name="AccessSVN" 
+             Language="1033" Codepage="1252"
+             Version="0.9.0" 
+             Manufacturer="Kevull Software" 
+             UpgradeCode="3a03e1c3-ad98-4bf7-baa9-eac47b064cfd">
+      
+        <Package InstallerVersion="200" Compressed="yes"  Languages="1033"/>
+      
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+      
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="ManufacturerFolder" Name="Kevull">
+                    <Directory Id="AppFolder" Name="AccessSVN">
+                          <Component Id="AccessIO.dll" DiskId="1" Guid="33261135-6502-4199-BA4A-3FFD57349461">
+                              <!--<File Id="AccessIO.dll" Name="AccessIO.dll" Source="..\AccessScrCtrl\bin\Debug\AccessIO.dll" />-->
+                            <File Id="AccessIO.dll" Name="AccessIO.dll" Source="..\AccessScrCtrl\bin\$(var.AccessScrCtrl.Configuration)\AccessIO.dll" />
+                          </Component>
+                          <Component Id="AccessScrCtrl.exe" DiskId="1" Guid="68D3C461-5C4F-46B5-BB68-7400E18B8685">
+                              <File Id="AccessScrCtrl.exe" Name="AccessScrCtrl.exe" Source="..\AccessScrCtrl\bin\$(var.AccessScrCtrl.Configuration)\AccessScrCtrl.exe" />
+                          </Component>
+                          <Component Id="AccessScrCtrlUI.dll" DiskId="1" Guid="34E3E314-63DA-4780-ACB3-B789B9DED6D5">
+                              <File Id="AccessScrCtrlUI.dll" Name="AccessScrCtrlUI.dll" Source="..\AccessScrCtrl\bin\$(var.AccessScrCtrl.Configuration)\AccessScrCtrlUI.dll" />
+                          </Component>
+                    </Directory>
+                </Directory>
+            </Directory>
+            <Directory Id="ProgramMenuFolder">
+              <Component Id="StartMenuShortcuts" Guid="8B601CDB-C110-4B0D-8ED5-BF367E96B79B">
+                <Shortcut Id="AppShortcut" Name="AccessSVN" Description="Access SVN" Target="[AppFolder]AccessScrCtrl.exe" />
+                <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
+                  <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="Installed" Type="integer" Value="1" KeyPath="yes" />
+              </Component>
+            </Directory>
+        </Directory>
+        <Feature Id="ProductFeature" Title="AccessSVN_Setup" Level="1">
+            <!-- TODO: Remove the comments around this ComponentRef element and the Component above in order to add resources to this installer. -->
+            <!-- <ComponentRef Id="ProductComponent" /> -->
+            <!-- Note: The following ComponentGroupRef is required to pull in generated authoring from project references. -->
+            <ComponentGroupRef Id="Product.Generated" />
+            <ComponentRef Id="AccessIO.dll" />
+            <ComponentRef Id="AccessScrCtrl.exe" />
+            <ComponentRef Id="AccessScrCtrlUI.dll" />
+            <ComponentRef Id="StartMenuShortcuts" />
+        </Feature>
+
+        <Property Id="WIXUI_INSTALLDIR" Value="AppFolder" />
+        <UIRef Id="WixUI_InstallDir"/>
+        <Icon Id="StartMenuIcon.exe" SourceFile="..\AccessScrCtrl\bin\Debug\AccessScrCtrl.exe" />
+    </Product>
+</Wix>
