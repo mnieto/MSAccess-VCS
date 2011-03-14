@@ -46,6 +46,16 @@ namespace AccessIO {
         /// <summary>
         /// Database properties
         /// </summary>
-        dbp
+        dbp,
+
+        /// <summary>
+        /// References
+        /// </summary>
+        lib,
+
+        /// <summary>
+        /// Relations
+        /// </summary>
+        rel
     }
 }

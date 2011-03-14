@@ -96,6 +96,12 @@ namespace AccessIO {
             Application = new Access.Application();
             Application.UserControl = false;
             Application.Visible = false;
+        }
+
+        /// <summary>
+        /// Opens the database specified by <see cref="FileName"/>
+        /// </summary>
+        public void OpenDatabase() {
             //TODO: Check for password protected databases
             //TODO: Check for databases attached to workgroup database
             if (ProjectType == AccessProjectType.Adp)
@@ -173,7 +179,7 @@ namespace AccessIO {
         /// Returns a list with the object names of a determined type
         /// </summary>
         /// <param name="objectType">Object type to query</param>
-        public abstract List<IObjectName> LoadObjectNames(ObjectType objectType);
+        public abstract List<IObjectName> LoadObjectNames(string containerInvariantName);
 
         /// <summary>
         /// Returns if a ObjectType is valid or not for the project type

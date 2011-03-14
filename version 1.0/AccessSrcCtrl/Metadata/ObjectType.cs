@@ -9,7 +9,7 @@ namespace AccessIO {
     /// maps, as possible, Access object types <see cref="Microsoft.Office.Interop.Access.AcObjectType">AcObjectType</see> and adds custom object types
     /// </summary>
     public enum ObjectType {
-        Default = AcObjectType.acDefault,
+        General = AcObjectType.acDefault,
 
         /// <summary>
         /// Dao tables

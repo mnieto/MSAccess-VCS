@@ -39,6 +39,7 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.objectTree = new AccessScrCtrlUI.ObjectTree();
             this.loadTab = new System.Windows.Forms.TabPage();
+            this.optionsButton = new System.Windows.Forms.Button();
             this.filesTree = new AccessScrCtrlUI.FilesTree();
             this.loadButton = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
@@ -58,8 +59,8 @@
             // 
             // fileNameTextBox
             // 
-            this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fileNameTextBox.Location = new System.Drawing.Point(16, 30);
             this.fileNameTextBox.Name = "fileNameTextBox";
             this.fileNameTextBox.Size = new System.Drawing.Size(322, 20);
@@ -78,7 +79,7 @@
             // 
             // openDlg
             // 
-            this.openDlg.Filter = "Access database (*.mdb)|*.mdb|Access project (*.adp)|*.adp";
+            this.openDlg.Filter = "Access database (*.mdb; *.adp)|*.mdb;*.adp";
             this.openDlg.SupportMultiDottedExtensions = true;
             this.openDlg.Title = "Select Access file";
             // 
@@ -93,8 +94,8 @@
             // 
             // workingCopyTextBox
             // 
-            this.workingCopyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.workingCopyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.workingCopyTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.workingCopyTextBox.Location = new System.Drawing.Point(19, 74);
             this.workingCopyTextBox.Name = "workingCopyTextBox";
@@ -120,9 +121,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.saveTab);
             this.tabControl1.Controls.Add(this.loadTab);
             this.tabControl1.ImageList = this.imageList;
@@ -148,8 +149,8 @@
             // 
             // progressInfoLabel
             // 
-            this.progressInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.progressInfoLabel.AutoEllipsis = true;
             this.progressInfoLabel.Location = new System.Drawing.Point(6, 265);
             this.progressInfoLabel.Name = "progressInfoLabel";
@@ -169,9 +170,9 @@
             // 
             // objectTree
             // 
-            this.objectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.objectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.objectTree.App = null;
             this.objectTree.FileName = null;
             this.objectTree.Location = new System.Drawing.Point(6, 10);
@@ -183,6 +184,7 @@
             // 
             // loadTab
             // 
+            this.loadTab.Controls.Add(this.optionsButton);
             this.loadTab.Controls.Add(this.filesTree);
             this.loadTab.Controls.Add(this.loadButton);
             this.loadTab.ImageKey = "Import";
@@ -194,8 +196,23 @@
             this.loadTab.Text = "Load";
             this.loadTab.UseVisualStyleBackColor = true;
             // 
+            // optionsButton
+            // 
+            this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.optionsButton.Enabled = false;
+            this.optionsButton.Location = new System.Drawing.Point(178, 265);
+            this.optionsButton.Name = "optionsButton";
+            this.optionsButton.Size = new System.Drawing.Size(75, 23);
+            this.optionsButton.TabIndex = 14;
+            this.optionsButton.Text = "&Options...";
+            this.optionsButton.UseVisualStyleBackColor = true;
+            this.optionsButton.Click += new System.EventHandler(this.optionsButton_Click);
+            // 
             // filesTree
             // 
+            this.filesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.filesTree.Location = new System.Drawing.Point(6, 6);
             this.filesTree.Name = "filesTree";
             this.filesTree.Size = new System.Drawing.Size(328, 254);
@@ -211,6 +228,7 @@
             this.loadButton.TabIndex = 12;
             this.loadButton.Text = "&Load";
             this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // imageList
             // 
@@ -234,7 +252,6 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainFrm";
             this.Text = "Access Source Control";
-            this.Load += new System.EventHandler(this.MainFrm_Load);
             this.tabControl1.ResumeLayout(false);
             this.saveTab.ResumeLayout(false);
             this.loadTab.ResumeLayout(false);
@@ -262,6 +279,7 @@
         private AccessScrCtrlUI.FilesTree filesTree;
         private System.Windows.Forms.Label progressInfoLabel;
         private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.Button optionsButton;
     }
 }
 

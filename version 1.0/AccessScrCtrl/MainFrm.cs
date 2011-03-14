@@ -11,28 +11,9 @@ using AccessIO;
 namespace AccessScrCtrl {
     public partial class MainFrm : Form {
 
+        private ImportOptions importOptions;
         public MainFrm() {
             InitializeComponent();
-        }
-
-        private void MainFrm_Load(object sender, EventArgs e) {
-
-            //Some tests for 
-            //mdb file
-            //fileNameTextBox.Text = @"C:\Users\Miguel\Documents\Trabajos\Irumold\CRM\CONTACTOS.mdb";
-            //workingCopyTextBox.Text = @"C:\Users\Miguel\Documents\Curriculums";
-            //objectTree.FileName = fileNameTextBox.Text;
-            //if (objectTree.App != null)
-            //  objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
-            //filesTree.WorkingCopyPath = workingCopyTextBox.Text;
-
-            //adp file
-            //fileNameTextBox.Text = @"C:\Users\Miguel\Documents\Progs\AccessSVN\TestAccessProjects\Adp\RolesSAP.adp";
-            //workingCopyTextBox.Text = @"C:\Users\Miguel\Documents\Progs\AccessSVN\TestAccessProjects\Adp";
-            //objectTree.FileName = fileNameTextBox.Text;
-            //if (objectTree.App != null)
-            //    objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
-            //filesTree.WorkingCopyPath = workingCopyTextBox.Text;
         }
 
         private void selectFileButton_Click(object sender, EventArgs e) {
@@ -42,6 +23,8 @@ namespace AccessScrCtrl {
                     progressInfoLabel.Text = Properties.Resources.LoadingObjectsTree;
                     fileNameTextBox.Text = openDlg.FileName;
                     objectTree.FileName = fileNameTextBox.Text;
+                    if (!String.IsNullOrEmpty(workingCopyTextBox.Text))
+                        objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
                     saveButton.Enabled = true;
 
                 } finally {
@@ -57,7 +40,8 @@ namespace AccessScrCtrl {
         private void selectFolderButton_Click(object sender, EventArgs e) {
             if (folderDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 workingCopyTextBox.Text = folderDlg.SelectedPath;
-                objectTree.App.WorkingCopyPath = folderDlg.SelectedPath;
+                if (objectTree.App != null)
+                    objectTree.App.WorkingCopyPath = folderDlg.SelectedPath;
                 filesTree.WorkingCopyPath = folderDlg.SelectedPath;
             }
         }
@@ -87,6 +71,8 @@ namespace AccessScrCtrl {
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            objectTree.Focus();
+            saveButton.Enabled = false;
             objectTree.SaveSelectedObjectsAsync();
 
             //Another way of saving selected object: syncronous method
@@ -118,6 +104,13 @@ namespace AccessScrCtrl {
                 MessageBox.Show(String.Format(Properties.Resources.ObjectsSaved, e.TotalOjectsSaved), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 filesTree.RefreshList();
             }
+            saveButton.Enabled = true;
+        }
+
+        private void optionsButton_Click(object sender, EventArgs e) {
+            ImportOptionsFrm frm = new ImportOptionsFrm(filesTree.ProjectType, (ImportOptions)importOptions.Clone());
+            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                importOptions = frm.Options;
         }
 
     }

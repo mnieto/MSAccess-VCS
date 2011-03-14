@@ -135,8 +135,8 @@
   <data name="DataAccessPage" xml:space="preserve">
     <value>DataAccessPage</value>
   </data>
-  <data name="Default" xml:space="preserve">
-    <value>Default</value>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
   </data>
   <data name="Diagram" xml:space="preserve">
     <value>Diagram</value>
@@ -185,5 +185,8 @@
   </data>
   <data name="WorkingCopyMissing" xml:space="preserve">
     <value>You must specify the working copy path before this action</value>
+  </data>
+  <data name="ContainerWithManyObjectTypes" xml:space="preserve">
+    <value>Container has more than one object type. Use the ObjectTypes property.</value>
   </data>
 </root>

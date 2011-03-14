@@ -34,6 +34,7 @@
             this.tree.Name = "tree";
             this.tree.Size = new System.Drawing.Size(173, 201);
             this.tree.TabIndex = 0;
+            this.tree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_AfterCheck);
             // 
             // FilesTree
             // 

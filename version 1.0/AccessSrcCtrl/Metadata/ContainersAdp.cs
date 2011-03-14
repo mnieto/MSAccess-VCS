@@ -5,13 +5,17 @@ using System.Text;
 namespace AccessIO {
     class ContainersAdp: Containers {
 
-        public override void InitializeAllowedTypes() {
+        protected override void InitializeAllowedContainers() {
             Add("Forms", ObjectType.Form, FileExtensions.frm);
             Add("Reports", ObjectType.Report, FileExtensions.rpt);
             Add("DataAccessPages", ObjectType.DataAccessPage, FileExtensions.dap);    //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
             Add("Modules", ObjectType.Module, FileExtensions.bas);
             Add("Scripts", ObjectType.Macro, FileExtensions.mcr);
-            Add("Default", ObjectType.Default, FileExtensions.dbp);
+
+            ContainerNames names = new ContainerNames("General");
+            names.ObjectTypes.Add(new ObjectTypeExtension(names, ObjectType.DatabasePrj, FileExtensions.dbp));
+            names.ObjectTypes.Add(new ObjectTypeExtension(names, ObjectType.References, FileExtensions.lib));
+            Add(names);
         }
         
     }

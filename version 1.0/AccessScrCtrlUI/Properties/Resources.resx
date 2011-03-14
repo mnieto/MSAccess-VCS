@@ -241,7 +241,7 @@
   <data name="tbl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\562.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="_1120" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="lib" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1120.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="rel" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -255,5 +255,8 @@
   </data>
   <data name="MSACCESS_258" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\MSACCESS_258.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="NotProjectType" xml:space="preserve">
+    <value>'Database properties.dbp.txt' file not found or is not valid.</value>
   </data>
 </root>

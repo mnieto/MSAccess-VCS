@@ -79,24 +79,6 @@ namespace AccessIO.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        internal static string Default {
-            get {
-                return ResourceManager.GetString("Default", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Database.
-        /// </summary>
-        internal static string DefaultPlural {
-            get {
-                return ResourceManager.GetString("DefaultPlural", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Diagram.
         /// </summary>
         internal static string Diagrams {
@@ -147,6 +129,24 @@ namespace AccessIO.Properties {
         internal static string FunctionsPlural {
             get {
                 return ResourceManager.GetString("FunctionsPlural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        internal static string GeneralPlural {
+            get {
+                return ResourceManager.GetString("GeneralPlural", resourceCulture);
             }
         }
         
