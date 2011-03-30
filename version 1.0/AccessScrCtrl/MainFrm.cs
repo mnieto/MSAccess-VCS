@@ -38,6 +38,9 @@ namespace AccessScrCtrl {
         }
 
         private void selectFolderButton_Click(object sender, EventArgs e) {
+            if (!String.IsNullOrWhiteSpace(workingCopyTextBox.Text) && System.IO.Directory.Exists(workingCopyTextBox.Text)) {
+                folderDlg.SelectedPath = workingCopyTextBox.Text;
+            }
             if (folderDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
                 workingCopyTextBox.Text = folderDlg.SelectedPath;
                 if (objectTree.App != null)
@@ -63,14 +66,21 @@ namespace AccessScrCtrl {
         }
 
         private void saveButton_Click(object sender, EventArgs e) {
+
             if (string.IsNullOrWhiteSpace(workingCopyTextBox.Text) || string.IsNullOrWhiteSpace(fileNameTextBox.Text)) {
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+            
+            if (objectTree.App != null)
+                objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
+            filesTree.WorkingCopyPath = folderDlg.SelectedPath;
+
             if (objectTree.App == null || String.IsNullOrEmpty(objectTree.App.WorkingCopyPath)) {
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
             objectTree.Focus();
             saveButton.Enabled = false;
             objectTree.SaveSelectedObjectsAsync();
