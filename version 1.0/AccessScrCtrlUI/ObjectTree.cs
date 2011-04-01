@@ -293,7 +293,12 @@ namespace AccessScrCtrlUI {
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            SaveSelectedObjectsCompletedEventArgs args = new SaveSelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+            SaveSelectedObjectsCompletedEventArgs args;
+            //Accessing to e.Result when there is an error throws a exception.
+            if (e.Error == null)
+                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+            else
+                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, 0);
             EventHandler<SaveSelectedObjectsCompletedEventArgs> tmp = SaveSelectedObjectsCompleted;
             if (tmp != null)
                 tmp(this, args);
