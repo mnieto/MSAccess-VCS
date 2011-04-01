@@ -15,17 +15,10 @@ namespace AccessScrCtrlUI {
         /// <summary>
         /// Get or set the <see cref="AccessApp"/> object wich contains the objects to list
         /// </summary>
-        /// <remarks>
-        /// Setting this property also fills the object tree
-        /// </remarks>
         [System.ComponentModel.Browsable(false)]
         public AccessApp App { 
             get { return this.app; }
-            set {
-                this.app = value;
-                if (value != null)
-                    FillObjectTree(value);
-            }
+            set { this.app = value; }
         }
 
         /// <summary>
@@ -50,14 +43,14 @@ namespace AccessScrCtrlUI {
                     //Database is corrupted
                     try {
                         App = AccessApp.AccessAppFactory(value);
+                        App.OpenDatabase();
+                        FillObjectTree(App);
                     } catch (Exception ex) {
                         MessageBox.Show(ex.Message, this.ParentForm.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     }
                 }
             }
         }
-
-        private TreeImages Images { get; set; }
 
         /// <summary>
         /// Default contructor
@@ -145,6 +138,8 @@ namespace AccessScrCtrlUI {
 
     #region private methods
 
+        private TreeImages Images { get; set; }
+
         private List<IObjectName> InternalSelectedNodes(List<IObjectName> list, TreeNode root) {
             foreach (TreeNode node in root.Nodes) {
                 if (node.Checked) {
@@ -179,13 +174,13 @@ namespace AccessScrCtrlUI {
             root.ToolTipText = app.FileName;
             foreach (ContainerNames container in app.AllowedContainers) {
                 TreeNode subItem = root.Nodes.Add(container.DisplayPluralName);
-                subItem.ImageKey = container.FileExtension.ToString();
-                subItem.SelectedImageKey = container.FileExtension.ToString();
-                foreach (IObjectName item in app.LoadObjectNames(container.ObjectType)) {
+                subItem.ImageKey = container.DefaultExtension.ToString();
+                subItem.SelectedImageKey = container.DefaultExtension.ToString();
+                foreach (IObjectName item in app.LoadObjectNames(container.InvariantName)) {
                     TreeNode node = new TreeNode(item.Name);
                     node.Tag = item;
-                    node.ImageKey = container.FileExtension.ToString();
-                    node.SelectedImageKey = container.FileExtension.ToString();
+                    node.ImageKey = app.AllowedContainers.Find(item.ObjectType).FileExtension.ToString();
+                    node.SelectedImageKey = node.ImageKey;
                     subItem.Nodes.Add(node);
                 }
             }
@@ -298,7 +293,12 @@ namespace AccessScrCtrlUI {
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            SaveSelectedObjectsCompletedEventArgs args = new SaveSelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+            SaveSelectedObjectsCompletedEventArgs args;
+            //Accessing to e.Result when there is an error throws a exception.
+            if (e.Error == null)
+                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+            else
+                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, 0);
             EventHandler<SaveSelectedObjectsCompletedEventArgs> tmp = SaveSelectedObjectsCompleted;
             if (tmp != null)
                 tmp(this, args);

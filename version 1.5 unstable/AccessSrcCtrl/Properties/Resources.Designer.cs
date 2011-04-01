@@ -70,6 +70,15 @@ namespace AccessIO.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Container has more than one object type. Use the ObjectTypes property..
+        /// </summary>
+        public static string ContainerWithManyObjectTypes {
+            get {
+                return ResourceManager.GetString("ContainerWithManyObjectTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DaoObject must be of type {0} for this object.
         /// </summary>
         public static string DaoObjectIsNotAValidType {
@@ -106,15 +115,6 @@ namespace AccessIO.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default.
-        /// </summary>
-        public static string Default {
-            get {
-                return ResourceManager.GetString("Default", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Diagram.
         /// </summary>
         public static string Diagram {
@@ -147,6 +147,15 @@ namespace AccessIO.Properties {
         public static string Function {
             get {
                 return ResourceManager.GetString("Function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to General.
+        /// </summary>
+        public static string General {
+            get {
+                return ResourceManager.GetString("General", resourceCulture);
             }
         }
         

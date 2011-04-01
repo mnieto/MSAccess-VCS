@@ -21,13 +21,15 @@ namespace AccessScrCtrlUI {
 
             ImageList = new ImageList();
 
-            //Load default image for Load and Save treens
+            //Load default image for Load and Save trees
             ImageList.Images.Add("db", Properties.Resources.db);
             ImageList.Images.Add("folder", Properties.Resources.folder);
 
             foreach (ContainerNames container in containers) {
-                string extension = container.FileExtension.ToString();
-                ImageList.Images.Add(extension, LoadFromResources(extension));
+                foreach (ObjectTypeExtension ote in container.ObjectTypes) {
+                    string extension = ote.FileExtension.ToString();
+                    ImageList.Images.Add(extension, LoadFromResources(extension));
+                }
             }
         }
 

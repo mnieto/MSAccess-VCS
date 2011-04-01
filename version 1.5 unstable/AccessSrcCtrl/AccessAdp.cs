@@ -32,17 +32,18 @@ namespace AccessIO {
         }
 
 
-        public override List<AccessIO.IObjectName> LoadObjectNames(ObjectType objectType) {
-            if (AllowedContainers.Find(objectType) == null)
+        public override List<AccessIO.IObjectName> LoadObjectNames(string containerInvariantName) {
+            ContainerNames container = AllowedContainers.Find(containerInvariantName);
+            if (container == null)
                 throw new ArgumentException(Properties.Resources.NotAllowedObjectTypeException, "objectType");
 
             List<IObjectName> lst = new List<IObjectName>();
-            if (objectType == ObjectType.Default) {
+            if (containerInvariantName == ObjectType.General.ToString()) {
                 lst.Add(new ObjectName(Properties.Resources.DatabaseProperties, ObjectType.DatabasePrj));
                 lst.Add(new ObjectName(Properties.Resources.References, ObjectType.References));
             } else {
-                foreach (Access.AccessObject obj in GetObjectCollectionFromObjectType(objectType)) {
-                    lst.Add(new ObjectName(obj.Name, objectType));
+                foreach (Access.AccessObject obj in GetObjectCollectionFromObjectType(container.DefaultObjectType)) {
+                    lst.Add(new ObjectName(obj.Name, container.DefaultObjectType));
                 }
             }
             return lst;

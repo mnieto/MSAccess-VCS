@@ -13,10 +13,14 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +41,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>Kevull.pfx</AssemblyOriginatorKeyFile>
@@ -55,20 +59,30 @@
     <Compile Include="AccessObject.cs" />
     <Compile Include="AccessProjectType.cs" />
     <Compile Include="AuxiliarObject.cs" />
-    <Compile Include="ContainerNames.cs" />
-    <Compile Include="Containers.cs" />
-    <Compile Include="ContainersAdp.cs" />
-    <Compile Include="ContainersMdb.cs" />
-    <Compile Include="CustomObject.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="DatabaseDao.cs" />
-    <Compile Include="DatabasePrj.cs" />
+    <Compile Include="Metadata\ContainerNames.cs" />
+    <Compile Include="CustomObjects\CustomObject.cs" />
+    <Compile Include="CustomObjects\Database.cs" />
+    <Compile Include="CustomObjects\DatabaseDao.cs" />
+    <Compile Include="CustomObjects\DatabasePrj.cs" />
+    <Compile Include="CustomObjects\References.cs" />
+    <Compile Include="CustomObjects\Relations.cs" />
+    <Compile Include="CustomObjects\Table.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="EmbeddedResources.cs" />
-    <Compile Include="ExportObject.cs" />
     <Compile Include="Field.cs" />
-    <Compile Include="FileExtensions.cs" />
-    <Compile Include="ImportObject.cs" />
+    <Compile Include="ImportExport\ExportObject.cs" />
+    <Compile Include="ImportExport\ImportObject.cs" />
+    <Compile Include="ImportExport\ImportOptions.cs" />
+    <Compile Include="ImportExport\IPropertyTransform.cs" />
+    <Compile Include="ImportExport\Transformers.cs" />
+    <Compile Include="Metadata\Containers.cs" />
+    <Compile Include="Metadata\ContainersAdp.cs" />
+    <Compile Include="Metadata\ContainersMdb.cs" />
+    <Compile Include="Metadata\FileExtensions.cs" />
+    <Compile Include="Metadata\IObjectName.cs" />
+    <Compile Include="Metadata\ObjectName.cs" />
+    <Compile Include="Metadata\ObjectType.cs" />
+    <Compile Include="Metadata\ObjectTypeExtension.cs" />
     <Compile Include="Properties\ImportRes.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,23 +93,15 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Transformers.cs" />
-    <Compile Include="ICustomObject.cs" />
+    <Compile Include="CustomObjects\ICustomObject.cs" />
     <Compile Include="Index.cs" />
-    <Compile Include="IObjectName.cs" />
-    <Compile Include="IPropertyTransform.cs" />
-    <Compile Include="ObjectName.cs" />
-    <Compile Include="ObjectType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="References.cs" />
-    <Compile Include="Relations.cs" />
     <Compile Include="StandardObject.cs" />
-    <Compile Include="Table.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="DgrmClasses.cd" />

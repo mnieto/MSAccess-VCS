@@ -53,31 +53,31 @@ namespace AccessIO {
                 ObjectType.DataAccessPage,  //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
                 ObjectType.Module,
                 ObjectType.Macro,
-                ObjectType.Default
+                ObjectType.General
             };
         }
 
 
-        public override System.Collections.Generic.List<AccessIO.IObjectName> LoadObjectNames(ObjectType objectType) {
+        public override System.Collections.Generic.List<AccessIO.IObjectName> LoadObjectNames(string containerInvariantName) {
             
             Database = Application.CurrentDb();
 
-            ContainerNames containerName = AllowedContainers.Find(objectType);
-            if (containerName == null)
+            ContainerNames container = AllowedContainers.Find(containerInvariantName);
+            if (container == null)
                 throw new ArgumentException(Properties.Resources.NotAllowedObjectTypeException, "objectType");
 
             List<IObjectName> lst = new List<IObjectName>();
-            if (objectType == ObjectType.Default) {
+            if (containerInvariantName == ObjectType.General.ToString()) {
                 lst.Add(new ObjectName(Properties.Resources.DatabaseProperties, ObjectType.DatabaseDao));
                 lst.Add(new ObjectName(Properties.Resources.References, ObjectType.References));
                 lst.Add(new ObjectName(Properties.Resources.Relations, ObjectType.Relations));
-            } else if (IsStandardContainerName(containerName.InvariantName)) {
-                dao.Container container = Database.Containers[containerName.InvariantName];
-                foreach (dao.Document doc in container.Documents) {
-                    lst.Add(new ObjectName(doc.Name, objectType));
+            } else if (IsStandardContainerName(container.InvariantName)) {
+                dao.Container daoContainer = Database.Containers[container.InvariantName];
+                foreach (dao.Document doc in daoContainer.Documents) {
+                    lst.Add(new ObjectName(doc.Name, container.DefaultObjectType));
                 }
             } else {
-                lst.AddRange(GetDaoObjects(containerName.InvariantName));
+                lst.AddRange(GetDaoObjects(container.InvariantName));
             }
             return lst;
         }

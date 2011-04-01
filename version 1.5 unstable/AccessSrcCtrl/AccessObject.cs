@@ -61,15 +61,9 @@ namespace AccessIO {
                 throw new InvalidOperationException(Properties.Resources.WorkingCopyMissing);
 
             string filePath = null;
-            ContainerNames containerNames = App.AllowedContainers.Find(ObjectType);
-            string fileName = null;
-            if (containerNames == null) {
-                fileName = string.Format("{0}.{1}.txt", NormalizeObjectName(this.Name), FileExtensions.dbp);
-                filePath = System.IO.Path.Combine(App.WorkingCopyPath, fileName);
-            } else {
-                fileName = string.Format("{0}.{1}.txt", NormalizeObjectName(this.Name), containerNames.FileExtension);
-                filePath = System.IO.Path.Combine(App.WorkingCopyPath, String.Concat(containerNames.InvariantName, System.IO.Path.DirectorySeparatorChar, fileName));
-            }
+            ObjectTypeExtension ote = App.AllowedContainers.Find(ObjectType);
+            string fileName = string.Format("{0}.{1}.txt", NormalizeObjectName(this.Name), ote.FileExtension);
+            filePath = System.IO.Path.Combine(App.WorkingCopyPath, String.Concat(ote.Container.InvariantName, System.IO.Path.DirectorySeparatorChar, fileName));
             Save(filePath);
         }
 

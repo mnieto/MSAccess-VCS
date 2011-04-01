@@ -48,13 +48,52 @@ namespace AccessScrCtrlUI {
         /// If no selected nodes returns an empty list
         /// </remarks>
         [System.ComponentModel.Browsable(false)]
-        public List<string> SelectedNodes {
+        public List<IObjectName> SelectedNodes {
             get {
-                List<string> lst = new List<string>();
+                List<IObjectName> lst = new List<IObjectName>();
                 if (tree.Nodes.Count == 0)
                     return lst;
                 return InternalSelectedNodes(lst, tree.Nodes[0]);
             }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="AccessProjectType"/> associated to the files structure
+        /// </summary>
+        public AccessProjectType ProjectType {
+            get {
+                if (tree.Nodes.Count == 0)
+                    throw new InvalidOperationException(Properties.Resources.NotProjectType);
+                else {
+                    int pos = tree.Nodes[0].Text.LastIndexOf('.');
+                    return (AccessProjectType)Enum.Parse(typeof(AccessProjectType), tree.Nodes[0].Text.Substring(pos + 1), true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets an array of objects names for a specific object container
+        /// </summary>
+        /// <param name="objectType">object type to get its objects</param>
+        public string[] ObjectNames(ObjectType objectType) {
+            string[] result = new string[0];
+            if (tree.Nodes.Count == 0)
+                return result;
+
+            Containers containers = AccessApp.ContainersFactory(tree.Nodes[0].Text);
+            ObjectTypeExtension ote = containers.Find(objectType);
+            if (ote != null) {
+                ContainerNames names = ote.Container;
+                TreeNode[] matchNodes = tree.Nodes[0].Nodes.Find(names.DisplayPluralName, true);
+                if (matchNodes.Length == 1) {
+                    result = new string[matchNodes[0].Nodes.Count];
+                    for (int i = 0; i < matchNodes[0].Nodes.Count; i++) {
+                        result[i] = matchNodes[0].Nodes[i].Text;
+                    }
+                }
+            }
+            return result;
+
         }
 
         /// <summary>
@@ -64,12 +103,12 @@ namespace AccessScrCtrlUI {
             FillTree(WorkingCopyPath);
         }
 
-        private List<string> InternalSelectedNodes(List<string> list, TreeNode root) {
+        private List<IObjectName> InternalSelectedNodes(List<IObjectName> list, TreeNode root) {
             foreach (TreeNode node in root.Nodes) {
                 if (node.Checked) {
                     //If has children, iterate; else add leaf nodes to the list
                     if (node.Nodes.Count == 0)
-                        list.Add((string)node.Tag);
+                        list.Add((IObjectName)node.Tag);
                     else
                         InternalSelectedNodes(list, node);
                 }
@@ -93,8 +132,13 @@ namespace AccessScrCtrlUI {
             //Get the list of containers depending on the 'database properties' file
             //If do not exists that file, containers will be null and we don't know what folders structure should to expect
             Containers containers = AccessApp.ContainersFactory(rootNode.Text);
-            if (containers == null)
+            if (containers == null) {
+                rootNode.Nodes.Add(Properties.Resources.EmptyFileStructure);
+                tree.CheckBoxes = false;
                 return;
+            } else {
+                tree.CheckBoxes = true;
+            }
 
             const string key = "folder";
             Images = new TreeImages(containers);
@@ -103,27 +147,19 @@ namespace AccessScrCtrlUI {
             tree.SelectedImageKey = key;
 
             DirectoryInfo rootDirectory = new DirectoryInfo(rootPath);
-            FillDbPropertiesFiles(rootDirectory, rootNode);
+            IEnumerable<DirectoryInfo> directories = rootDirectory.EnumerateDirectories();
+            foreach (ContainerNames names in containers) {
+                TreeNode node = rootNode.Nodes.Add(names.InvariantName, names.InvariantName);
+                node.ImageKey = names.DefaultExtension.ToString();
+                node.SelectedImageKey = node.ImageKey;
 
-            foreach (DirectoryInfo container in rootDirectory.EnumerateDirectories()) {
-                //Check if folder name has an equivalent with allowed container names: 
-                //if not, ignore that folder
-                ContainerNames names = containers.Find(container.Name);
-                if (names != null) {
-                    string nodeText = container.Name;
-                    TreeNode node = rootNode.Nodes.Add(nodeText);
-                    node.ImageKey = names.FileExtension.ToString();
-                    node.SelectedImageKey = names.FileExtension.ToString();
-
-                    FillContainerFiles(container, node, names.FileExtension);
+                DirectoryInfo di = directories.FirstOrDefault<DirectoryInfo>(d => d.Name == names.InvariantName);
+                if (di != null) {
+                    node.Tag = di.FullName;
+                    FillContainerFiles(di, node, names.ObjectTypes);
                 }
             }
 
-            if (rootNode.Nodes.Count == 0) {
-                rootNode.Nodes.Add(Properties.Resources.EmptyFileStructure);
-                tree.CheckBoxes = false;
-            } else
-                tree.CheckBoxes = true;
         }
 
         private string BuildRootNodeText(string rootPath) {
@@ -137,29 +173,34 @@ namespace AccessScrCtrlUI {
             return sb.ToString();
         }
 
-        private string GetExtension(string fileName) {
-            return Path.GetExtension(Path.GetFileNameWithoutExtension(fileName));
-        }
+        //private string GetExtension(string fileName) {
+        //    return Path.GetExtension(Path.GetFileNameWithoutExtension(fileName));
+        //}
 
-        private void FillDbPropertiesFiles(DirectoryInfo path, TreeNode rootNode) {
-            foreach (FileInfo fi in path.EnumerateFiles(string.Format("*.{0}.txt", FileExtensions.dbp))) {
-                TreeNode node = rootNode.Nodes.Add(fi.Name);
-                node.ImageKey = FileExtensions.dbp.ToString();
-                node.SelectedImageKey = FileExtensions.dbp.ToString();
+        private void FillContainerFiles(DirectoryInfo di, TreeNode parentNode, List<ObjectTypeExtension> objectTypes) {
+            string fileExtension = "*";
+            if (objectTypes.Count == 1)
+                fileExtension = objectTypes[0].FileExtension.ToString();
+
+            foreach (FileInfo fi in di.EnumerateFiles(string.Format("*.{0}.txt", fileExtension))) {
+                ObjectTypeExtension ote = GetObjectTypeExtension(fi.Name, objectTypes);
+                if (ote != null) {
+                    TreeNode node = new TreeNode(fi.Name);
+                    node.Tag = new ObjectName(fi.Name, ote.ObjectType);
+                    node.ImageKey = ote.FileExtension.ToString();
+                    node.SelectedImageKey = ote.FileExtension.ToString();
+                    parentNode.Nodes.Add(node);
+                }
             }
         }
 
-        private void FillContainerFiles(DirectoryInfo container, TreeNode parentNode, FileExtensions fileExtension) {
-            foreach (FileInfo fi in container.EnumerateFiles(string.Format("*.{0}.txt", fileExtension))) {
-                TreeNode node = new TreeNode(fi.Name);
-                node.Tag = fi.FullName;
-                node.ImageKey = fileExtension.ToString();
-                node.SelectedImageKey = fileExtension.ToString();
-                parentNode.Nodes.Add(node);
-            }
+        private ObjectTypeExtension GetObjectTypeExtension(string fileName, List<ObjectTypeExtension> objectTypes) {
+            FileExtensions extension = Containers.GetFileExtension(fileName);
+            return objectTypes.Find(x => x.FileExtension == extension);
         }
 
         private string GetDatabaseFileName(string rootPath) {
+            rootPath += @"\" + ObjectType.General.ToString();
             string dbProperties = Path.Combine(rootPath, AccessIO.Properties.Resources.DatabaseProperties + "." + FileExtensions.dbp.ToString() + ".txt");
             if (!File.Exists(dbProperties)) {
                 return null;
@@ -169,6 +210,56 @@ namespace AccessScrCtrlUI {
                 return import.ReadObjectName();
             }
         }
+
+        /// <summary>
+        /// Checks all the children nodes and makes sure that parents are checked
+        /// </summary>
+        private void tree_AfterCheck(object sender, TreeViewEventArgs e) {
+
+            //Setting Checked from within AfterCheck event causes the event to be raised multiple times.
+            //To avoid this, only check child in parent nodes if the user causes the state change.
+            //see AfterCheck documentation
+            if (e.Action != TreeViewAction.Unknown) {
+                CheckChildren(e.Node);
+                CheckParents(e.Node);
+            }
+        }
+
+        private void CheckParents(TreeNode node) {
+            if (node.Checked == false) {
+                while (node.Parent != null) {
+                    if (HasCheckedChilder(node.Parent))
+                        break;
+                    else {
+                        node.Parent.Checked = false;
+                        node = node.Parent;
+                    }
+
+                }
+            } else {
+                while (node.Parent != null) {
+                    if (node.Parent.Checked == false)
+                        node.Parent.Checked = true;
+                    node = node.Parent;
+                }
+            }
+        }
+
+        private bool HasCheckedChilder(TreeNode treeNode) {
+            foreach (TreeNode item in treeNode.Nodes) {
+                if (item.Checked)
+                    return true;
+            }
+            return false;
+        }
+
+        private void CheckChildren(TreeNode node) {
+            foreach (TreeNode child in node.Nodes) {
+                child.Checked = node.Checked;
+                CheckChildren(child);
+            }
+        }
+
 
     }
 }
