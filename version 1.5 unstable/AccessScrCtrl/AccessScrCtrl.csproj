@@ -141,7 +141,7 @@
       <Project>{4A38C0BC-BCDD-4070-9708-F69AAB5D2312}</Project>
       <Name>AccessScrCtrlUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AccessSrcCtrl\AccessIO.csproj">
+    <ProjectReference Include="..\AccessIO\AccessIO.csproj">
       <Project>{94666B4E-5818-4D82-B22A-6B5CB7C9CBA9}</Project>
       <Name>AccessIO</Name>
     </ProjectReference>

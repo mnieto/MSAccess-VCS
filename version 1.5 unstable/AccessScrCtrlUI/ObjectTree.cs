@@ -91,9 +91,9 @@ namespace AccessScrCtrlUI {
         /// If no selected nodes returns an empty list
         /// </remarks>
         [System.ComponentModel.Browsable(false)]
-        public List<IObjectName> SelectedNodes {
+        public List<IObjecOptions> SelectedNodes {
             get {
-                List<IObjectName> lst = new List<IObjectName>();
+                List<IObjecOptions> lst = new List<IObjecOptions>();
                 if (tree.Nodes.Count == 0)
                     return lst;
                 return InternalSelectedNodes(lst, tree.Nodes[0]);
@@ -128,8 +128,8 @@ namespace AccessScrCtrlUI {
         /// <returns>Number of saved objects</returns>
         /// <remarks>It's recomended to use the async version</remarks>
         public int SaveSelectedObjects() {
-            List<IObjectName> selectedObjects = this.SelectedNodes;
-            foreach (IObjectName name in selectedObjects) {
+            List<IObjecOptions> selectedObjects = this.SelectedNodes;
+            foreach (IObjecOptions name in selectedObjects) {
                 AccessObject accessObject = AccessObject.CreateInstance(this.App, name.ObjectType, name.Name);
                 accessObject.Save();
             }
@@ -140,12 +140,12 @@ namespace AccessScrCtrlUI {
 
         private TreeImages Images { get; set; }
 
-        private List<IObjectName> InternalSelectedNodes(List<IObjectName> list, TreeNode root) {
+        private List<IObjecOptions> InternalSelectedNodes(List<IObjecOptions> list, TreeNode root) {
             foreach (TreeNode node in root.Nodes) {
                 if (node.Checked) {
                     //If has associated IObjectName, add leaf nodes to the list; else if has children, iterate
                     if (node.Tag != null)
-                        list.Add((IObjectName)node.Tag);
+                        list.Add((IObjecOptions)node.Tag);
                     else if (node.Nodes.Count > 0)
                         InternalSelectedNodes(list, node);
                 }
@@ -176,7 +176,7 @@ namespace AccessScrCtrlUI {
                 TreeNode subItem = root.Nodes.Add(container.DisplayPluralName);
                 subItem.ImageKey = container.DefaultExtension.ToString();
                 subItem.SelectedImageKey = container.DefaultExtension.ToString();
-                foreach (IObjectName item in app.LoadObjectNames(container.InvariantName)) {
+                foreach (IObjecOptions item in app.LoadObjectNames(container.InvariantName)) {
                     TreeNode node = new TreeNode(item.Name);
                     node.Tag = item;
                     node.ImageKey = app.AllowedContainers.Find(item.ObjectType).FileExtension.ToString();
@@ -274,9 +274,9 @@ namespace AccessScrCtrlUI {
             //see http://msdn.microsoft.com/en-us/library/9hk12d4y.aspx for Event-based async pattern
             //see http://stackoverflow.com/questions/6184/how-do-i-make-event-callbacks-into-my-win-forms-thread-safe
 
-            List<IObjectName> selectedObjects = (List<IObjectName>)e.Argument;
+            List<IObjecOptions> selectedObjects = (List<IObjecOptions>)e.Argument;
             int i = 0;
-            foreach (IObjectName name in selectedObjects) {
+            foreach (IObjecOptions name in selectedObjects) {
                 i++;
                 ((BackgroundWorker)sender).ReportProgress(i * 100 / selectedObjects.Count, name);
                 AccessObject accessObject = AccessObject.CreateInstance(this.App, name.ObjectType, name.Name);
@@ -286,7 +286,7 @@ namespace AccessScrCtrlUI {
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-            SaveSelectedObjectsProgressEventArgs args = new SaveSelectedObjectsProgressEventArgs(e.ProgressPercentage, (IObjectName)e.UserState);
+            SaveSelectedObjectsProgressEventArgs args = new SaveSelectedObjectsProgressEventArgs(e.ProgressPercentage, (IObjecOptions)e.UserState);
             EventHandler<SaveSelectedObjectsProgressEventArgs> tmp = SaveSelectecObjectsProgress;
             if (tmp != null)
                 tmp(this, args);
@@ -339,7 +339,7 @@ namespace AccessScrCtrlUI {
         /// </summary>
         /// <param name="progressPercentaje">asyncronous progress percentaje</param>
         /// <param name="objectName">current Access Object to be processes</param>
-        public SaveSelectedObjectsProgressEventArgs(int progressPercentaje, IObjectName objectName): base() {
+        public SaveSelectedObjectsProgressEventArgs(int progressPercentaje, IObjecOptions objectName): base() {
             ProgressPercentaje = progressPercentaje;
             ObjectName = objectName;
         }
@@ -352,7 +352,7 @@ namespace AccessScrCtrlUI {
         /// <summary>
         /// gets the Current Access Object to be processes
         /// </summary>
-        public IObjectName ObjectName { get; private set; }
+        public IObjecOptions ObjectName { get; private set; }
     }
     #endregion
 

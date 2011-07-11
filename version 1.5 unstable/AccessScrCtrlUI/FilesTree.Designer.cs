@@ -23,7 +23,9 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
+            this.components = new System.ComponentModel.Container();
             this.tree = new System.Windows.Forms.TreeView();
+            this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // tree
@@ -35,6 +37,13 @@
             this.tree.Size = new System.Drawing.Size(173, 201);
             this.tree.TabIndex = 0;
             this.tree.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.tree_AfterCheck);
+            this.tree.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tree_MouseUp);
+            // 
+            // contextMenu
+            // 
+            this.contextMenu.Name = "contextMenu";
+            this.contextMenu.Size = new System.Drawing.Size(61, 4);
+            this.contextMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.contextMenu_Closed);
             // 
             // FilesTree
             // 
@@ -50,5 +59,6 @@
         #endregion
 
         private System.Windows.Forms.TreeView tree;
+        private System.Windows.Forms.ContextMenuStrip contextMenu;
     }
 }

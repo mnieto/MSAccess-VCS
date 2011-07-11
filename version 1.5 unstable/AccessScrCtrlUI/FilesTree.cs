@@ -48,9 +48,9 @@ namespace AccessScrCtrlUI {
         /// If no selected nodes returns an empty list
         /// </remarks>
         [System.ComponentModel.Browsable(false)]
-        public List<IObjectName> SelectedNodes {
+        public List<IObjecOptions> SelectedNodes {
             get {
-                List<IObjectName> lst = new List<IObjectName>();
+                List<IObjecOptions> lst = new List<IObjecOptions>();
                 if (tree.Nodes.Count == 0)
                     return lst;
                 return InternalSelectedNodes(lst, tree.Nodes[0]);
@@ -103,12 +103,12 @@ namespace AccessScrCtrlUI {
             FillTree(WorkingCopyPath);
         }
 
-        private List<IObjectName> InternalSelectedNodes(List<IObjectName> list, TreeNode root) {
+        private List<IObjecOptions> InternalSelectedNodes(List<IObjecOptions> list, TreeNode root) {
             foreach (TreeNode node in root.Nodes) {
                 if (node.Checked) {
                     //If has children, iterate; else add leaf nodes to the list
                     if (node.Nodes.Count == 0)
-                        list.Add((IObjectName)node.Tag);
+                        list.Add((IObjecOptions)node.Tag);
                     else
                         InternalSelectedNodes(list, node);
                 }
@@ -155,7 +155,6 @@ namespace AccessScrCtrlUI {
 
                 DirectoryInfo di = directories.FirstOrDefault<DirectoryInfo>(d => d.Name == names.InvariantName);
                 if (di != null) {
-                    node.Tag = di.FullName;
                     FillContainerFiles(di, node, names.ObjectTypes);
                 }
             }
@@ -186,7 +185,7 @@ namespace AccessScrCtrlUI {
                 ObjectTypeExtension ote = GetObjectTypeExtension(fi.Name, objectTypes);
                 if (ote != null) {
                     TreeNode node = new TreeNode(fi.Name);
-                    node.Tag = new ObjectName(fi.Name, ote.ObjectType);
+                    node.Tag = new ObjectOptions(fi.FullName, ote.ObjectType);
                     node.ImageKey = ote.FileExtension.ToString();
                     node.SelectedImageKey = ote.FileExtension.ToString();
                     parentNode.Nodes.Add(node);
@@ -257,6 +256,23 @@ namespace AccessScrCtrlUI {
             foreach (TreeNode child in node.Nodes) {
                 child.Checked = node.Checked;
                 CheckChildren(child);
+            }
+        }
+
+        private void contextMenu_Closed(object sender, ToolStripDropDownClosedEventArgs e) {
+            for (int i = contextMenu.Items.Count - 1; i >= 0; i--)
+                contextMenu.Items.RemoveAt(i);
+        }
+
+        private void tree_MouseUp(object sender, MouseEventArgs e) {
+            if (e.Button == System.Windows.Forms.MouseButtons.Right) {
+                TreeNode node = tree.GetNodeAt(e.X, e.Y);
+                if (node != null && node.Tag != null) {
+                    tree.SelectedNode = node;
+                    ObjectOptions objectOptions = (ObjectOptions)node.Tag;
+                    if (objectOptions.Options != null)
+                        objectOptions.Options.DisplayOptions(this, contextMenu, e.Location);
+                }
             }
         }
 

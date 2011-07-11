@@ -35,7 +35,7 @@
             this.folderDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.saveTab = new System.Windows.Forms.TabPage();
-            this.progressInfoLabel = new System.Windows.Forms.Label();
+            this.progressSaveInfoLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.objectTree = new AccessScrCtrlUI.ObjectTree();
             this.loadTab = new System.Windows.Forms.TabPage();
@@ -43,6 +43,7 @@
             this.filesTree = new AccessScrCtrlUI.FilesTree();
             this.loadButton = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.progressLoadInfoLabel = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.saveTab.SuspendLayout();
             this.loadTab.SuspendLayout();
@@ -59,8 +60,8 @@
             // 
             // fileNameTextBox
             // 
-            this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.fileNameTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fileNameTextBox.Location = new System.Drawing.Point(16, 30);
             this.fileNameTextBox.Name = "fileNameTextBox";
             this.fileNameTextBox.Size = new System.Drawing.Size(322, 20);
@@ -94,13 +95,15 @@
             // 
             // workingCopyTextBox
             // 
-            this.workingCopyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.workingCopyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.workingCopyTextBox.BackColor = System.Drawing.SystemColors.Window;
             this.workingCopyTextBox.Location = new System.Drawing.Point(19, 74);
             this.workingCopyTextBox.Name = "workingCopyTextBox";
             this.workingCopyTextBox.Size = new System.Drawing.Size(319, 20);
             this.workingCopyTextBox.TabIndex = 6;
+            this.workingCopyTextBox.TextChanged += new System.EventHandler(this.workingCopyTextBox_TextChanged);
+            this.workingCopyTextBox.Leave += new System.EventHandler(this.workingCopyTextBox_Leave);
             // 
             // selectFolderButton
             // 
@@ -119,9 +122,9 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.saveTab);
             this.tabControl1.Controls.Add(this.loadTab);
             this.tabControl1.ImageList = this.imageList;
@@ -133,7 +136,7 @@
             // 
             // saveTab
             // 
-            this.saveTab.Controls.Add(this.progressInfoLabel);
+            this.saveTab.Controls.Add(this.progressSaveInfoLabel);
             this.saveTab.Controls.Add(this.saveButton);
             this.saveTab.Controls.Add(this.objectTree);
             this.saveTab.ImageKey = "Export";
@@ -145,15 +148,15 @@
             this.saveTab.Text = "Save";
             this.saveTab.UseVisualStyleBackColor = true;
             // 
-            // progressInfoLabel
+            // progressSaveInfoLabel
             // 
-            this.progressInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressInfoLabel.AutoEllipsis = true;
-            this.progressInfoLabel.Location = new System.Drawing.Point(6, 265);
-            this.progressInfoLabel.Name = "progressInfoLabel";
-            this.progressInfoLabel.Size = new System.Drawing.Size(247, 23);
-            this.progressInfoLabel.TabIndex = 11;
+            this.progressSaveInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressSaveInfoLabel.AutoEllipsis = true;
+            this.progressSaveInfoLabel.Location = new System.Drawing.Point(6, 265);
+            this.progressSaveInfoLabel.Name = "progressSaveInfoLabel";
+            this.progressSaveInfoLabel.Size = new System.Drawing.Size(247, 23);
+            this.progressSaveInfoLabel.TabIndex = 11;
             // 
             // saveButton
             // 
@@ -168,9 +171,9 @@
             // 
             // objectTree
             // 
-            this.objectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.objectTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.objectTree.App = null;
             this.objectTree.FileName = null;
             this.objectTree.Location = new System.Drawing.Point(6, 10);
@@ -182,6 +185,7 @@
             // 
             // loadTab
             // 
+            this.loadTab.Controls.Add(this.progressLoadInfoLabel);
             this.loadTab.Controls.Add(this.optionsButton);
             this.loadTab.Controls.Add(this.filesTree);
             this.loadTab.Controls.Add(this.loadButton);
@@ -208,9 +212,9 @@
             // 
             // filesTree
             // 
-            this.filesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.filesTree.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.filesTree.Location = new System.Drawing.Point(6, 6);
             this.filesTree.Name = "filesTree";
             this.filesTree.Size = new System.Drawing.Size(328, 254);
@@ -234,6 +238,16 @@
             this.imageList.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList.Images.SetKeyName(0, "Export");
             this.imageList.Images.SetKeyName(1, "Import");
+            // 
+            // progressLoadInfoLabel
+            // 
+            this.progressLoadInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressLoadInfoLabel.AutoEllipsis = true;
+            this.progressLoadInfoLabel.Location = new System.Drawing.Point(6, 265);
+            this.progressLoadInfoLabel.Name = "progressLoadInfoLabel";
+            this.progressLoadInfoLabel.Size = new System.Drawing.Size(166, 23);
+            this.progressLoadInfoLabel.TabIndex = 15;
             // 
             // MainFrm
             // 
@@ -275,9 +289,10 @@
         private System.Windows.Forms.TabPage loadTab;
         private System.Windows.Forms.Button loadButton;
         private AccessScrCtrlUI.FilesTree filesTree;
-        private System.Windows.Forms.Label progressInfoLabel;
+        private System.Windows.Forms.Label progressSaveInfoLabel;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.Button optionsButton;
+        private System.Windows.Forms.Label progressLoadInfoLabel;
     }
 }
 

@@ -117,7 +117,87 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="DatabaseProperties" xml:space="preserve">
+    <value>Database properties</value>
+  </data>
+  <data name="DataLostExceptionMessage" xml:space="preserve">
+    <value>Loading '{0}' table will cause data lost. If this is correct, please check 'Allow data lost' property from Options dialog.</value>
+  </data>
+  <data name="NotAllowedObjectTypeException" xml:space="preserve">
+    <value>Object type not allowed for this type of Access file</value>
+  </data>
+  <data name="Begin" xml:space="preserve">
+    <value>Begin</value>
+    <comment>Do not translate in any case</comment>
+  </data>
+  <data name="End" xml:space="preserve">
+    <value>End</value>
+    <comment>Do not translate in any case</comment>
+  </data>
+  <data name="DataAccessPage" xml:space="preserve">
+    <value>DataAccessPage</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Diagram" xml:space="preserve">
+    <value>Diagram</value>
+  </data>
+  <data name="Form" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="Function" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="Macro" xml:space="preserve">
+    <value>Macro</value>
+  </data>
+  <data name="Module" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="Query" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="Reference" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="Report" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ServerView" xml:space="preserve">
+    <value>ServerView</value>
+  </data>
+  <data name="StoredProcedure" xml:space="preserve">
+    <value>StoredProcedure</value>
+  </data>
+  <data name="Table" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="References" xml:space="preserve">
+    <value>References</value>
+  </data>
+  <data name="Relations" xml:space="preserve">
+    <value>Relations</value>
+  </data>
+  <data name="DaoObjectIsNotAValidType" xml:space="preserve">
+    <value>DaoObject must be of type {0} for this object</value>
+  </data>
+  <data name="WorkingCopyMissing" xml:space="preserve">
+    <value>You must specify the working copy path before this action</value>
+  </data>
+  <data name="ContainerWithManyObjectTypes" xml:space="preserve">
+    <value>Container has more than one object type. Use the ObjectTypes property.</value>
+  </data>
+  <data name="PropertyNameError" xml:space="preserve">
+    <value>Invalid property name reading object definition</value>
+  </data>
+  <data name="RootPathNotValid" xml:space="preserve">
+    <value>The root folder do not exists or is invalid</value>
+  </data>
+  <data name="PropertyValueError" xml:space="preserve">
+    <value>Invalid property value reading object definition</value>
+  </data>
 </root>

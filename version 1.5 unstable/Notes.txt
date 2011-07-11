@@ -3,3 +3,9 @@ http://allenbrowne.com/func-dao.html
 
 Properties management
 http://wiki.lessthandot.com/index.php/Custom_Database_Properties_Creation_and_Use
+
+Subversion Client API for .Net
+http://sharpsvn.open.collab.net/
+
+LoadFromText problems & solutions
+http://stackoverflow.com/questions/208397/loadfromtext-gives-error-2285-microsoft-office-access-cant-create-the-output-fi

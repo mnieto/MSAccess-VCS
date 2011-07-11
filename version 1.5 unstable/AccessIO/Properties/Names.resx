@@ -117,7 +117,88 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="contextMenu.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
+  <data name="DataAccessPages" xml:space="preserve">
+    <value>DataAccessPage</value>
+  </data>
+  <data name="DataAccessPagesPlural" xml:space="preserve">
+    <value>DataAccessPages</value>
+  </data>
+  <data name="Diagrams" xml:space="preserve">
+    <value>Diagram</value>
+  </data>
+  <data name="DiagramsPlural" xml:space="preserve">
+    <value>Diagrams</value>
+  </data>
+  <data name="Forms" xml:space="preserve">
+    <value>Form</value>
+  </data>
+  <data name="FormsPlural" xml:space="preserve">
+    <value>Forms</value>
+  </data>
+  <data name="Functions" xml:space="preserve">
+    <value>Function</value>
+  </data>
+  <data name="FunctionsPlural" xml:space="preserve">
+    <value>Functions</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="GeneralPlural" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="Modules" xml:space="preserve">
+    <value>Module</value>
+  </data>
+  <data name="ModulesPlural" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Property" xml:space="preserve">
+    <value>Property</value>
+  </data>
+  <data name="PropertyPlural" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="Queries" xml:space="preserve">
+    <value>Query</value>
+  </data>
+  <data name="QueriesPlural" xml:space="preserve">
+    <value>Queries</value>
+  </data>
+  <data name="References" xml:space="preserve">
+    <value>Reference</value>
+  </data>
+  <data name="ReferencesPlural" xml:space="preserve">
+    <value>References</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Report</value>
+  </data>
+  <data name="ReportsPlural" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="Scripts" xml:space="preserve">
+    <value>Macro</value>
+  </data>
+  <data name="ScriptsPlural" xml:space="preserve">
+    <value>Macros</value>
+  </data>
+  <data name="ServerView" xml:space="preserve">
+    <value>ServerView</value>
+  </data>
+  <data name="ServerViewPlural" xml:space="preserve">
+    <value>ServerViews</value>
+  </data>
+  <data name="StoredProcedures" xml:space="preserve">
+    <value>StoredProcedure</value>
+  </data>
+  <data name="StoredProceduresPlural" xml:space="preserve">
+    <value>StoredProcedures</value>
+  </data>
+  <data name="Tables" xml:space="preserve">
+    <value>Table</value>
+  </data>
+  <data name="TablesPlural" xml:space="preserve">
+    <value>Tables</value>
+  </data>
 </root>
