@@ -11,6 +11,7 @@ namespace AccessIO {
     public class Table : CustomObject {
 
         private dao.TableDef tableDef;
+        private List<Field> Fields;
 
         private bool AllowDataLost { 
             get { return (Options as OptionsTable).AllowDataLost; }
@@ -88,6 +89,7 @@ namespace AccessIO {
             else
                 tableDef = null;
             TableName = name;
+            Fields = new List<Field>();
         }
 
         /// <summary>
@@ -143,79 +145,59 @@ namespace AccessIO {
                 db.TableDefs.Delete(this.Name);
             tableDef = db.CreateTableDef(this.Name);
 
-            //read table properties
-            Dictionary<string, object> props = import.ReadProperties();
-            
-            //tableDef.Attributes = Convert.ToInt32(props["Attributes"]);
-            tableDef.Connect = Convert.ToString(props["Connect"]);
-            if (props.ContainsKey("ReplicaFilter"))
-                tableDef.ReplicaFilter = Convert.ToString(props["ReplicaFilter"]);
-            tableDef.SourceTableName = Convert.ToString(props["SourceTableName"]);
-            tableDef.ValidationRule = Convert.ToString(props["ValidationRule"]);
-            tableDef.ValidationText = Convert.ToString(props["ValidationText"]);
+            try {
+                //read table properties
+                Dictionary<string, object> props = import.ReadProperties();
 
-            //Attached tables do not allow fields nor indexes definitions
-            if (String.IsNullOrEmpty(Convert.ToString(props["Connect"]))) {
+                //tableDef.Attributes = Convert.ToInt32(props["Attributes"]);
+                tableDef.Connect = Convert.ToString(props["Connect"]);
+                if (props.ContainsKey("ReplicaFilter"))
+                    tableDef.ReplicaFilter = Convert.ToString(props["ReplicaFilter"]);
+                tableDef.SourceTableName = Convert.ToString(props["SourceTableName"]);
+                tableDef.ValidationRule = Convert.ToString(props["ValidationRule"]);
+                tableDef.ValidationText = Convert.ToString(props["ValidationText"]);
 
-                //read fields
-                import.ReadLine(); //Read the 'Begin Fields' line
-                while (!import.IsEnd) {
-                    dao.Field fld = ReadField(import);
-                    tableDef.Fields.Append(fld);
+                //Linked tables do not allow fields nor indexes definitions
+                if (String.IsNullOrEmpty(Convert.ToString(props["Connect"]))) {
+
+                    //read fields
+                    import.ReadLine(); //Read the 'Begin Fields' line
+                    while (!import.IsEnd) {
+                        dao.Field fld = ReadField(import);
+                        tableDef.Fields.Append(fld);
+                    }
+
+                    //read indexes
+                    import.ReadLine();  //Read the 'Begin Indexes' line. If there is not indexes, CurrentLine == End
+                    while (!import.IsEnd) {
+                        dao.Index idx = ReadIndex(import);
+                        if (idx == null)
+                            break;
+                        tableDef.Indexes.Append(idx);
+                    }
+
                 }
+                App.Application.CurrentDb().TableDefs.Append(tableDef);
 
-                //read indexes
-                import.ReadLine();  //Read the 'Begin Indexes' line. If there is not indexes, CurrentLine == End
-                while (!import.IsEnd) {
-                    dao.Index idx = ReadIndex(import);
-                    if (idx == null)
-                        break;
-                    tableDef.Indexes.Append(idx);
-                }
+                //According with MS-doc: The object to which you are adding the user-defined property must already be appended to a collection.
+                //see: http://msdn.microsoft.com/en-us/library/ff820932.aspx
+                //So: After fields added to the tableDef and tableDef added to the database, we add the custom properties
+                //This properties are also available for linked tables?
+                foreach (Field field in Fields)
+                    field.AddCustomProperties();
 
-            }
 
-            App.Application.CurrentDb().TableDefs.Append(tableDef);
-            
+            } catch (Exception ex) {
+                string message = String.Format(AccessIO.Properties.ImportRes.ErrorAtLineNum, import.LineNumber, ex.Message);
+                throw new WrongFileFormatException(message, fileName, import.LineNumber);
+            }           
         }
 
         private dao.Field ReadField(ImportObject import) {
-            Dictionary<string, object> props = import.ReadProperties();
-            import.ReadLine(); //Reads the 'End Field' line
-
-            dao.Field fld = tableDef.CreateField();
-            fld.Attributes = Convert.ToInt32(props["Attributes"]);
-            
-            //CollatingOrder is read only!!
-            
-            fld.Type = Convert.ToInt16(props["Type"]);
-            fld.Name = Convert.ToString(props["Name"]);
-            fld.OrdinalPosition = Convert.ToInt16(props["OrdinalPosition"]);
-            fld.Size = Convert.ToInt32(props["Size"]);
-            
-            //SourceField, SourceTable, DataUpdatable are read only!!
-            
-            fld.DefaultValue = Convert.ToString(props["DefaultValue"]);
-            fld.ValidationRule = Convert.ToString(props["ValidationRule"]);
-            fld.ValidationText = Convert.ToString(props["ValidationText"]);
-            fld.Required = Convert.ToBoolean(props["Required"]);
-
-            //Setting directly the property causes an Not valid oparation exception
-            if (fld.Type == (short)dao.DataTypeEnum.dbText)
-                fld.AllowZeroLength =Convert.ToBoolean(props["AllowZeroLength"]); 
-            
-            //VisibleValue is read only!!
-
-            //Check if exists optional properties
-            if (props["Description"] != null)
-                fld.CreateProperty("Description", dao.DataTypeEnum.dbText, Convert.ToString(props["Description"]));
-            if (props["DecimalPlaces"] != null)
-                fld.CreateProperty("DecimalPlaces", dao.DataTypeEnum.dbInteger, Convert.ToString(props["DecimalPlaces"]));
-            if (props["DisplayControl"] != null)
-                fld.CreateProperty("DisplayControl", dao.DataTypeEnum.dbInteger, Convert.ToString(props["DisplayControl"]));
-
-            return fld;
-
+            Field field = new Field(tableDef.CreateField());
+            field.LoadProperties(tableDef, import);
+            Fields.Add(field);
+            return (dao.Field)field.DaoObject;
         }
 
         private dao.Index ReadIndex(ImportObject import) {

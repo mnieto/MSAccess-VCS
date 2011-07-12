@@ -7,6 +7,7 @@ namespace AccessIO {
     [Serializable]
     public class AccessIOException : Exception {
         public AccessIOException(string message) : base(message) { }
+        public AccessIOException(string message, Exception innerException) : base(message, innerException) { }
     }
 
     /// <summary>

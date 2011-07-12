@@ -13,6 +13,16 @@ namespace AccessScrCtrl {
 
         private ImportOptions importOptions;
         private bool workingCopyTextBoxChanged = false;
+
+        private string StatusInfo {
+            get {
+                return infoToolStrip.Text;
+            }
+            set {
+                infoToolStrip.Text = value;
+            }
+        }
+
         public MainFrm() {
             InitializeComponent();
             importOptions = new ImportOptions();
@@ -22,15 +32,17 @@ namespace AccessScrCtrl {
             if (openDlg.ShowDialog() == DialogResult.OK) {
                 Cursor = Cursors.WaitCursor;
                 try {
-                    progressSaveInfoLabel.Text = Properties.Resources.LoadingObjectsTree;
+                    StatusInfo = Properties.Resources.LoadingObjectsTree;
                     fileNameTextBox.Text = openDlg.FileName;
                     objectTree.FileName = fileNameTextBox.Text;
+                    workingCopyTextBox.Text = System.IO.Path.GetDirectoryName(fileNameTextBox.Text);
                     if (!String.IsNullOrEmpty(workingCopyTextBox.Text))
                         objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
                     saveButton.Enabled = true;
+                    workingCopyTextBox.Focus();
 
                 } finally {
-                    progressSaveInfoLabel.Text = string.Empty;
+                    StatusInfo = string.Empty;
                     Cursor = Cursors.Default;
                 }
             } else {
@@ -55,10 +67,11 @@ namespace AccessScrCtrl {
                 objectTree.App.WorkingCopyPath = folderDlg.SelectedPath;
             try {
                 Cursor = Cursors.WaitCursor;
-                progressLoadInfoLabel.Text = Properties.Resources.LoadingObjectsTree;
+                StatusInfo = Properties.Resources.LoadingObjectsTree;
+                statusStrip.Refresh();
                 filesTree.WorkingCopyPath = folderDlg.SelectedPath;
             } finally {
-                progressLoadInfoLabel.Text = string.Empty;
+                StatusInfo = string.Empty;
                 Cursor = Cursors.Default;
             }
             optionsButton.Enabled = true;
@@ -67,18 +80,20 @@ namespace AccessScrCtrl {
         private void loadButton_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(objectTree.App.WorkingCopyPath))
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+            
+            string currentObjectName = null;
             try {
                 List<IObjecOptions> selectedObjects = filesTree.SelectedNodes;
                 foreach (IObjecOptions currentObject in selectedObjects) {
+                    currentObjectName = currentObject.Name;
                     AccessObject accessObject = AccessObject.CreateInstance(objectTree.App, currentObject.ObjectType, currentObject.ToString());
                     accessObject.Options = currentObject.Options;
                     accessObject.Load(currentObject.Name);
                 }
-                MessageBox.Show(String.Format(Properties.Resources.ObjectsSaved, selectedObjects.Count), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, selectedObjects.Count), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (Exception ex) {
-                //TODO: Show the current object name in the error message
-                MessageBox.Show(ex.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                string msg = String.Format(Properties.Resources.ErrorLoadingObject, currentObjectName, ex.Message);
+                MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
 
@@ -120,11 +135,11 @@ namespace AccessScrCtrl {
         }
 
         private void objectTree_SaveSelectecObjectsProgress(object sender, AccessScrCtrlUI.SaveSelectedObjectsProgressEventArgs e) {
-            progressSaveInfoLabel.Text = e.ObjectName.Name;
+            StatusInfo = e.ObjectName.Name;
         }
 
         private void objectTree_SaveSelectedObjectsCompleted(object sender, AccessScrCtrlUI.SaveSelectedObjectsCompletedEventArgs e) {
-            progressSaveInfoLabel.Text = string.Empty;
+            StatusInfo = string.Empty;
             if (e.Error != null)
                 MessageBox.Show(e.Error.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             else {

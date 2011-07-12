@@ -9,6 +9,7 @@ namespace AccessIO {
     public class Field : AuxiliarObject {
 
         private dao.Field daoField;
+        private Dictionary<string, object> props;
 
         /// <summary>
         /// Constructor
@@ -61,7 +62,87 @@ namespace AccessIO {
             try { export.WriteProperty("VisibleValue", daoField.VisibleValue); } catch { export.WriteProperty("VisibleValue"); }
             try { export.WriteProperty("Description", daoField.Properties["Description"].Value); } catch { export.WriteProperty("Description"); }
             try { export.WriteProperty("DecimalPlaces", daoField.Properties["DecimalPlaces"].Value); } catch { export.WriteProperty("DecimalPlaces"); }
-            try { export.WriteProperty("DisplayControl", daoField.Properties["DisplayControl"].Value); } catch { export.WriteProperty("DisplayControl"); }
+            try { 
+                export.WriteProperty("DisplayControl", daoField.Properties["DisplayControl"].Value); 
+                switch (Convert.ToInt32(daoField.Properties["DisplayControl"].Value)) {
+                    case 110:   //listbox
+                        try { export.WriteProperty("RowSourceType", daoField.Properties["RowSourceType"].Value); } catch { export.WriteProperty("RowSourceType"); }
+                        try { export.WriteProperty("RowSource", daoField.Properties["RowSource"].Value); } catch { export.WriteProperty("RowSource"); }
+                        try { export.WriteProperty("BoundColumn", daoField.Properties["BoundColumn"].Value); } catch { export.WriteProperty("BoundColumn"); }
+                        try { export.WriteProperty("ColumnCount", daoField.Properties["ColumnCount"].Value); } catch { export.WriteProperty("ColumnCount"); }
+                        try { export.WriteProperty("ColumnHeads", daoField.Properties["ColumnHeads"].Value); } catch { export.WriteProperty("ColumnHeads"); }
+                        try { export.WriteProperty("ColumnWidths", daoField.Properties["ColumnWidths"].Value); } catch { export.WriteProperty("ColumnWidths"); }
+                        break;
+                    case 111:   //dropdown list
+                        try { export.WriteProperty("RowSourceType", daoField.Properties["RowSourceType"].Value); } catch { export.WriteProperty("RowSourceType"); }
+                        try { export.WriteProperty("RowSource", daoField.Properties["RowSource"].Value); } catch { export.WriteProperty("RowSource"); }
+                        try { export.WriteProperty("BoundColumn", daoField.Properties["BoundColumn"].Value); } catch { export.WriteProperty("BoundColumn"); }
+                        try { export.WriteProperty("ColumnCount", daoField.Properties["ColumnCount"].Value); } catch { export.WriteProperty("ColumnCount"); }
+                        try { export.WriteProperty("ColumnHeads", daoField.Properties["ColumnHeads"].Value); } catch { export.WriteProperty("ColumnHeads"); }
+                        try { export.WriteProperty("ColumnWidths", daoField.Properties["ColumnWidths"].Value); } catch { export.WriteProperty("ColumnWidths"); }
+                        try { export.WriteProperty("ListRows", daoField.Properties["ListRows"].Value); } catch { export.WriteProperty("ListRows"); }
+                        try { export.WriteProperty("ListWidth", daoField.Properties["ListWidth"].Value); } catch { export.WriteProperty("ListWidth"); }
+                        try { export.WriteProperty("LimitToList", daoField.Properties["LimitToList"].Value); } catch { export.WriteProperty("LimitToList"); }
+                        break;
+                }
+            } catch
+            { export.WriteProperty("DisplayControl"); }
+        }
+
+        public void LoadProperties(dao.TableDef tableDef, ImportObject import) {
+            props = import.ReadProperties();
+            import.ReadLine(); //Reads the 'End Field' line
+
+            daoField.Attributes = Convert.ToInt32(props["Attributes"]);
+
+            //CollatingOrder is read only!!
+
+            daoField.Type = Convert.ToInt16(props["Type"]);
+            daoField.Name = Convert.ToString(props["Name"]);
+            daoField.OrdinalPosition = Convert.ToInt16(props["OrdinalPosition"]);
+            daoField.Size = Convert.ToInt32(props["Size"]);
+
+            //SourceField, SourceTable, DataUpdatable are read only!!
+
+            daoField.DefaultValue = Convert.ToString(props["DefaultValue"]);
+            daoField.ValidationRule = Convert.ToString(props["ValidationRule"]);
+            daoField.ValidationText = Convert.ToString(props["ValidationText"]);
+            daoField.Required = Convert.ToBoolean(props["Required"]);
+
+            //AllowZeroLength property is valid only for text fields
+            if (daoField.Type == (short)dao.DataTypeEnum.dbText)
+                daoField.AllowZeroLength = Convert.ToBoolean(props["AllowZeroLength"]);
+
+            //VisibleValue is read only!!
+
+        }
+
+        public void AddCustomProperties() {
+            AddOptionalProperty(props, "Description", dao.DataTypeEnum.dbText);
+            AddOptionalProperty(props, "DecimalPlaces", dao.DataTypeEnum.dbInteger);
+            AddOptionalProperty(props, "DisplayControl", dao.DataTypeEnum.dbInteger);
+            AddOptionalProperty(props, "RowSourceType", dao.DataTypeEnum.dbText);
+            AddOptionalProperty(props, "RowSource", dao.DataTypeEnum.dbMemo);
+            AddOptionalProperty(props, "BoundColumn", dao.DataTypeEnum.dbInteger);
+            AddOptionalProperty(props, "ColumnCount", dao.DataTypeEnum.dbInteger);
+            AddOptionalProperty(props, "ColumnHeads", dao.DataTypeEnum.dbBoolean);
+            AddOptionalProperty(props, "ColumnWidths", dao.DataTypeEnum.dbText);
+            AddOptionalProperty(props, "ListRows", dao.DataTypeEnum.dbInteger);
+            AddOptionalProperty(props, "ListWidth", dao.DataTypeEnum.dbText);
+            AddOptionalProperty(props, "LimitToList", dao.DataTypeEnum.dbBoolean);
+        }
+
+        private void AddOptionalProperty(Dictionary<string, object> props, string propertyName, dao.DataTypeEnum dataType) {
+            if (props.ContainsKey(propertyName) && props[propertyName] != null) {
+                try {
+                    daoField.Properties[propertyName].Value = props[propertyName];
+                } catch (System.Runtime.InteropServices.COMException ex) {
+                    if (ex.ErrorCode == -2146825018)    //Property don't exists in the properties collection
+                        daoField.Properties.Append(daoField.CreateProperty(propertyName, dataType, props[propertyName]));
+                    else
+                        throw;
+                }
+            }
         }
     }
 }

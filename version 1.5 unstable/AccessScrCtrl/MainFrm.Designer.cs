@@ -35,7 +35,6 @@
             this.folderDlg = new System.Windows.Forms.FolderBrowserDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.saveTab = new System.Windows.Forms.TabPage();
-            this.progressSaveInfoLabel = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.objectTree = new AccessScrCtrlUI.ObjectTree();
             this.loadTab = new System.Windows.Forms.TabPage();
@@ -43,10 +42,12 @@
             this.filesTree = new AccessScrCtrlUI.FilesTree();
             this.loadButton = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
-            this.progressLoadInfoLabel = new System.Windows.Forms.Label();
+            this.statusStrip = new System.Windows.Forms.StatusStrip();
+            this.infoToolStrip = new System.Windows.Forms.ToolStripStatusLabel();
             this.tabControl1.SuspendLayout();
             this.saveTab.SuspendLayout();
             this.loadTab.SuspendLayout();
+            this.statusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -131,37 +132,26 @@
             this.tabControl1.Location = new System.Drawing.Point(19, 101);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(348, 321);
+            this.tabControl1.Size = new System.Drawing.Size(348, 333);
             this.tabControl1.TabIndex = 9;
             // 
             // saveTab
             // 
-            this.saveTab.Controls.Add(this.progressSaveInfoLabel);
             this.saveTab.Controls.Add(this.saveButton);
             this.saveTab.Controls.Add(this.objectTree);
             this.saveTab.ImageKey = "Export";
             this.saveTab.Location = new System.Drawing.Point(4, 23);
             this.saveTab.Name = "saveTab";
             this.saveTab.Padding = new System.Windows.Forms.Padding(3);
-            this.saveTab.Size = new System.Drawing.Size(340, 294);
+            this.saveTab.Size = new System.Drawing.Size(340, 306);
             this.saveTab.TabIndex = 0;
             this.saveTab.Text = "Save";
             this.saveTab.UseVisualStyleBackColor = true;
             // 
-            // progressSaveInfoLabel
-            // 
-            this.progressSaveInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressSaveInfoLabel.AutoEllipsis = true;
-            this.progressSaveInfoLabel.Location = new System.Drawing.Point(6, 265);
-            this.progressSaveInfoLabel.Name = "progressSaveInfoLabel";
-            this.progressSaveInfoLabel.Size = new System.Drawing.Size(247, 23);
-            this.progressSaveInfoLabel.TabIndex = 11;
-            // 
             // saveButton
             // 
             this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.saveButton.Location = new System.Drawing.Point(259, 265);
+            this.saveButton.Location = new System.Drawing.Point(259, 277);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 10;
@@ -178,14 +168,13 @@
             this.objectTree.FileName = null;
             this.objectTree.Location = new System.Drawing.Point(6, 10);
             this.objectTree.Name = "objectTree";
-            this.objectTree.Size = new System.Drawing.Size(328, 249);
+            this.objectTree.Size = new System.Drawing.Size(328, 261);
             this.objectTree.TabIndex = 9;
             this.objectTree.SaveSelectedObjectsCompleted += new System.EventHandler<AccessScrCtrlUI.SaveSelectedObjectsCompletedEventArgs>(this.objectTree_SaveSelectedObjectsCompleted);
             this.objectTree.SaveSelectecObjectsProgress += new System.EventHandler<AccessScrCtrlUI.SaveSelectedObjectsProgressEventArgs>(this.objectTree_SaveSelectecObjectsProgress);
             // 
             // loadTab
             // 
-            this.loadTab.Controls.Add(this.progressLoadInfoLabel);
             this.loadTab.Controls.Add(this.optionsButton);
             this.loadTab.Controls.Add(this.filesTree);
             this.loadTab.Controls.Add(this.loadButton);
@@ -193,7 +182,7 @@
             this.loadTab.Location = new System.Drawing.Point(4, 23);
             this.loadTab.Name = "loadTab";
             this.loadTab.Padding = new System.Windows.Forms.Padding(3);
-            this.loadTab.Size = new System.Drawing.Size(340, 294);
+            this.loadTab.Size = new System.Drawing.Size(340, 306);
             this.loadTab.TabIndex = 1;
             this.loadTab.Text = "Load";
             this.loadTab.UseVisualStyleBackColor = true;
@@ -202,7 +191,7 @@
             // 
             this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.optionsButton.Enabled = false;
-            this.optionsButton.Location = new System.Drawing.Point(178, 265);
+            this.optionsButton.Location = new System.Drawing.Point(178, 277);
             this.optionsButton.Name = "optionsButton";
             this.optionsButton.Size = new System.Drawing.Size(75, 23);
             this.optionsButton.TabIndex = 14;
@@ -217,14 +206,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.filesTree.Location = new System.Drawing.Point(6, 6);
             this.filesTree.Name = "filesTree";
-            this.filesTree.Size = new System.Drawing.Size(328, 254);
+            this.filesTree.Size = new System.Drawing.Size(328, 265);
             this.filesTree.TabIndex = 13;
             this.filesTree.WorkingCopyPath = null;
             // 
             // loadButton
             // 
             this.loadButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.loadButton.Location = new System.Drawing.Point(259, 265);
+            this.loadButton.Location = new System.Drawing.Point(259, 277);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 12;
@@ -239,21 +228,27 @@
             this.imageList.Images.SetKeyName(0, "Export");
             this.imageList.Images.SetKeyName(1, "Import");
             // 
-            // progressLoadInfoLabel
+            // statusStrip
             // 
-            this.progressLoadInfoLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressLoadInfoLabel.AutoEllipsis = true;
-            this.progressLoadInfoLabel.Location = new System.Drawing.Point(6, 265);
-            this.progressLoadInfoLabel.Name = "progressLoadInfoLabel";
-            this.progressLoadInfoLabel.Size = new System.Drawing.Size(166, 23);
-            this.progressLoadInfoLabel.TabIndex = 15;
+            this.statusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.infoToolStrip});
+            this.statusStrip.Location = new System.Drawing.Point(0, 437);
+            this.statusStrip.Name = "statusStrip";
+            this.statusStrip.Size = new System.Drawing.Size(383, 22);
+            this.statusStrip.TabIndex = 10;
+            this.statusStrip.Text = "statusStrip1";
+            // 
+            // infoToolStrip
+            // 
+            this.infoToolStrip.Name = "infoToolStrip";
+            this.infoToolStrip.Size = new System.Drawing.Size(0, 17);
             // 
             // MainFrm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 434);
+            this.ClientSize = new System.Drawing.Size(383, 459);
+            this.Controls.Add(this.statusStrip);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.selectFolderButton);
             this.Controls.Add(this.workingCopyTextBox);
@@ -267,6 +262,8 @@
             this.tabControl1.ResumeLayout(false);
             this.saveTab.ResumeLayout(false);
             this.loadTab.ResumeLayout(false);
+            this.statusStrip.ResumeLayout(false);
+            this.statusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -289,10 +286,10 @@
         private System.Windows.Forms.TabPage loadTab;
         private System.Windows.Forms.Button loadButton;
         private AccessScrCtrlUI.FilesTree filesTree;
-        private System.Windows.Forms.Label progressSaveInfoLabel;
         private System.Windows.Forms.ImageList imageList;
         private System.Windows.Forms.Button optionsButton;
-        private System.Windows.Forms.Label progressLoadInfoLabel;
+        private System.Windows.Forms.StatusStrip statusStrip;
+        private System.Windows.Forms.ToolStripStatusLabel infoToolStrip;
     }
 }
 

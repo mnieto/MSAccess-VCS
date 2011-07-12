@@ -121,6 +121,10 @@
   <data name="AccessScrCtrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\accessscrctrl.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ErrorLoadingObject" xml:space="preserve">
+    <value>Error loading '{0}':
+{1}</value>
+  </data>
   <data name="Export" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1137.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -129,6 +133,9 @@
   </data>
   <data name="LoadingObjectsTree" xml:space="preserve">
     <value>Loading objects names...</value>
+  </data>
+  <data name="ObjectsLoaded" xml:space="preserve">
+    <value>{0} objects loaded</value>
   </data>
   <data name="ObjectsSaved" xml:space="preserve">
     <value>{0} objects saved</value>
