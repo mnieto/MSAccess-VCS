@@ -106,12 +106,28 @@ namespace AccessIO {
 
             using (StreamWriter sw = new StreamWriter(fileName)) {
                 ExportObject export = new ExportObject(sw);
+                //export.ListProperties(tbDef.Name, tbDef.Properties);
                 export.WriteBegin(ClassName, TableName);
                 export.WriteProperty("Attributes", tbDef.Attributes);
                 export.WriteProperty("Connect", tbDef.Connect);
                 export.WriteProperty("SourceTableName", tbDef.SourceTableName);
                 export.WriteProperty("ValidationRule", tbDef.ValidationRule);
                 export.WriteProperty("ValidationText", tbDef.ValidationText);
+
+                PropertyCollection propColl = new PropertyCollection(tbDef, tbDef.Properties);
+                propColl.TryWriteProperty(export, "Description");
+                propColl.TryWriteProperty(export, "ConflictTable");
+                propColl.TryWriteProperty(export, "ReplicaFilter");
+                propColl.TryWriteProperty(export, "Orientation");
+                propColl.TryWriteProperty(export, "OrderByOn");
+                propColl.TryWriteProperty(export, "SubdatasheetName");
+                propColl.TryWriteProperty(export, "LinkChildFields");
+                propColl.TryWriteProperty(export, "LinkMasterFields");
+                propColl.TryWriteProperty(export, "SubdatasheetHeight");
+                propColl.TryWriteProperty(export, "SubdatasheetExpanded");
+                propColl.TryWriteProperty(export, "DefaultView");
+                propColl.TryWriteProperty(export, "OrderBy");
+
                 export.WriteBegin("Fields");
                 foreach (dao.Field field in tbDef.Fields) {
                     export.WriteObject(new Field(field));
@@ -151,22 +167,23 @@ namespace AccessIO {
 
                 //tableDef.Attributes = Convert.ToInt32(props["Attributes"]);
                 tableDef.Connect = Convert.ToString(props["Connect"]);
-                if (props.ContainsKey("ReplicaFilter"))
-                    tableDef.ReplicaFilter = Convert.ToString(props["ReplicaFilter"]);
                 tableDef.SourceTableName = Convert.ToString(props["SourceTableName"]);
                 tableDef.ValidationRule = Convert.ToString(props["ValidationRule"]);
                 tableDef.ValidationText = Convert.ToString(props["ValidationText"]);
 
                 //Linked tables do not allow fields nor indexes definitions
-                if (String.IsNullOrEmpty(Convert.ToString(props["Connect"]))) {
+                //but ms access properties are allowed
+                bool isLinkedTable = !String.IsNullOrEmpty(Convert.ToString(props["Connect"]));
 
                     //read fields
                     import.ReadLine(); //Read the 'Begin Fields' line
                     while (!import.IsEnd) {
                         dao.Field fld = ReadField(import);
-                        tableDef.Fields.Append(fld);
+                        if (!isLinkedTable)
+                            tableDef.Fields.Append(fld);
                     }
 
+                if (!isLinkedTable) {
                     //read indexes
                     import.ReadLine();  //Read the 'Begin Indexes' line. If there is not indexes, CurrentLine == End
                     while (!import.IsEnd) {
@@ -182,15 +199,31 @@ namespace AccessIO {
                 //According with MS-doc: The object to which you are adding the user-defined property must already be appended to a collection.
                 //see: http://msdn.microsoft.com/en-us/library/ff820932.aspx
                 //So: After fields added to the tableDef and tableDef added to the database, we add the custom properties
-                //This properties are also available for linked tables?
+                //This properties are also available for linked tables
                 foreach (Field field in Fields)
                     field.AddCustomProperties();
-
+                AddCustomProperties(props);
 
             } catch (Exception ex) {
                 string message = String.Format(AccessIO.Properties.ImportRes.ErrorAtLineNum, import.LineNumber, ex.Message);
                 throw new WrongFileFormatException(message, fileName, import.LineNumber);
             }           
+        }
+
+        private void AddCustomProperties(Dictionary<string, object> props) {
+            PropertyCollection propColl = new PropertyCollection(tableDef, tableDef.Properties);
+            propColl.AddOptionalProperty(props, "Description", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "ConflictTable", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "ReplicaFilter", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "Orientation", DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "OrderByOn", DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "SubdatasheetName", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "LinkChildFields", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "LinkMasterFields", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "SubdatasheetHeight", DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "SubdatasheetExpanded", DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "DefaultView", DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "OrderBy", DataTypeEnum.dbText);
         }
 
         private dao.Field ReadField(ImportObject import) {

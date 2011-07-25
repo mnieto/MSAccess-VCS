@@ -138,5 +138,20 @@ namespace AccessIO {
             Indent--;
             sw.WriteLine(String.Format("{0}{1}", new String(' ', Indent * TabSize), Properties.Resources.End));
         }
+
+        [System.Diagnostics.Conditional("DEBUG")]
+        internal void ListProperties(string objectName, dao.Properties properties) {
+            System.Diagnostics.Debug.WriteLine(objectName);
+            for (int i = 1; i < properties.Count; i++) {
+                dao.Property property = properties[i];
+                object value = null;
+                try {
+                    value = property.Value;
+                } catch {
+                    value = "#Error";
+                }
+                System.Diagnostics.Debug.WriteLine(String.Format("\t{0}:\t{1}", property.Name, value));
+            }
+        }
     }
 }

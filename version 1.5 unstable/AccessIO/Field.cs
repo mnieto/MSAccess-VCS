@@ -45,48 +45,56 @@ namespace AccessIO {
         }
 
         public override void SaveProperties(ExportObject export) {
-            try { export.WriteProperty("Attributes", daoField.Attributes); } catch { export.WriteProperty("Attributes"); }
-            try { export.WriteProperty("CollatingOrder", daoField.CollatingOrder); } catch { export.WriteProperty("CollatingOrder"); }
-            try { export.WriteProperty("Type", daoField.Type); } catch { export.WriteProperty("Type"); }
-            try { export.WriteProperty("Name", daoField.Name); } catch { export.WriteProperty("Name"); }
-            try { export.WriteProperty("OrdinalPosition", daoField.OrdinalPosition); } catch { export.WriteProperty("OrdinalPosition"); }
-            try { export.WriteProperty("Size", daoField.Size); } catch { export.WriteProperty("Size"); }
-            try { export.WriteProperty("SourceField", daoField.SourceField); } catch { export.WriteProperty("SourceField"); }
-            try { export.WriteProperty("SourceTable", daoField.SourceTable); } catch { export.WriteProperty("SourceTable"); }
-            try { export.WriteProperty("DataUpdatable", daoField.DataUpdatable); } catch { export.WriteProperty("DataUpdatable"); }
-            try { export.WriteProperty("DefaultValue", daoField.DefaultValue); } catch { export.WriteProperty("DefaultValue"); }
-            try { export.WriteProperty("ValidationRule", daoField.ValidationRule); } catch { export.WriteProperty("ValidationRule"); }
-            try { export.WriteProperty("ValidationText", daoField.ValidationText); } catch { export.WriteProperty("ValidationText"); }
-            try { export.WriteProperty("Required", daoField.Required); } catch { export.WriteProperty("Required"); }
-            try { export.WriteProperty("AllowZeroLength", daoField.AllowZeroLength); } catch { export.WriteProperty("AllowZeroLength"); }
-            try { export.WriteProperty("VisibleValue", daoField.VisibleValue); } catch { export.WriteProperty("VisibleValue"); }
-            try { export.WriteProperty("Description", daoField.Properties["Description"].Value); } catch { export.WriteProperty("Description"); }
-            try { export.WriteProperty("DecimalPlaces", daoField.Properties["DecimalPlaces"].Value); } catch { export.WriteProperty("DecimalPlaces"); }
-            try { 
-                export.WriteProperty("DisplayControl", daoField.Properties["DisplayControl"].Value); 
+            PropertyCollection propColl = new PropertyCollection(daoField, daoField.Properties);
+            propColl.TryWriteProperty(export, "Attributes");
+            propColl.TryWriteProperty(export, "CollatingOrder");
+            propColl.TryWriteProperty(export, "Type");
+            propColl.TryWriteProperty(export, "Name");
+            propColl.TryWriteProperty(export, "OrdinalPosition");
+            propColl.TryWriteProperty(export, "Size");
+            propColl.TryWriteProperty(export, "SourceField");
+            propColl.TryWriteProperty(export, "SourceTable");
+            propColl.TryWriteProperty(export, "DataUpdatable");
+            propColl.TryWriteProperty(export, "DefaultValue");
+            propColl.TryWriteProperty(export, "ValidationRule");
+            propColl.TryWriteProperty(export, "ValidationText");
+            propColl.TryWriteProperty(export, "Required");
+            propColl.TryWriteProperty(export, "AllowZeroLength");
+            propColl.TryWriteProperty(export, "VisibleValue");
+            propColl.TryWriteProperty(export, "Description");
+            propColl.TryWriteProperty(export, "DecimalPlaces");
+            propColl.TryWriteProperty(export, "DisplayControl");
+            if (propColl.PropertyHasValue("DisplayControl")) {
                 switch (Convert.ToInt32(daoField.Properties["DisplayControl"].Value)) {
                     case 110:   //listbox
-                        try { export.WriteProperty("RowSourceType", daoField.Properties["RowSourceType"].Value); } catch { export.WriteProperty("RowSourceType"); }
-                        try { export.WriteProperty("RowSource", daoField.Properties["RowSource"].Value); } catch { export.WriteProperty("RowSource"); }
-                        try { export.WriteProperty("BoundColumn", daoField.Properties["BoundColumn"].Value); } catch { export.WriteProperty("BoundColumn"); }
-                        try { export.WriteProperty("ColumnCount", daoField.Properties["ColumnCount"].Value); } catch { export.WriteProperty("ColumnCount"); }
-                        try { export.WriteProperty("ColumnHeads", daoField.Properties["ColumnHeads"].Value); } catch { export.WriteProperty("ColumnHeads"); }
-                        try { export.WriteProperty("ColumnWidths", daoField.Properties["ColumnWidths"].Value); } catch { export.WriteProperty("ColumnWidths"); }
+                        propColl.TryWriteProperty(export, "RowSourceType");
+                        propColl.TryWriteProperty(export, "RowSource");
+                        propColl.TryWriteProperty(export, "BoundColumn");
+                        propColl.TryWriteProperty(export, "ColumnCount");
+                        propColl.TryWriteProperty(export, "ColumnHeads");
+                        propColl.TryWriteProperty(export, "ColumnWidths");
                         break;
                     case 111:   //dropdown list
-                        try { export.WriteProperty("RowSourceType", daoField.Properties["RowSourceType"].Value); } catch { export.WriteProperty("RowSourceType"); }
-                        try { export.WriteProperty("RowSource", daoField.Properties["RowSource"].Value); } catch { export.WriteProperty("RowSource"); }
-                        try { export.WriteProperty("BoundColumn", daoField.Properties["BoundColumn"].Value); } catch { export.WriteProperty("BoundColumn"); }
-                        try { export.WriteProperty("ColumnCount", daoField.Properties["ColumnCount"].Value); } catch { export.WriteProperty("ColumnCount"); }
-                        try { export.WriteProperty("ColumnHeads", daoField.Properties["ColumnHeads"].Value); } catch { export.WriteProperty("ColumnHeads"); }
-                        try { export.WriteProperty("ColumnWidths", daoField.Properties["ColumnWidths"].Value); } catch { export.WriteProperty("ColumnWidths"); }
-                        try { export.WriteProperty("ListRows", daoField.Properties["ListRows"].Value); } catch { export.WriteProperty("ListRows"); }
-                        try { export.WriteProperty("ListWidth", daoField.Properties["ListWidth"].Value); } catch { export.WriteProperty("ListWidth"); }
-                        try { export.WriteProperty("LimitToList", daoField.Properties["LimitToList"].Value); } catch { export.WriteProperty("LimitToList"); }
+                        propColl.TryWriteProperty(export, "RowSourceType");
+                        propColl.TryWriteProperty(export, "RowSource");
+                        propColl.TryWriteProperty(export, "BoundColumn");
+                        propColl.TryWriteProperty(export, "ColumnCount");
+                        propColl.TryWriteProperty(export, "ColumnHeads");
+                        propColl.TryWriteProperty(export, "ColumnWidths");
+                        propColl.TryWriteProperty(export, "ListRows");
+                        propColl.TryWriteProperty(export, "ListWidth");
+                        propColl.TryWriteProperty(export, "LimitToList");
                         break;
                 }
-            } catch
-            { export.WriteProperty("DisplayControl"); }
+            }
+            propColl.TryWriteProperty(export, "ColumnWidth");
+            propColl.TryWriteProperty(export, "ColumnOrder");
+            propColl.TryWriteProperty(export, "ColumnHidden");
+            propColl.TryWriteProperty(export, "Format");
+            propColl.TryWriteProperty(export, "Caption");
+            propColl.TryWriteProperty(export, "UnicodeCompression");
+            propColl.TryWriteProperty(export, "SmartTags");
+            propColl.TryWriteProperty(export, "InputMask");
         }
 
         public void LoadProperties(dao.TableDef tableDef, ImportObject import) {
@@ -118,31 +126,29 @@ namespace AccessIO {
         }
 
         public void AddCustomProperties() {
-            AddOptionalProperty(props, "Description", dao.DataTypeEnum.dbText);
-            AddOptionalProperty(props, "DecimalPlaces", dao.DataTypeEnum.dbInteger);
-            AddOptionalProperty(props, "DisplayControl", dao.DataTypeEnum.dbInteger);
-            AddOptionalProperty(props, "RowSourceType", dao.DataTypeEnum.dbText);
-            AddOptionalProperty(props, "RowSource", dao.DataTypeEnum.dbMemo);
-            AddOptionalProperty(props, "BoundColumn", dao.DataTypeEnum.dbInteger);
-            AddOptionalProperty(props, "ColumnCount", dao.DataTypeEnum.dbInteger);
-            AddOptionalProperty(props, "ColumnHeads", dao.DataTypeEnum.dbBoolean);
-            AddOptionalProperty(props, "ColumnWidths", dao.DataTypeEnum.dbText);
-            AddOptionalProperty(props, "ListRows", dao.DataTypeEnum.dbInteger);
-            AddOptionalProperty(props, "ListWidth", dao.DataTypeEnum.dbText);
-            AddOptionalProperty(props, "LimitToList", dao.DataTypeEnum.dbBoolean);
+            PropertyCollection propColl = new PropertyCollection(daoField, daoField.Properties);
+            propColl.AddOptionalProperty(props, "Description", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "DecimalPlaces", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "DisplayControl", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "RowSourceType", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "RowSource", dao.DataTypeEnum.dbMemo);
+            propColl.AddOptionalProperty(props, "BoundColumn", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "ColumnCount", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "ColumnHeads", dao.DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "ColumnWidths", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "ListRows", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "ListWidth", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "LimitToList", dao.DataTypeEnum.dbBoolean);
+
+            propColl.AddOptionalProperty(props, "ColumnWidth", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "ColumnOrder", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "ColumnHidden", dao.DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "Format", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "Caption", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "UnicodeCompression", dao.DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "SmartTags", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "InputMask", dao.DataTypeEnum.dbText);
         }
 
-        private void AddOptionalProperty(Dictionary<string, object> props, string propertyName, dao.DataTypeEnum dataType) {
-            if (props.ContainsKey(propertyName) && props[propertyName] != null) {
-                try {
-                    daoField.Properties[propertyName].Value = props[propertyName];
-                } catch (System.Runtime.InteropServices.COMException ex) {
-                    if (ex.ErrorCode == -2146825018)    //Property don't exists in the properties collection
-                        daoField.Properties.Append(daoField.CreateProperty(propertyName, dataType, props[propertyName]));
-                    else
-                        throw;
-                }
-            }
-        }
     }
 }
