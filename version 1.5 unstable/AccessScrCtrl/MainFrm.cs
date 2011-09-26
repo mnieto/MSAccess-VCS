@@ -81,6 +81,8 @@ namespace AccessScrCtrl {
             if (String.IsNullOrEmpty(objectTree.App.WorkingCopyPath))
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             
+            AccessIO.BackupHelper backup = new AccessIO.BackupHelper(objectTree.App.FileName);
+            backup.DoBackUp();
             string currentObjectName = null;
             try {
                 List<IObjecOptions> selectedObjects = filesTree.SelectedNodes;
@@ -90,10 +92,12 @@ namespace AccessScrCtrl {
                     accessObject.Options = currentObject.Options;
                     accessObject.Load(currentObject.Name);
                 }
+                backup.Commit();
                 MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, selectedObjects.Count), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
             } catch (Exception ex) {
                 string msg = String.Format(Properties.Resources.ErrorLoadingObject, currentObjectName, ex.Message);
                 MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                backup.RollBack();
             }
         }
 

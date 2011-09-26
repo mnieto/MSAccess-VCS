@@ -136,6 +136,7 @@
             this.Controls.Add(this.overwriteCheckBox);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(440, 244);
             this.Name = "ImportOptionsFrm";
             this.Text = "Import options";
             this.ResumeLayout(false);

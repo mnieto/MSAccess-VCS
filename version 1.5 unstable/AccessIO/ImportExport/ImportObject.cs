@@ -146,6 +146,10 @@ namespace AccessIO {
         private string theBegin;
 
 
+        /// <summary>
+        /// Read all the properties of an object, until the first End is found
+        /// </summary>
+        /// <returns>A dictionary with the property names and theirs values</returns>
         internal Dictionary<string, object> ReadProperties() {
             Dictionary<string, object> result = new Dictionary<string, object>();
             ReadLine();

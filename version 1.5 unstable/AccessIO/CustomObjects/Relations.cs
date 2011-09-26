@@ -31,8 +31,10 @@ namespace AccessIO {
                     export.WriteProperty("PartialReplica", relation.PartialReplica);
                     export.WriteBegin("Fields");
                     foreach (dao.Field fld in relation.Fields) {
+                        export.WriteBegin("Field");
                         export.WriteProperty("Name", fld.Name);
                         export.WriteProperty("ForeignName", fld.ForeignName);
+                        export.WriteEnd();
                     }
                     export.WriteEnd();
                     export.WriteEnd();
@@ -43,7 +45,42 @@ namespace AccessIO {
         }
 
         public override void Load(string fileName) {
-            throw new NotImplementedException();
+
+            //Delete first the existent relations
+            dao.Relations relations = App.Application.CurrentDb().Relations;
+            foreach (dao.Relation item in relations) {
+                relations.Delete(item.Name);
+            }
+            relations.Refresh();
+
+            using (StreamReader sr = new StreamReader(fileName)) {
+                ImportObject import = new ImportObject(sr);
+                import.ReadLine();
+                string relationName = import.ReadObjectName();
+                Dictionary<string, object> relationProperties = import.ReadProperties();
+
+                dao.Relation relation = new dao.RelationClass();
+                relation.Name = relationName;
+                relation.Attributes = Convert.ToInt32(relationProperties["Attributes"]);
+                relation.ForeignTable = Convert.ToString(relationProperties["ForeignTable"]);
+                relation.Table = Convert.ToString(relationProperties["Table"]);
+                relation.PartialReplica = Convert.ToBoolean(relationProperties["PartialReplica"]);
+
+                import.ReadLine();
+                while (!import.IsEnd) {
+                    dao.Field field = new dao.FieldClass();
+                    field.Name = import.PropertyValue();
+                    import.ReadLine();
+                    field.ForeignName = import.PropertyValue();
+                    import.ReadLine(2);
+
+                    relation.Fields.Append(field);
+                }
+
+                relations.Append(relation);
+            }
+
+
         }
 
         public override object this[string propertyName] {

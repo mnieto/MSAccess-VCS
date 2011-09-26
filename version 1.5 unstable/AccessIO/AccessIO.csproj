@@ -61,6 +61,7 @@
     <Compile Include="AccessObject.cs" />
     <Compile Include="AccessProjectType.cs" />
     <Compile Include="AuxiliarObject.cs" />
+    <Compile Include="ImportExport\BackupHelper.cs" />
     <Compile Include="ImportExport\PropertyCollection.cs" />
     <Compile Include="ImportExport\PropertyStruct.cs" />
     <Compile Include="Metadata\ContainerNames.cs" />

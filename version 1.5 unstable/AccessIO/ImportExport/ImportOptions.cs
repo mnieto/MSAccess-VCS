@@ -9,7 +9,7 @@ namespace AccessIO {
     /// Import settings that controls the behavior of the import process
     /// </summary>
     public class ImportOptions: ICloneable {
-        
+
         /// <summary>
         /// If <c>true</c> import will delete existing database and recreate it. If <c>fasle</c> import will overwrite individual objects. Default: false
         /// </summary>
