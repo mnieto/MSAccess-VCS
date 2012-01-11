@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="91ae271b-e0ea-4c19-8658-80718d2f372d" Name="AccessSVN" 
              Language="1033" Codepage="1252"
-             Version="1.0.0" 
+             Version="1.5.0" 
              Manufacturer="Kevull Software" 
              UpgradeCode="3a03e1c3-ad98-4bf7-baa9-eac47b064cfd">
       

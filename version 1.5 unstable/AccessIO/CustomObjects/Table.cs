@@ -114,7 +114,7 @@ namespace AccessIO {
                 export.WriteProperty("ValidationRule", tbDef.ValidationRule);
                 export.WriteProperty("ValidationText", tbDef.ValidationText);
 
-                PropertyCollection propColl = new PropertyCollection(tbDef, tbDef.Properties);
+                PropertyCollectionDao propColl = new PropertyCollectionDao(tbDef, tbDef.Properties);
                 propColl.TryWriteProperty(export, "Description");
                 propColl.TryWriteProperty(export, "ConflictTable");
                 propColl.TryWriteProperty(export, "ReplicaFilter");
@@ -134,6 +134,8 @@ namespace AccessIO {
 	            }
                 export.WriteEnd();      //End Fields
                 export.WriteBegin("Indexes");
+                //TODO: Add new option menu to ignore linked tables errors if the linked document do not exist
+                //      Check if the linked document exists before iterate the indexes collection
                 foreach (dao.Index daoIndex in tbDef.Indexes) {
                     export.WriteObject(new Index(daoIndex));
                 }
@@ -147,33 +149,43 @@ namespace AccessIO {
         public override void Load(string fileName) {
             if (!AllowDataLost && HasData)
                 throw new DataLostException(this.Name);
-            
-            StreamReader sr = new StreamReader(fileName);
-            ImportObject import = new ImportObject(sr);
 
-            string objName = import.ReadObjectName();
-            if (string.Compare(this.Name, objName, true) != 0)
-                this.Name = objName;
+            using (StreamReader sr = new StreamReader(fileName)) {
+                ImportObject import = new ImportObject(sr);
 
-            //TODO: if exists table: do not delete, create a copy: if all is right delete the copy; if not restore the copy
-            dao.Database db = App.Application.CurrentDb();
-            if (ExistsTableDef(db, this.Name))
-                db.TableDefs.Delete(this.Name);
-            tableDef = db.CreateTableDef(this.Name);
+                string objName = import.ReadObjectName();
+                if (string.Compare(this.Name, objName, true) != 0)
+                    this.Name = objName;
 
-            try {
-                //read table properties
-                Dictionary<string, object> props = import.ReadProperties();
+                dao.Database db = App.Application.CurrentDb();
+                bool tableExists = false;
+                string tempTableName = this.Name;
+                //if (ExistsTableDef(db, this.Name)) {
+                //    foreach (dao.Relation relation in GetTableRelations(db)) {
+                //        db.Relations.Delete(relation.Name);
+                //    }
+                //    db.TableDefs.Delete(this.Name);
+                //}
+                if (ExistsTableDef(db, this.Name)) {
+                    tableExists = true;
+                    tempTableName = String.Format("{0}{1}", this.Name, DateTime.Now.ToString("yyyyMMddHHmmssff"));
+                    tempTableName = tempTableName.Substring(tempTableName.Length - Math.Min(64, tempTableName.Length));
+                }
+                tableDef = db.CreateTableDef(tempTableName);
 
-                //tableDef.Attributes = Convert.ToInt32(props["Attributes"]);
-                tableDef.Connect = Convert.ToString(props["Connect"]);
-                tableDef.SourceTableName = Convert.ToString(props["SourceTableName"]);
-                tableDef.ValidationRule = Convert.ToString(props["ValidationRule"]);
-                tableDef.ValidationText = Convert.ToString(props["ValidationText"]);
+                try {
+                    //read table properties
+                    Dictionary<string, object> props = import.ReadProperties();
 
-                //Linked tables do not allow fields nor indexes definitions
-                //but ms access properties are allowed
-                bool isLinkedTable = !String.IsNullOrEmpty(Convert.ToString(props["Connect"]));
+                    //tableDef.Attributes = Convert.ToInt32(props["Attributes"]);
+                    tableDef.Connect = Convert.ToString(props["Connect"]);
+                    tableDef.SourceTableName = Convert.ToString(props["SourceTableName"]);
+                    tableDef.ValidationRule = Convert.ToString(props["ValidationRule"]);
+                    tableDef.ValidationText = Convert.ToString(props["ValidationText"]);
+
+                    //Linked tables do not allow fields nor indexes definitions
+                    //but ms access properties are allowed
+                    bool isLinkedTable = !String.IsNullOrEmpty(Convert.ToString(props["Connect"]));
 
                     //read fields
                     import.ReadLine(); //Read the 'Begin Fields' line
@@ -183,35 +195,71 @@ namespace AccessIO {
                             tableDef.Fields.Append(fld);
                     }
 
-                if (!isLinkedTable) {
-                    //read indexes
-                    import.ReadLine();  //Read the 'Begin Indexes' line. If there is not indexes, CurrentLine == End
-                    while (!import.IsEnd) {
-                        dao.Index idx = ReadIndex(import);
-                        if (idx == null)
-                            break;
-                        tableDef.Indexes.Append(idx);
+                    if (!isLinkedTable) {
+                        //read indexes
+                        import.ReadLine();  //Read the 'Begin Indexes' line. If there is not indexes, CurrentLine == End
+                        if (import.IsBegin) {
+                            import.ReadLine();  //Read the 'Begin Index' line.
+                            while (!import.IsEnd) {
+                                dao.Index idx = ReadIndex(import);
+                                if (idx == null)
+                                    break;
+                                tableDef.Indexes.Append(idx);
+                            }
+                        }
+                    }
+                    db.TableDefs.Append(tableDef);
+                    db.TableDefs.Refresh();
+
+                    //According with MS-doc: The object to which you are adding the user-defined property must already be appended to a collection.
+                    //see: http://msdn.microsoft.com/en-us/library/ff820932.aspx
+                    //So: After fields added to the tableDef and tableDef added to the database, we add the custom properties
+                    //This properties are also available for linked tables
+                    foreach (Field field in Fields)
+                        field.AddCustomProperties();
+                    AddCustomProperties(props);
+
+                    //manage table relations
+                    if (tableExists) {
+                        List<Relation> relationsList = new List<Relation>();
+                        foreach (dao.Relation relation in GetTableRelations(db)) {
+                            dao.Relation newRelation = db.CreateRelation(relation.Name, relation.Table, relation.ForeignTable, relation.Attributes);
+                            //try { newRelation.PartialReplica = relation.PartialReplica; } catch { }     //Accessing this property causes an exception ¿?
+                            foreach (dao.Field field in relation.Fields) {
+                                dao.Field newField = newRelation.CreateField();
+                                newField.Name = field.Name;
+                                newField.ForeignName = field.ForeignName;
+                                newRelation.Fields.Append(newField);
+                            }
+                            relationsList.Add(newRelation);
+                            db.Relations.Delete(relation.Name);
+                        }
+                        db.Relations.Refresh();
+
+                        db.TableDefs.Delete(this.Name);
+                        db.TableDefs[tempTableName].Name = this.Name;
+                        db.TableDefs.Refresh();
+
+                        foreach (dao.Relation relation in relationsList) {
+                            try {
+                                db.Relations.Append(relation);
+                            } catch { 
+                                //not allways we can restore the relation: the field do not exists or has changed the data type
+                            }
+                        }
                     }
 
+                } catch (Exception ex) {
+                    if (tableExists)
+                        db.TableDefs.Delete(tempTableName);
+                    string message = String.Format(AccessIO.Properties.ImportRes.ErrorAtLineNum, import.LineNumber, ex.Message);
+                    throw new WrongFileFormatException(message, fileName, import.LineNumber);
                 }
-                App.Application.CurrentDb().TableDefs.Append(tableDef);
-
-                //According with MS-doc: The object to which you are adding the user-defined property must already be appended to a collection.
-                //see: http://msdn.microsoft.com/en-us/library/ff820932.aspx
-                //So: After fields added to the tableDef and tableDef added to the database, we add the custom properties
-                //This properties are also available for linked tables
-                foreach (Field field in Fields)
-                    field.AddCustomProperties();
-                AddCustomProperties(props);
-
-            } catch (Exception ex) {
-                string message = String.Format(AccessIO.Properties.ImportRes.ErrorAtLineNum, import.LineNumber, ex.Message);
-                throw new WrongFileFormatException(message, fileName, import.LineNumber);
-            }           
+            }
         }
 
         private void AddCustomProperties(Dictionary<string, object> props) {
-            PropertyCollection propColl = new PropertyCollection(tableDef, tableDef.Properties);
+            PropertyCollectionDao propColl = new PropertyCollectionDao(tableDef, tableDef.Properties);
             propColl.AddOptionalProperty(props, "Description", DataTypeEnum.dbText);
             propColl.AddOptionalProperty(props, "ConflictTable", DataTypeEnum.dbText);
             propColl.AddOptionalProperty(props, "ReplicaFilter", DataTypeEnum.dbText);
@@ -235,10 +283,6 @@ namespace AccessIO {
 
         private dao.Index ReadIndex(ImportObject import) {
             
-            import.ReadLine();  //Read the 'Begin Index' line (or End Indexes if there aren't indexes)
-            if (import.IsEnd)
-                return null;
-
             dao.Index idx = tableDef.CreateIndex();
             Dictionary<string, object> props = import.ReadProperties();
             idx.Name = Convert.ToString(props["Name"]);
@@ -257,6 +301,7 @@ namespace AccessIO {
                 ((dao.IndexFields)idx.Fields).Append(fld);
                 import.ReadLine(2);  //Skip the 'End Field' line and read the next 'Begin Field' line (or 'End Fields' if there aren't more fields)
             }
+            import.ReadLine(2);       //Read the 'End Index' line and the 'Begin Index' or 'End Indexes'
             return idx;
         }
 
@@ -266,6 +311,15 @@ namespace AccessIO {
                     return true;
             }
             return false;
+        }
+
+        private List<dao.Relation> GetTableRelations(dao.Database db) {
+            List<dao.Relation> result = new List<Relation>();
+            foreach (dao.Relation relation in db.Relations) {
+                if (relation.Table == this.Name || relation.ForeignTable == this.Name)
+                    result.Add(relation);
+            }
+            return result;
         }
     }
 }

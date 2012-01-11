@@ -120,4 +120,10 @@
   <data name="AllowDataLost" xml:space="preserve">
     <value>Allow data lost</value>
   </data>
+  <data name="Open" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="OverwriteDatabase" xml:space="preserve">
+    <value>Overwrite the database</value>
+  </data>
 </root>

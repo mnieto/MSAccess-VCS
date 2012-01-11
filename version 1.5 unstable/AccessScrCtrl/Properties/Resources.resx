@@ -135,7 +135,7 @@
     <value>Loading objects names...</value>
   </data>
   <data name="ObjectsLoaded" xml:space="preserve">
-    <value>{0} objects loaded</value>
+    <value>{0} objects restored</value>
   </data>
   <data name="ObjectsSaved" xml:space="preserve">
     <value>{0} objects saved</value>

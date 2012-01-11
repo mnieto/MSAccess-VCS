@@ -259,4 +259,8 @@
   <data name="NotProjectType" xml:space="preserve">
     <value>'Database properties.dbp.txt' file not found or is not valid.</value>
   </data>
+  <data name="ErrorLoadingObject" xml:space="preserve">
+    <value>Error loading '{0}':
+{1}</value>
+  </data>
 </root>

@@ -16,11 +16,6 @@ namespace AccessIO {
         string ClassName { get; }
 
         /// <summary>
-        /// Options for this object
-        /// </summary>
-        OptionsObj Options { get; }
-        
-        /// <summary>
         /// List of the property names to save
         /// </summary>
         System.Collections.Generic.List<string> Properties { get; }

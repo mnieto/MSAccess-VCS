@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using dao;
 
 namespace AccessIO {
     /// <summary>
@@ -28,7 +29,7 @@ namespace AccessIO {
                     export.WriteProperty("Attributes", relation.Attributes);
                     export.WriteProperty("ForeignTable", relation.ForeignTable);
                     export.WriteProperty("Table", relation.Table);
-                    export.WriteProperty("PartialReplica", relation.PartialReplica);
+                    //try { export.WriteProperty("PartialReplica", relation.PartialReplica); } catch { }      //Accessing this property causes an exception ¿?
                     export.WriteBegin("Fields");
                     foreach (dao.Field fld in relation.Fields) {
                         export.WriteBegin("Field");
@@ -47,7 +48,8 @@ namespace AccessIO {
         public override void Load(string fileName) {
 
             //Delete first the existent relations
-            dao.Relations relations = App.Application.CurrentDb().Relations;
+            dao.Database db = App.Application.CurrentDb();
+            dao.Relations relations = db.Relations;
             foreach (dao.Relation item in relations) {
                 relations.Delete(item.Name);
             }
@@ -55,29 +57,33 @@ namespace AccessIO {
 
             using (StreamReader sr = new StreamReader(fileName)) {
                 ImportObject import = new ImportObject(sr);
-                import.ReadLine();
-                string relationName = import.ReadObjectName();
-                Dictionary<string, object> relationProperties = import.ReadProperties();
+                import.ReadLine(2);      //Read 'Begin Relations' and 'Begin Relation' lines
 
-                dao.Relation relation = new dao.RelationClass();
-                relation.Name = relationName;
-                relation.Attributes = Convert.ToInt32(relationProperties["Attributes"]);
-                relation.ForeignTable = Convert.ToString(relationProperties["ForeignTable"]);
-                relation.Table = Convert.ToString(relationProperties["Table"]);
-                relation.PartialReplica = Convert.ToBoolean(relationProperties["PartialReplica"]);
+                do {
+                    string relationName = import.PeekObjectName();
+                    Dictionary<string, object> relationProperties = import.ReadProperties();
 
-                import.ReadLine();
-                while (!import.IsEnd) {
-                    dao.Field field = new dao.FieldClass();
-                    field.Name = import.PropertyValue();
-                    import.ReadLine();
-                    field.ForeignName = import.PropertyValue();
-                    import.ReadLine(2);
+                    dao.Relation relation = db.CreateRelation(relationName);
+                    relation.Attributes = Convert.ToInt32(relationProperties["Attributes"]);
+                    relation.ForeignTable = Convert.ToString(relationProperties["ForeignTable"]);
+                    relation.Table = Convert.ToString(relationProperties["Table"]);
+                    //try { relation.PartialReplica = Convert.ToBoolean(relationProperties["PartialReplica"]); } catch { }  //Accessing this property causes an exception ¿?
 
-                    relation.Fields.Append(field);
-                }
+                    import.ReadLine(2);         //Read 'Begin Fields' and 'Begin Field' lines
+                    while (!import.IsEnd) {
+                        dao.Field field = relation.CreateField();
+                        field.Name = import.PropertyValue();
+                        import.ReadLine();
+                        field.ForeignName = import.PropertyValue();
+                        import.ReadLine(2);     //Read 'End Field' and ('Begin Field' or 'End Fields'
 
-                relations.Append(relation);
+                        relation.Fields.Append(field);
+                    }
+
+                    import.ReadLine(2);         //Read 'End Relation' and ('Begin Relation or 'End Relations')
+                    relations.Append(relation);
+
+                } while (!import.IsEnd);
             }
 
 

@@ -30,24 +30,28 @@ namespace AccessScrCtrl {
 
         private void selectFileButton_Click(object sender, EventArgs e) {
             if (openDlg.ShowDialog() == DialogResult.OK) {
-                Cursor = Cursors.WaitCursor;
-                try {
-                    StatusInfo = Properties.Resources.LoadingObjectsTree;
-                    fileNameTextBox.Text = openDlg.FileName;
-                    objectTree.FileName = fileNameTextBox.Text;
-                    workingCopyTextBox.Text = System.IO.Path.GetDirectoryName(fileNameTextBox.Text);
-                    if (!String.IsNullOrEmpty(workingCopyTextBox.Text))
-                        objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
-                    saveButton.Enabled = true;
-                    workingCopyTextBox.Focus();
-
-                } finally {
-                    StatusInfo = string.Empty;
-                    Cursor = Cursors.Default;
-                }
+                AttachFile();
             } else {
                 fileNameTextBox.Text = String.Empty;
                 saveButton.Enabled = false;
+            }
+        }
+
+        private void AttachFile() {
+            Cursor = Cursors.WaitCursor;
+            try {
+                StatusInfo = Properties.Resources.LoadingObjectsTree;
+                fileNameTextBox.Text = openDlg.FileName;
+                objectTree.FileName = fileNameTextBox.Text;
+                workingCopyTextBox.Text = System.IO.Path.GetDirectoryName(fileNameTextBox.Text);
+                if (!String.IsNullOrEmpty(workingCopyTextBox.Text))
+                    objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
+                saveButton.Enabled = true;
+                workingCopyTextBox.Focus();
+
+            } finally {
+                StatusInfo = string.Empty;
+                Cursor = Cursors.Default;
             }
         }
 
@@ -80,25 +84,32 @@ namespace AccessScrCtrl {
         private void loadButton_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(objectTree.App.WorkingCopyPath))
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            
-            AccessIO.BackupHelper backup = new AccessIO.BackupHelper(objectTree.App.FileName);
-            backup.DoBackUp();
-            string currentObjectName = null;
-            try {
-                List<IObjecOptions> selectedObjects = filesTree.SelectedNodes;
-                foreach (IObjecOptions currentObject in selectedObjects) {
-                    currentObjectName = currentObject.Name;
-                    AccessObject accessObject = AccessObject.CreateInstance(objectTree.App, currentObject.ObjectType, currentObject.ToString());
-                    accessObject.Options = currentObject.Options;
-                    accessObject.Load(currentObject.Name);
-                }
-                backup.Commit();
-                MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, selectedObjects.Count), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            } catch (Exception ex) {
-                string msg = String.Format(Properties.Resources.ErrorLoadingObject, currentObjectName, ex.Message);
-                MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                backup.RollBack();
-            }
+
+            filesTree.Focus();
+            loadButton.Enabled = false;
+            filesTree.LoadSelectedObjectsAsync(objectTree.App);
+
+            //Another way of load selected objects: syncronous method
+            //AccessIO.BackupHelper backup = new AccessIO.BackupHelper(objectTree.App.FileName);
+            //backup.DoBackUp();
+            //string currentObjectName = null;
+            //try {
+            //    List<IObjecOptions> selectedObjects = filesTree.SelectedNodes;
+            //    foreach (IObjecOptions currentObject in selectedObjects) {
+            //        currentObjectName = currentObject.Name;
+            //        AccessObject accessObject = AccessObject.CreateInstance(objectTree.App, currentObject.ObjectType, currentObject.ToString());
+            //        accessObject.Options = currentObject.Options;
+            //        accessObject.Load(currentObject.Name);
+            //    }
+            //    backup.Commit();
+            //    MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, selectedObjects.Count), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //} catch (Exception ex) {
+            //    string msg = String.Format(Properties.Resources.ErrorLoadingObject, currentObjectName, ex.Message);
+            //    MessageBox.Show(msg, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            //    objectTree.App = null;              //1.- exit MS Access to unlock the file and restore it
+            //    backup.RollBack();                  //2.- restore the file
+            //    AttachFile();                       //3.- load again MS Access
+            //}
         }
 
         private void saveButton_Click(object sender, EventArgs e) {
@@ -138,11 +149,11 @@ namespace AccessScrCtrl {
 
         }
 
-        private void objectTree_SaveSelectecObjectsProgress(object sender, AccessScrCtrlUI.SaveSelectedObjectsProgressEventArgs e) {
+        private void objectTree_SaveSelectecObjectsProgress(object sender, AccessScrCtrlUI.SelectedObjectsProgressEventArgs e) {
             StatusInfo = e.ObjectName.Name;
         }
 
-        private void objectTree_SaveSelectedObjectsCompleted(object sender, AccessScrCtrlUI.SaveSelectedObjectsCompletedEventArgs e) {
+        private void objectTree_SaveSelectedObjectsCompleted(object sender, AccessScrCtrlUI.SelectedObjectsCompletedEventArgs e) {
             StatusInfo = string.Empty;
             if (e.Error != null)
                 MessageBox.Show(e.Error.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -151,6 +162,22 @@ namespace AccessScrCtrl {
                 filesTree.RefreshList();
             }
             saveButton.Enabled = true;
+        }
+
+        private void filesTree_LoadSelectecObjectsProgress(object sender, AccessScrCtrlUI.SelectedObjectsProgressEventArgs e) {
+            StatusInfo = e.ObjectName.ToString();
+        }
+
+        private void filesTree_LoadSelectedObjectsCompleted(object sender, AccessScrCtrlUI.SelectedObjectsCompletedEventArgs e) {
+            StatusInfo = string.Empty;
+            if (e.Error != null) {
+                MessageBox.Show(e.Error.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                AttachFile();                       //load again MS Access
+            } else {
+                MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, e.TotalOjectsSaved), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                objectTree.RefreshList();
+            }
+            loadButton.Enabled = true;
         }
 
         private void optionsButton_Click(object sender, EventArgs e) {

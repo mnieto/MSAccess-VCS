@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using dao;
 
 namespace AccessIO {
     /// <summary>
@@ -15,6 +16,7 @@ namespace AccessIO {
         /// Constructor
         /// </summary>
         /// <param name="daoField"><see cref="dao.Field"/> object</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214", Justification = "base constructor is called explicitly and there is not interaction with another member variables")]
         public Field(object daoField) {
             DaoObject = daoField;
         }
@@ -45,7 +47,7 @@ namespace AccessIO {
         }
 
         public override void SaveProperties(ExportObject export) {
-            PropertyCollection propColl = new PropertyCollection(daoField, daoField.Properties);
+            PropertyCollectionDao propColl = new PropertyCollectionDao(daoField, daoField.Properties);
             propColl.TryWriteProperty(export, "Attributes");
             propColl.TryWriteProperty(export, "CollatingOrder");
             propColl.TryWriteProperty(export, "Type");
@@ -126,7 +128,7 @@ namespace AccessIO {
         }
 
         public void AddCustomProperties() {
-            PropertyCollection propColl = new PropertyCollection(daoField, daoField.Properties);
+            PropertyCollectionDao propColl = new PropertyCollectionDao(daoField, daoField.Properties);
             propColl.AddOptionalProperty(props, "Description", dao.DataTypeEnum.dbText);
             propColl.AddOptionalProperty(props, "DecimalPlaces", dao.DataTypeEnum.dbInteger);
             propColl.AddOptionalProperty(props, "DisplayControl", dao.DataTypeEnum.dbInteger);

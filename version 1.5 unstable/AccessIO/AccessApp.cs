@@ -95,19 +95,39 @@ namespace AccessIO {
 
             Application = new Access.Application();
             Application.UserControl = false;
+            Application.AutomationSecurity = Microsoft.Office.Core.MsoAutomationSecurity.msoAutomationSecurityLow;
             Application.Visible = false;
         }
 
         /// <summary>
         /// Opens the database specified by <see cref="FileName"/>
         /// </summary>
-        public void OpenDatabase() {
-            //TODO: Check for password protected databases
-            //TODO: Check for databases attached to workgroup database
-            if (ProjectType == AccessProjectType.Adp)
-                Application.OpenAccessProject(FileName);
-            else
-                Application.OpenCurrentDatabase(FileName);
+        public abstract void OpenDatabase();
+
+        /// <summary>
+        /// Create a new database of the appropiate type
+        /// </summary>
+        public abstract void CreateDatabase();
+
+        /// <summary>
+        /// Create a new database of the appropiate type and use database properties to initialize it
+        /// </summary>
+        /// <param name="databaseProperties">List of properties readed from file. Not all properties are used to create the database</param>
+        public abstract void CreateDatabase(Dictionary<string, object> databaseProperties);
+
+        /// <summary>
+        /// Close the current database
+        /// </summary>
+        public virtual void CloseDatabase() {
+            if (Application != null)
+                Application.CloseCurrentDatabase();
+        }
+
+        /// <summary>
+        /// Free the MS Access instance
+        /// </summary>
+        public void QuitApplication() {
+            Application.Quit();
         }
 
         /// <summary>
@@ -218,5 +238,6 @@ namespace AccessIO {
         /// Root local path for the working copy
         /// </summary>
         public string WorkingCopyPath { get; set; }
+
     }
 }

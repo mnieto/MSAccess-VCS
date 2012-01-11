@@ -58,6 +58,18 @@ namespace AccessScrCtrlUI {
         }
 
         /// <summary>
+        /// Raised when LoadSelectedObjects operation finalizes
+        /// </summary>
+        [System.ComponentModel.Description("Raised when LoadSelectedObjects operation finalizes")]
+        public event EventHandler<SelectedObjectsCompletedEventArgs> LoadSelectedObjectsCompleted;
+
+        /// <summary>
+        /// Raised before loading a object.
+        /// </summary>
+        [System.ComponentModel.Description("Raised before loading a object")]
+        public event EventHandler<SelectedObjectsProgressEventArgs> LoadSelectecObjectsProgress;
+
+        /// <summary>
         /// Gets the <see cref="AccessProjectType"/> associated to the files structure
         /// </summary>
         public AccessProjectType ProjectType {
@@ -97,6 +109,16 @@ namespace AccessScrCtrlUI {
         }
 
         /// <summary>
+        /// Load, in background, the selected objects to the database referenced by <see cref="AccessApp.FileName"/>
+        /// </summary>
+        public void LoadSelectedObjectsAsync(AccessApp app) {
+            LoadObjectsAsyncParams loadParams = new LoadObjectsAsyncParams();
+            loadParams.App = app;
+            loadParams.SelectedObjects = SelectedNodes;
+            backgroundWorker.RunWorkerAsync(loadParams);
+        }
+        
+        /// <summary>
         /// Reload the files list
         /// </summary>
         public void RefreshList() {
@@ -104,12 +126,27 @@ namespace AccessScrCtrlUI {
         }
 
         private List<IObjecOptions> InternalSelectedNodes(List<IObjecOptions> list, TreeNode root) {
+
+            //Database node must be processed the first
+            TreeNode databaseNode = null;
+            if (root.Level == 0) {
+                databaseNode = root.LastNode.FirstNode;
+                if (databaseNode.Checked)
+                    list.Add((IObjecOptions)databaseNode.Tag);
+            }
+
             foreach (TreeNode node in root.Nodes) {
                 if (node.Checked) {
+                    
                     //If has children, iterate; else add leaf nodes to the list
-                    if (node.Nodes.Count == 0)
-                        list.Add((IObjecOptions)node.Tag);
-                    else
+                    if (node.Nodes.Count == 0) {
+
+                        //Add node only if is 3th level node and itsn't databaseNode
+                        if (node.Level > 1) {
+                            if (list.Count == 0 || (list.Count > 0 && list[0] != (IObjecOptions)node.Tag))
+                                list.Add((IObjecOptions)node.Tag);
+                        }
+                    } else
                         InternalSelectedNodes(list, node);
                 }
             }
@@ -202,11 +239,18 @@ namespace AccessScrCtrlUI {
             rootPath += @"\" + ObjectType.General.ToString();
             string dbProperties = Path.Combine(rootPath, AccessIO.Properties.Resources.DatabaseProperties + "." + FileExtensions.dbp.ToString() + ".txt");
             if (!File.Exists(dbProperties)) {
-                return null;
+                return Path.GetFileName(dbProperties);
             } else {
-                StreamReader sr = new StreamReader(dbProperties);
-                ImportObject import = new ImportObject(sr);
-                return import.ReadObjectName();
+                try {
+                    StreamReader sr = new StreamReader(dbProperties);
+                    ImportObject import = new ImportObject(sr);
+                    return import.ReadObjectName();
+                } catch (WrongFileFormatException ex) {
+                    if (ex.LineNumber <= 1)
+                        return Path.GetFileName(dbProperties);
+                    else
+                        throw;
+                }
             }
         }
 
@@ -276,6 +320,59 @@ namespace AccessScrCtrlUI {
             }
         }
 
+        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e) {
 
+            LoadObjectsAsyncParams loadParams = (LoadObjectsAsyncParams)e.Argument;
+            AccessIO.BackupHelper backup = new AccessIO.BackupHelper(loadParams.App.FileName);
+            backup.DoBackUp();
+            string currentObjectName = null;
+            try {
+                List<IObjecOptions> selectedObjects = loadParams.SelectedObjects;
+                int i = 0;
+                foreach (IObjecOptions currentObject in selectedObjects) {
+                    currentObjectName = currentObject.Name;
+                    ((BackgroundWorker)sender).ReportProgress(i++ * 100 / selectedObjects.Count, currentObject);
+                    AccessObject accessObject = AccessObject.CreateInstance(loadParams.App, currentObject.ObjectType, currentObject.ToString());
+                    accessObject.Options = currentObject.Options;
+                    accessObject.Load(currentObjectName);
+                }
+                backup.Commit();
+                e.Result = selectedObjects.Count;
+            } catch (Exception ex) {
+                backup.RollBack();
+                string msg = String.Format(Properties.Resources.ErrorLoadingObject, currentObjectName, ex.Message);
+                throw new Exception(msg, ex);
+            }
+            
+        }
+
+        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
+            SelectedObjectsProgressEventArgs args = new SelectedObjectsProgressEventArgs(e.ProgressPercentage, (IObjecOptions)e.UserState);
+            EventHandler<SelectedObjectsProgressEventArgs> tmp = LoadSelectecObjectsProgress;
+            if (tmp != null)
+                tmp(this, args);
+        }
+
+        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            SelectedObjectsCompletedEventArgs args;
+            //Accessing to e.Result when there is an error throws a exception.
+            if (e.Error == null)
+                args = new SelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+            else
+                args = new SelectedObjectsCompletedEventArgs(e.Error, 0);
+            EventHandler<SelectedObjectsCompletedEventArgs> tmp = LoadSelectedObjectsCompleted;
+            if (tmp != null)
+                tmp(this, args);
+        }
+
+        #region helper classes
+
+        struct LoadObjectsAsyncParams {
+            public AccessApp App;
+            public List<IObjecOptions> SelectedObjects;
+        }
+
+        #endregion
     }
+    
 }

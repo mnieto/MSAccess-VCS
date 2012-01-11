@@ -170,8 +170,8 @@
             this.objectTree.Name = "objectTree";
             this.objectTree.Size = new System.Drawing.Size(328, 261);
             this.objectTree.TabIndex = 9;
-            this.objectTree.SaveSelectedObjectsCompleted += new System.EventHandler<AccessScrCtrlUI.SaveSelectedObjectsCompletedEventArgs>(this.objectTree_SaveSelectedObjectsCompleted);
-            this.objectTree.SaveSelectecObjectsProgress += new System.EventHandler<AccessScrCtrlUI.SaveSelectedObjectsProgressEventArgs>(this.objectTree_SaveSelectecObjectsProgress);
+            this.objectTree.SaveSelectedObjectsCompleted += new System.EventHandler<AccessScrCtrlUI.SelectedObjectsCompletedEventArgs>(this.objectTree_SaveSelectedObjectsCompleted);
+            this.objectTree.SaveSelectecObjectsProgress += new System.EventHandler<AccessScrCtrlUI.SelectedObjectsProgressEventArgs>(this.objectTree_SaveSelectecObjectsProgress);
             // 
             // loadTab
             // 
@@ -209,6 +209,8 @@
             this.filesTree.Size = new System.Drawing.Size(328, 265);
             this.filesTree.TabIndex = 13;
             this.filesTree.WorkingCopyPath = null;
+            this.filesTree.LoadSelectedObjectsCompleted += new System.EventHandler<AccessScrCtrlUI.SelectedObjectsCompletedEventArgs>(this.filesTree_LoadSelectedObjectsCompleted);
+            this.filesTree.LoadSelectecObjectsProgress += new System.EventHandler<AccessScrCtrlUI.SelectedObjectsProgressEventArgs>(this.filesTree_LoadSelectecObjectsProgress);
             // 
             // loadButton
             // 

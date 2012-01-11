@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Runtime.Serialization;
 
 namespace AccessIO {
 
@@ -8,6 +9,7 @@ namespace AccessIO {
     public class AccessIOException : Exception {
         public AccessIOException(string message) : base(message) { }
         public AccessIOException(string message, Exception innerException) : base(message, innerException) { }
+        protected AccessIOException(SerializationInfo info, StreamingContext context): base(info, context) { }
     }
 
     /// <summary>
@@ -33,6 +35,20 @@ namespace AccessIO {
             : base(message) {
             FileName = fileName;
             LineNumber = lineNumber;
+        }
+        protected WrongFileFormatException(SerializationInfo info, StreamingContext context) : base(info, context) {
+            if (info != null) {
+                FileName = info.GetString("FileName");
+                LineNumber = info.GetInt32("LineNumber");
+            }
+        }
+
+        public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) {
+            base.GetObjectData(info, context);
+            if (info != null) {
+                info.AddValue("FileName", FileName);
+                info.AddValue("LineNumber", LineNumber);
+            }
         }
 
         public string FileName { get; set; }

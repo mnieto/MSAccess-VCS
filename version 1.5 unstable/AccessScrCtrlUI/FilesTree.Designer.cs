@@ -26,6 +26,7 @@
             this.components = new System.ComponentModel.Container();
             this.tree = new System.Windows.Forms.TreeView();
             this.contextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // tree
@@ -45,6 +46,13 @@
             this.contextMenu.Size = new System.Drawing.Size(61, 4);
             this.contextMenu.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.contextMenu_Closed);
             // 
+            // backgroundWorker
+            // 
+            this.backgroundWorker.WorkerReportsProgress = true;
+            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
+            this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
+            this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
+            // 
             // FilesTree
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -60,5 +68,6 @@
 
         private System.Windows.Forms.TreeView tree;
         private System.Windows.Forms.ContextMenuStrip contextMenu;
+        private System.ComponentModel.BackgroundWorker backgroundWorker;
     }
 }

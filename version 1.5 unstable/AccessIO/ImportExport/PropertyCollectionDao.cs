@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using dao;
 
 namespace AccessIO {
 
     /// <summary>
     /// Dao properties management
     /// </summary>
-    class PropertyCollection {
+    class PropertyCollectionDao {
 
         /// <summary>
         /// Properties of a dao object like table, field or database
@@ -25,7 +26,7 @@ namespace AccessIO {
         /// </summary>
         /// <param name="daoObject">dao object like a field, table or database</param>
         /// <param name="properties">The Properties property of <paramref name="daoObject"/> object</param>
-        public PropertyCollection(object daoObject, dao.Properties properties) {
+        public PropertyCollectionDao(object daoObject, dao.Properties properties) {
             if (daoObject == null)
                 throw new ArgumentNullException("daoObject");
             if (properties == null)
@@ -46,17 +47,30 @@ namespace AccessIO {
         /// </remarks>
         public void AddOptionalProperty(Dictionary<string, object> props, string propertyName, dao.DataTypeEnum dataType) {
             if (props.ContainsKey(propertyName) && props[propertyName] != null) {
-                try {
-                    Properties[propertyName].Value = props[propertyName];
-                } catch (System.Runtime.InteropServices.COMException ex) {
-                    if (ex.ErrorCode == -2146825018) {   //Property don't exists in the properties collection
-                        object[] parameters = new object[] { propertyName, dataType, props[propertyName] };
-                        //All the dao objects implements a interface with CreateProperty method. But all of them are diferent interfaces: there isn't a common interface
-                        //Calling InvokeMember we can do a generic code to call CreateProperty of al the objects
-                        Properties.Append((dao.Property)(DaoObject.GetType().InvokeMember("CreateProperty", System.Reflection.BindingFlags.InvokeMethod, null, DaoObject, parameters)));
-                    } else
-                        throw;
-                }
+                AddProperty(propertyName, props[propertyName], dataType);
+            }
+        }
+
+        /// <summary>
+        /// Assign a property value. If the property do not exists in the property collection, add the property to the collection
+        /// </summary>
+        /// <param name="propertyName">Name of the property</param>
+        /// <param name="propertyValue">Value of the property</param>
+        /// <param name="dataType">Data type: used in case of is needed to add the property to the property collection</param>
+        public void AddProperty(string propertyName, object propertyValue, dao.DataTypeEnum dataType) {
+            try {
+                Properties[propertyName].Value = propertyValue;
+            } catch (System.Runtime.InteropServices.COMException ex) {
+                if (ex.ErrorCode == -2146825018) {   //Property don't exists in the properties collection
+                    object[] parameters = new object[] { propertyName, dataType, propertyValue };
+                    //All the dao objects implements a interface with CreateProperty method. But all of them are diferent interfaces: there isn't a common interface
+                    //Calling InvokeMember we can do a generic code to call CreateProperty of al the objects
+                    Properties.Append((dao.Property)(DaoObject.GetType().InvokeMember("CreateProperty", System.Reflection.BindingFlags.InvokeMethod, null, DaoObject, parameters)));
+                } else if (ex.ErrorCode == -2146825287) {   //Argument not valid
+                    //Can't add a property: This will occur with CollatingOrderProperty
+                    //Other properties are excluded from DatabaseDao.gatherProperties method
+                } else
+                    throw;
             }
         }
 

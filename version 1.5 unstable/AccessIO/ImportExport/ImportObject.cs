@@ -124,9 +124,9 @@ namespace AccessIO {
         /// Analize, but don't read, a line of type: Begin ObjectType ObjectName
         /// </summary>
         /// <returns>Returns the ObjectName part</returns>
-        /// <exception cref="WrongFileFormatException" if ObjectName is not found
+        /// <exception cref="WrongFileFormatException">if ObjectName is not found</exception> 
         public string PeekObjectName() {
-            int pos = CurrentLine.IndexOf(' ', theBegin.Length + 1);
+            int pos = CurrentLine.IndexOf(' ', Math.Min(CurrentLine.Length, theBegin.Length + 1));
             if (pos == -1)
                 throw new WrongFileFormatException(String.Format(Properties.ImportRes.ObjectNameNotFound, LineNumber),
                                                    (sr.BaseStream as FileStream).Name,

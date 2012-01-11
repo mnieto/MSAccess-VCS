@@ -14,6 +14,7 @@ namespace AccessIO {
         /// Constructor
         /// </summary>
         /// <param name="daoIndex"><see cref="dao.Index"/> object</param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214", Justification = "base constructor is called explicitly and there is not interaction with another member variables")]
         public Index(object daoIndex) {
             DaoObject = daoIndex;
         }

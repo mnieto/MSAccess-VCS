@@ -61,7 +61,17 @@ namespace AccessIO {
         /// Restores the backup file
         /// </summary>
         public void RollBack() {
-            File.Copy(backupFileName, FileName, true);
+            
+            int retries = 0;
+            do {
+                try {
+                    System.Threading.Thread.Sleep(100);
+                    File.Copy(backupFileName, FileName, true);
+                    retries = int.MaxValue;
+                } catch {
+                    retries++;
+                }
+            } while (retries < 3);
         }
 
     }

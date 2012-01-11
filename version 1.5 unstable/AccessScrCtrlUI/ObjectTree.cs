@@ -18,7 +18,12 @@ namespace AccessScrCtrlUI {
         [System.ComponentModel.Browsable(false)]
         public AccessApp App { 
             get { return this.app; }
-            set { this.app = value; }
+            set {
+                if (this.app != null) {
+                    this.app.QuitApplication();
+                }
+                this.app = value;
+            }
         }
 
         /// <summary>
@@ -104,19 +109,18 @@ namespace AccessScrCtrlUI {
         /// Raised when SaveSelectedObjects operation finalizes
         /// </summary>
         [System.ComponentModel.Description("Raised when SaveSelectedObjects operation finalizes")]
-        public event EventHandler<SaveSelectedObjectsCompletedEventArgs> SaveSelectedObjectsCompleted;
+        public event EventHandler<SelectedObjectsCompletedEventArgs> SaveSelectedObjectsCompleted;
 
         /// <summary>
         /// Raised before saving a object.
         /// </summary>
         [System.ComponentModel.Description("Raised before saving a object")]        
-        public event EventHandler<SaveSelectedObjectsProgressEventArgs> SaveSelectecObjectsProgress;
+        public event EventHandler<SelectedObjectsProgressEventArgs> SaveSelectecObjectsProgress;
 
 
         /// <summary>
         /// Save, in background, the selected objects to the <see cref="AccessApp.WorkingCopyPath"/> path
         /// </summary>
-        /// <returns>Number of saved objects</returns>
         public void SaveSelectedObjectsAsync() {
 
             backgroundWorker.RunWorkerAsync(SelectedNodes);
@@ -286,20 +290,20 @@ namespace AccessScrCtrlUI {
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e) {
-            SaveSelectedObjectsProgressEventArgs args = new SaveSelectedObjectsProgressEventArgs(e.ProgressPercentage, (IObjecOptions)e.UserState);
-            EventHandler<SaveSelectedObjectsProgressEventArgs> tmp = SaveSelectecObjectsProgress;
+            SelectedObjectsProgressEventArgs args = new SelectedObjectsProgressEventArgs(e.ProgressPercentage, (IObjecOptions)e.UserState);
+            EventHandler<SelectedObjectsProgressEventArgs> tmp = SaveSelectecObjectsProgress;
             if (tmp != null)
                 tmp(this, args);
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
-            SaveSelectedObjectsCompletedEventArgs args;
+            SelectedObjectsCompletedEventArgs args;
             //Accessing to e.Result when there is an error throws a exception.
             if (e.Error == null)
-                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
+                args = new SelectedObjectsCompletedEventArgs(e.Error, (int)e.Result);
             else
-                args = new SaveSelectedObjectsCompletedEventArgs(e.Error, 0);
-            EventHandler<SaveSelectedObjectsCompletedEventArgs> tmp = SaveSelectedObjectsCompleted;
+                args = new SelectedObjectsCompletedEventArgs(e.Error, 0);
+            EventHandler<SelectedObjectsCompletedEventArgs> tmp = SaveSelectedObjectsCompleted;
             if (tmp != null)
                 tmp(this, args);
         }
@@ -309,51 +313,6 @@ namespace AccessScrCtrlUI {
     }
     
 
-    #region EventArgs classes
-    /// <summary>
-    /// Contains information about the completion of saving task
-    /// </summary>
-    public class SaveSelectedObjectsCompletedEventArgs : EventArgs {
-
-        //Constructor
-        public SaveSelectedObjectsCompletedEventArgs(Exception error, int totalObjectsSaved): base()   {
-            TotalOjectsSaved = totalObjectsSaved;
-            Error = error;
-        }
-
-        /// <summary>
-        /// Gets the total number of saved objects
-        /// </summary>
-        public int TotalOjectsSaved { get; private set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public Exception Error { get; private set; }
-    }
-
-    public class SaveSelectedObjectsProgressEventArgs: EventArgs {
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="progressPercentaje">asyncronous progress percentaje</param>
-        /// <param name="objectName">current Access Object to be processes</param>
-        public SaveSelectedObjectsProgressEventArgs(int progressPercentaje, IObjecOptions objectName): base() {
-            ProgressPercentaje = progressPercentaje;
-            ObjectName = objectName;
-        }
-
-        /// <summary>
-        /// Gets the asyncronous progress percentaje
-        /// </summary>
-        public int ProgressPercentaje { get; private set; }
-
-        /// <summary>
-        /// gets the Current Access Object to be processes
-        /// </summary>
-        public IObjecOptions ObjectName { get; private set; }
-    }
-    #endregion
+ 
 
 }

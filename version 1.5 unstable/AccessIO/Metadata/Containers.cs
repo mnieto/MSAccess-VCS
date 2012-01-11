@@ -13,6 +13,7 @@ namespace AccessIO {
         /// <summary>
         /// Default constructor
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214", Justification = "NamesList is initialized in the default constructor (allways called) of the base class")]
         public Containers() {
             NamesList = new Dictionary<string, ContainerNames>();
             //TypesList = new Dictionary<ObjectType, ContainerNames>();

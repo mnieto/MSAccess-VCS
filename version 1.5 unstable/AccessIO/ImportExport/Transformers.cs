@@ -21,13 +21,11 @@ namespace AccessIO {
         /// <param name="export">helper class for write objects</param>
         /// <param name="property"><see cref="dao.Property"/> to transform to</param>
         public virtual void WriteTransform(ExportObject export, dao.Property property) {
-            object propertyValue;
             try {
-                propertyValue = property.Value;
+                export.WriteProperty(property.Name, Transform(property));
             } catch {
-                propertyValue = String.Empty;
+                export.WriteProperty(property.Name, String.Empty);
             }
-            export.WriteProperty(property.Name, Transform(propertyValue));
         }
 
         public virtual void WriteTransform(ExportObject export, Access.AccessObjectProperty property) {
@@ -55,6 +53,14 @@ namespace AccessIO {
         #endregion
     }
 
+    public class FileNameDataTypeTransform : PropertyTransform {
+
+        public override string Transform(object value) {
+            dao.Property property = (dao.Property)value; 
+            return String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1}", property.Type , System.IO.Path.GetFileName((string)property.Value));
+        }
+    }
+
     /// <summary>
     /// Do not implement any transformation
     /// </summary>
@@ -63,6 +69,18 @@ namespace AccessIO {
 
         public override string Transform(object value) {
             return Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        #endregion
+    }
+
+    public class NoActionDataTypeTransoform : PropertyTransform {
+
+        #region IPropertyTransform Members
+
+        public override string Transform(object value) {
+            dao.Property property = (dao.Property)value;
+            return String.Format(System.Globalization.CultureInfo.InvariantCulture, "{0},{1}", property.Type, property.Value);
         }
 
         #endregion

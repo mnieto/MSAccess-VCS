@@ -48,6 +48,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Access, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -62,8 +65,9 @@
     <Compile Include="AccessProjectType.cs" />
     <Compile Include="AuxiliarObject.cs" />
     <Compile Include="ImportExport\BackupHelper.cs" />
-    <Compile Include="ImportExport\PropertyCollection.cs" />
-    <Compile Include="ImportExport\PropertyStruct.cs" />
+    <Compile Include="ImportExport\Locales.cs" />
+    <Compile Include="ImportExport\PropertyCollectionAccessObject.cs" />
+    <Compile Include="ImportExport\PropertyCollectionDao.cs" />
     <Compile Include="Metadata\ContainerNames.cs" />
     <Compile Include="CustomObjects\CustomObject.cs" />
     <Compile Include="CustomObjects\Database.cs" />
@@ -88,6 +92,9 @@
     <Compile Include="Metadata\ObjectOptions.cs" />
     <Compile Include="Metadata\ObjectType.cs" />
     <Compile Include="Metadata\ObjectTypeExtension.cs" />
+    <Compile Include="Options\OptionsDatabasePrj.cs" />
+    <Compile Include="Options\OptionsDatabase.cs" />
+    <Compile Include="Options\OptionsDatabaseDao.cs" />
     <Compile Include="Properties\Options.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,15 +131,6 @@
     <None Include="ImportExport\DgrmPropertyTransform.cd" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Access">
-      <Guid>{4AFFC9A0-5F99-101B-AF4E-00AA003F0F07}</Guid>
-      <VersionMajor>9</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="DAO">
       <Guid>{00025E01-0000-0000-C000-000000000046}</Guid>
       <VersionMajor>5</VersionMajor>

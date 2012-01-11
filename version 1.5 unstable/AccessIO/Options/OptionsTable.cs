@@ -28,11 +28,12 @@ namespace AccessIO {
         protected override ToolStripItem[] GetMenuItems() {
             List<ToolStripItem> collection = new List<ToolStripItem>();
             collection.AddRange(base.GetMenuItems());
-            ToolStripMenuItem menuItem = new ToolStripMenuItem(Properties.Options.AllowDataLost);
-            menuItem.Checked = AllowDataLost;
-            menuItem.Click += new EventHandler(menuItem_Click);
-            collection.Add(menuItem);
-            return collection.ToArray();
+            using (ToolStripMenuItem menuItem = new ToolStripMenuItem(Properties.Options.AllowDataLost)) {
+                menuItem.Checked = AllowDataLost;
+                menuItem.Click += new EventHandler(menuItem_Click);
+                collection.Add(menuItem);
+                return collection.ToArray();
+            }
         }
 
         void menuItem_Click(object sender, EventArgs e) {

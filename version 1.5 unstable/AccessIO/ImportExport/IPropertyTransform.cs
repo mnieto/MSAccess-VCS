@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Access = Microsoft.Office.Interop.Access;
+using dao;
+
 namespace AccessIO {
 
     /// <summary>

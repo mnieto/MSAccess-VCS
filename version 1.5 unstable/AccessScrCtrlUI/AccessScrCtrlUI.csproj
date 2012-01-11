@@ -69,6 +69,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SelectedObjectsEventsArgs.cs" />
     <Compile Include="TreeImages.cs" />
   </ItemGroup>
   <ItemGroup>

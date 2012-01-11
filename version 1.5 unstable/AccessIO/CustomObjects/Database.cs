@@ -22,42 +22,71 @@ namespace AccessIO {
             get { return "Database"; }
         }
 
-        public override void Save(string fileName) {
 
-            //Add known properties with special treatment
-            //other properties are not allways present. If they are present add them and write with NoActionTransform
-            Dictionary<string, IPropertyTransform> propsToWrite = new Dictionary<string, IPropertyTransform>();
-            NullTransform nullTransform = new NullTransform();
-            NoActionTransform noActionTransform = new NoActionTransform();
-            propsToWrite.Add("Name", new FileNameTransform());
-            propsToWrite.Add("Transactions", nullTransform);
-            propsToWrite.Add("RecordsAffected", nullTransform);
-            propsToWrite.Add("AccessVersion", nullTransform);
-            propsToWrite.Add("Build", nullTransform);
-            propsToWrite.Add("ProjVer", nullTransform);
-            propsToWrite.Add("Connection", nullTransform);
-            propsToWrite.Add("Version", nullTransform);
-
-            dao.Database db = App.Application.CurrentDb();
-            foreach (dao.Property prop in db.Properties) {
-                if (!propsToWrite.ContainsKey(prop.Name)) {
-                    propsToWrite.Add(prop.Name, noActionTransform);
-                }
+        public override void Load(string fileName) {
+            Dictionary<string, object> databaseProperties = null;
+            using (StreamReader sr = new StreamReader(fileName)) {
+                ImportObject import = new ImportObject(sr);
+                import.ReadLine(2);
+                databaseProperties = import.ReadProperties();
             }
 
-            //Make sure the path exists
-            MakePath(System.IO.Path.GetDirectoryName(fileName));
-
-            //Write the properties with help of an ExportObject
-            using (StreamWriter sw = new StreamWriter(fileName)) {
-                ExportObject export = new ExportObject(sw);
-                string dbFileName = System.IO.Path.GetFileName(App.FileName);
-                export.WriteBegin(ClassName, dbFileName);
-                foreach (string item in propsToWrite.Keys) {
-                    propsToWrite[item].WriteTransform(export, db.Properties[item]);
-                }
-                export.WriteEnd();
+            if ((Options as OptionsDatabase).OverwriteDatabase) {
+                App.CloseDatabase();
+                int i = 0;
+                do {
+                    try {
+                        System.Threading.Thread.Sleep(100);
+                        File.Delete(App.FileName);
+                    } catch {
+                        i++;
+                    }
+                } while (i < 5);
+                App.CreateDatabase(databaseProperties);
+            } else {
+                ClearProperties();
             }
+            InternalLoad(databaseProperties);
+
         }
+
+        /// <summary>
+        /// Restores the database properties readed from file to the database
+        /// </summary>
+        /// <param name="databaseProperties">List of readed properties</param>
+        /// <remarks>
+        /// <para>
+        /// Be aware that not all readed properties exists as database properties. Some can exists, and some not. 
+        /// Other can be user properties that are not defined at all by Microsoft
+        /// </para>
+        /// <para>
+        /// Diferent database types (mdb, adp) save properties in diferent collections, 
+        /// so inherited classes must treat the properties as corresponding
+        /// </para>
+        /// </remarks>
+        protected abstract void InternalLoad(Dictionary<string, object> databaseProperties);
+
+        /// <summary>
+        /// Read the database properties and save them into a collection
+        /// </summary>
+        /// <returns>A dictionary with the properties to save to</returns>
+        /// <remarks>
+        /// <para>
+        /// Not all properties are suitable for saving. For example, RecordsAffected
+        /// can vary each time we save, but does not provide relevant information
+        /// </para>
+        /// <para>
+        /// Each descendant must implement this method and decide which properties save or not
+        /// </para>
+        /// </remarks>
+        protected abstract Dictionary<string, IPropertyTransform> gatherProperties();
+
+        /// <summary>
+        /// Remove the current properties of the Access database/project object
+        /// </summary>
+        /// <remarks>
+        /// Not all properties are removed: some properties are read only
+        /// </remarks>
+        protected abstract void ClearProperties();
     }
 }

@@ -139,6 +139,40 @@ namespace AccessIO {
         }
 
 
+        public override void OpenDatabase() {
+            //TODO: Check for password protected databases
+            //TODO: Check for databases attached to workgroup database
+            dao.Database db = Application.DBEngine.OpenDatabase(FileName);
+            try {
+                if (double.Parse(db.Version, System.Globalization.CultureInfo.InvariantCulture) < 4.0)
+                    throw new Exception(Properties.ImportRes.InvalidFileFormat);
+                else {
+                    string accVersion = db.Properties["AccessVersion"].Value.ToString();
+                    accVersion = accVersion.Substring(0, accVersion.IndexOf('.'));
+                    if (int.Parse(accVersion) < 9)
+                        throw new Exception(Properties.ImportRes.InvalidFileFormat);
+                }
+            } finally {
+                db.Close();
+            }
+            Application.OpenCurrentDatabase(FileName);
+        }
+
+        public override void CreateDatabase() {
+            Application.NewCurrentDatabase(FileName);
+        }
+
+        public override void CreateDatabase(Dictionary<string, object> databaseProperties) {
+            //Could call to Application.NewCurrentDatabase, but this method has no options
+            //TODO: Add support for Access Version, ¿password, encryption?
+            Locales databaseLocales = new Locales();
+            string collating = databaseProperties["CollatingOrder"].ToString().Substring(2);
+            dao.Database db = Application.DBEngine.CreateDatabase(FileName, databaseLocales[collating]);
+            db.Close();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(db);
+            Application.OpenCurrentDatabase(FileName);
+
+        }
 
     }
 }

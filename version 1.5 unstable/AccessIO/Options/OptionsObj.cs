@@ -60,7 +60,7 @@ namespace AccessIO {
 
         protected virtual ToolStripItem[] GetMenuItems() {
             ToolStripItem[] collection = new ToolStripItem[1];
-            collection[0] = new ToolStripMenuItem("Open");
+            collection[0] = new ToolStripMenuItem(Properties.Options.Open);
             collection[0].Click += new EventHandler(menuItem1_Click);
             return collection;
         }

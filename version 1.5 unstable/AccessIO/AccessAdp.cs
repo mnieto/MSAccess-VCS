@@ -66,6 +66,21 @@ namespace AccessIO {
             }
         }
 
+        public override void CreateDatabase() {
+            Application.NewCurrentDatabase(FileName);
+        }
+
+        public override void CreateDatabase(Dictionary<string, object> databaseProperties) {
+            //TODO: Check to create access project with connection string
+            Application.NewAccessProject(FileName, databaseProperties["connectionString"].ToString());
+        }
+
+        public override void OpenDatabase() {
+            Application.OpenAccessProject(FileName);
+            if ((int)Application.CurrentProject.FileFormat < 10)
+                throw new Exception(Properties.ImportRes.InvalidFileFormat);
+        }
+
 
     }
 }
