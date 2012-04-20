@@ -117,90 +117,47 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DatabaseProperties" xml:space="preserve">
-    <value>Database properties</value>
+  <data name="AccessDenied" xml:space="preserve">
+    <value>Access denied. Please, check that you have rights for the specified file.</value>
   </data>
-  <data name="DataLostExceptionMessage" xml:space="preserve">
-    <value>Loading '{0}' table will cause data lost. If this is correct, please check 'Allow data lost' property from Options dialog.</value>
+  <data name="AshkForHelp" xml:space="preserve">
+    <value>Write asvn -h for help.</value>
   </data>
-  <data name="NotAllowedObjectTypeException" xml:space="preserve">
-    <value>Object type not allowed for this type of Access file</value>
+  <data name="AsvnError" xml:space="preserve">
+    <value>asvn error:</value>
   </data>
-  <data name="Begin" xml:space="preserve">
-    <value>Begin</value>
-    <comment>Do not translate in any case</comment>
+  <data name="DatabaseObjectMustBeFirst" xml:space="preserve">
+    <value>Database objects / database files must be the first in the collection</value>
   </data>
-  <data name="End" xml:space="preserve">
-    <value>End</value>
-    <comment>Do not translate in any case</comment>
+  <data name="ErrorProcessingResponseFile" xml:space="preserve">
+    <value>Error processing response file at line {0}: {1}</value>
   </data>
-  <data name="DataAccessPage" xml:space="preserve">
-    <value>DataAccessPage</value>
+  <data name="ExpectedValidCommand" xml:space="preserve">
+    <value>Expected a valid command</value>
   </data>
-  <data name="General" xml:space="preserve">
-    <value>General</value>
+  <data name="ForThisObjectType" xml:space="preserve">
+    <value>for this object type</value>
   </data>
-  <data name="Diagram" xml:space="preserve">
-    <value>Diagram</value>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Invalid file name '{0}' because do not exists or do not have access rights</value>
   </data>
-  <data name="Form" xml:space="preserve">
-    <value>Form</value>
+  <data name="InvalidNumberOfOptions" xml:space="preserve">
+    <value>Invalid number of options for command</value>
   </data>
-  <data name="Function" xml:space="preserve">
-    <value>Function</value>
+  <data name="InvalidObjectName" xml:space="preserve">
+    <value>Invalid accessObject name. Must be in 'xxx.name' format. Where xxx is a valid object type.</value>
   </data>
-  <data name="Macro" xml:space="preserve">
-    <value>Macro</value>
+  <data name="InvalidOption" xml:space="preserve">
+    <value>Invalid option '{0}'</value>
   </data>
-  <data name="Module" xml:space="preserve">
-    <value>Module</value>
+  <data name="InvalidPathForDatabase" xml:space="preserve">
+    <value>Invalid path for database or file do not exists</value>
   </data>
-  <data name="Property" xml:space="preserve">
-    <value>Property</value>
+  <data name="OutputPathDoNotExist" xml:space="preserve">
+    <value>Root path for output files do not exists</value>
   </data>
-  <data name="Query" xml:space="preserve">
-    <value>Query</value>
-  </data>
-  <data name="Reference" xml:space="preserve">
-    <value>Reference</value>
-  </data>
-  <data name="Report" xml:space="preserve">
-    <value>Report</value>
-  </data>
-  <data name="ServerView" xml:space="preserve">
-    <value>ServerView</value>
-  </data>
-  <data name="StoredProcedure" xml:space="preserve">
-    <value>StoredProcedure</value>
-  </data>
-  <data name="Table" xml:space="preserve">
-    <value>Table</value>
-  </data>
-  <data name="References" xml:space="preserve">
-    <value>References</value>
-  </data>
-  <data name="Relations" xml:space="preserve">
-    <value>Relations</value>
-  </data>
-  <data name="DaoObjectIsNotAValidType" xml:space="preserve">
-    <value>DaoObject must be of type {0} for this object</value>
-  </data>
-  <data name="WorkingCopyMissing" xml:space="preserve">
-    <value>You must specify the working copy path before this action</value>
-  </data>
-  <data name="ContainerWithManyObjectTypes" xml:space="preserve">
-    <value>Container has more than one object type. Use the ObjectTypes property.</value>
-  </data>
-  <data name="PropertyNameError" xml:space="preserve">
-    <value>Invalid property name reading object definition</value>
-  </data>
-  <data name="RootPathNotValid" xml:space="preserve">
-    <value>The root folder do not exists or is invalid</value>
-  </data>
-  <data name="PropertyValueError" xml:space="preserve">
-    <value>Invalid property value reading object definition</value>
-  </data>
-  <data name="InvalidPropertyName" xml:space="preserve">
-    <value>Property name {0} do not exist for this object or is read only</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Usage" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Usage.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
 </root>

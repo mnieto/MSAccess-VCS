@@ -72,7 +72,8 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\AccessScrCtrl.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -153,7 +154,7 @@
     <None Include="Resources\1145.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\AccessScrCtrl.ico" />
+    <Content Include="..\asvn\Resources\asvn.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

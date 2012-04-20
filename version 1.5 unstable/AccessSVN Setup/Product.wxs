@@ -2,9 +2,9 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="91ae271b-e0ea-4c19-8658-80718d2f372d" Name="AccessSVN" 
              Language="1033" Codepage="1252"
-             Version="1.5.0" 
+             Version="1.6.0" 
              Manufacturer="Kevull Software" 
-             UpgradeCode="3a03e1c3-ad98-4bf7-baa9-eac47b064cfd">
+             UpgradeCode="3C25E843-29AB-4608-9D5B-CDA3C8E002A0">
       
         <Package InstallerVersion="200" Compressed="yes"  Languages="1033"/>
       
@@ -23,6 +23,9 @@
                           <Component Id="AccessScrCtrlUI.dll" DiskId="1" Guid="34E3E314-63DA-4780-ACB3-B789B9DED6D5">
                               <File Id="AccessScrCtrlUI.dll" Name="AccessScrCtrlUI.dll" Source="..\AccessScrCtrl\bin\$(var.AccessScrCtrl.Configuration)\AccessScrCtrlUI.dll" />
                           </Component>
+                          <Component Id="asvn.exe" DiskId="1" Guid="C847B7C6-1DB1-4354-B564-530E58CE21BF">
+                            <File Id="asvn.exe" Name="asvn.exe" Source="..\asvn\bin\$(var.AccessScrCtrl.Configuration)\asvn.exe" />
+                          </Component>                    
                     </Directory>
                 </Directory>
             </Directory>
@@ -43,6 +46,7 @@
             <ComponentRef Id="AccessScrCtrl.exe" />
             <ComponentRef Id="AccessScrCtrlUI.dll" />
             <ComponentRef Id="StartMenuShortcuts" />
+            <ComponentRef Id="asvn.exe"/>
         </Feature>
 
         <Property Id="WIXUI_INSTALLDIR" Value="AppFolder" />

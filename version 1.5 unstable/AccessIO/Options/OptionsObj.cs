@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Reflection;
 
 namespace AccessIO {
 
@@ -58,6 +59,30 @@ namespace AccessIO {
             contextMenu.Show(parentCtrl, location);
         }
 
+        /// <summary>
+        /// Set, by reflexion, to <c>true</c> the specified property
+        /// </summary>
+        /// <param name="propertyName">name of the property to set</param>
+        /// <exception cref="ArgumentException">If property name do not exists or is read only</exception>
+        public void SetProperty(string propertyName) {
+            PropertyInfo pf = this.GetType().GetProperty(propertyName);
+            if (pf == null || !pf.CanWrite)
+                throw new ArgumentException(String.Format(Properties.Resources.InvalidPropertyName, propertyName));
+            pf.SetValue(this, true, BindingFlags.IgnoreCase, null, null, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Set, by reflexion, an arbitrary value to the specified property
+        /// </summary>
+        /// <param name="propertyName">name of the property to set</param>
+        /// <param name="propertyValue">new value for the property</param>
+        public void SetProperty(string propertyName, object propertyValue) {
+            PropertyInfo pf = this.GetType().GetProperty(propertyName);
+            if (pf == null || !pf.CanWrite)
+                throw new ArgumentException(String.Format(Properties.Resources.InvalidPropertyName, propertyName));
+            pf.SetValue(this, true, BindingFlags.IgnoreCase, null, null, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
         protected virtual ToolStripItem[] GetMenuItems() {
             ToolStripItem[] collection = new ToolStripItem[1];
             collection[0] = new ToolStripMenuItem(Properties.Options.Open);
@@ -68,6 +93,7 @@ namespace AccessIO {
         void menuItem1_Click(object sender, EventArgs e) {
             System.Diagnostics.Process.Start(this.Name);
         }
+
 
     }
 }
