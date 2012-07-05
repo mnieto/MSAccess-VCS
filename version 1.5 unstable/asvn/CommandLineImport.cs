@@ -46,10 +46,11 @@ namespace asvn {
             if (App == null && Objects.Count > 0)
                 InitializeAccessApplication();
             foreach (IObjecOptions currentObject in Objects) {
-                Console.WriteLine("Loading {0}", currentObject);
+                Console.Write("Loading {0}", currentObject);
                 AccessObject accessObject = AccessObject.CreateInstance(App, currentObject.ObjectType, currentObject.ToString());
                 accessObject.Options = currentObject.Options;
                 accessObject.Load(currentObject.Name);
+                Console.WriteLine(": Ok");
             }
             return this;
         }

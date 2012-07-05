@@ -37,6 +37,9 @@ Parameters:
                      section above 
                      If specified, list of files / objectnames are not allowed
                      
+  exportFolder       Folder where write the Access objects to. If the folder
+                     do not exist, asvn creates it.
+
   objectnameN        List of object to export to. Objects listed must follow
                      the naming convention: type.objectName. If there isn't 
                      objectName neither @responsefil, objectnames will be 

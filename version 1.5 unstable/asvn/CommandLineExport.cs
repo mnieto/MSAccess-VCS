@@ -52,12 +52,13 @@ namespace asvn {
             foreach (IObjecOptions currentObject in Objects) {
                 ObjectTypeExtension ote = App.AllowedContainers.Find(currentObject.ObjectType);
 
-                Console.WriteLine("Exporting {0}.{1}", ote.FileExtension, currentObject);
+                Console.Write("Exporting {0}.{1}", ote.FileExtension, currentObject);
                 AccessObject accessObject = AccessObject.CreateInstance(App, currentObject.ObjectType, currentObject.ToString());
                 accessObject.Options = currentObject.Options;
                 string outputFile = Path.Combine(RootPath, ote.Container.InvariantName, currentObject.ToString()) + 
                                     String.Concat(".", ote.FileExtension, ".txt");
                 accessObject.Save(outputFile);
+                Console.WriteLine(": Ok");
             }
             return this;
         }
@@ -139,7 +140,7 @@ namespace asvn {
         /// <param name="rootPath">absolute or relative path w/out wildcards</param>
         private void CheckRootPath(string rootPath) {
             if (!Directory.Exists(rootPath))
-                throw new CommandLineException(Properties.Resources.OutputPathDoNotExist);
+                Directory.CreateDirectory(rootPath);
         }
 
     }
