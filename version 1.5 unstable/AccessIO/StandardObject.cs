@@ -20,12 +20,12 @@ namespace AccessIO {
 
         public override void Save(string fileName) {
             MakePath(System.IO.Path.GetDirectoryName(fileName));
-            App.Application.SaveAsText((Access.AcObjectType)ObjectType, Name, fileName);
+            App.Application.SaveAsText((Access.AcObjectType)ObjectType, Name, System.IO.Path.GetFullPath(fileName));
         }
 
         public override void Load(string fileName) {
             try {
-                App.Application.LoadFromText((Access.AcObjectType)ObjectType, Name, fileName);
+                App.Application.LoadFromText((Access.AcObjectType)ObjectType, Name, System.IO.Path.GetFullPath(fileName));
             } catch (System.Runtime.InteropServices.COMException ex) {
                 if (ex.ErrorCode == -2146826003) {   
                     //Error 2285, cannot create the file xxxx.
