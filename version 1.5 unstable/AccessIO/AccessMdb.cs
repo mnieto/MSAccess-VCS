@@ -142,7 +142,8 @@ namespace AccessIO {
         public override void OpenDatabase() {
             //TODO: Check for password protected databases
             //TODO: Check for databases attached to workgroup database
-            dao.Database db = Application.DBEngine.OpenDatabase(FileName);
+            string fullFileName = System.IO.Path.GetFullPath(FileName);
+            dao.Database db = Application.DBEngine.OpenDatabase(System.IO.Path.GetFullPath(fullFileName));
             try {
                 if (double.Parse(db.Version, System.Globalization.CultureInfo.InvariantCulture) < 4.0)
                     throw new Exception(Properties.ImportRes.InvalidFileFormat);
@@ -155,11 +156,11 @@ namespace AccessIO {
             } finally {
                 db.Close();
             }
-            Application.OpenCurrentDatabase(FileName);
+            Application.OpenCurrentDatabase(fullFileName);
         }
 
         public override void CreateDatabase() {
-            Application.NewCurrentDatabase(FileName);
+            Application.NewCurrentDatabase(System.IO.Path.GetFullPath(FileName));
         }
 
         public override void CreateDatabase(Dictionary<string, object> databaseProperties) {

@@ -67,16 +67,16 @@ namespace AccessIO {
         }
 
         public override void CreateDatabase() {
-            Application.NewCurrentDatabase(FileName);
+            Application.NewCurrentDatabase(System.IO.Path.GetFullPath(FileName));
         }
 
         public override void CreateDatabase(Dictionary<string, object> databaseProperties) {
             //TODO: Check to create access project with connection string
-            Application.NewAccessProject(FileName, databaseProperties["connectionString"].ToString());
+            Application.NewAccessProject(System.IO.Path.GetFullPath(FileName), databaseProperties["connectionString"].ToString());
         }
 
         public override void OpenDatabase() {
-            Application.OpenAccessProject(FileName);
+            Application.OpenAccessProject(System.IO.Path.GetFullPath(FileName));
             if ((int)Application.CurrentProject.FileFormat < 10)
                 throw new Exception(Properties.ImportRes.InvalidFileFormat);
         }
