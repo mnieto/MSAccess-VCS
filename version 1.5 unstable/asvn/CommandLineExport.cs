@@ -9,7 +9,10 @@ using AccessIO;
 namespace asvn {
     internal class CommandLineExport: CommandLine {
 
-        internal CommandLineExport() {
+        private CommandLine baseCommandLine;
+
+        internal CommandLineExport(CommandLine baseCommandLine) {
+            this.baseCommandLine = baseCommandLine;
             Objects = new List<IObjecOptions>();
         }
 
@@ -41,6 +44,7 @@ namespace asvn {
                 }
             } else {
                 //3rd argument is stdin
+                Console.WriteLine(Properties.Resources.TypeObjectName);
                 ProcessResponseFile(Console.In);
             }
             return this;
@@ -52,14 +56,15 @@ namespace asvn {
             foreach (IObjecOptions currentObject in Objects) {
                 ObjectTypeExtension ote = App.AllowedContainers.Find(currentObject.ObjectType);
 
-                Console.Write("Exporting {0}.{1}", ote.FileExtension, currentObject);
+                Console.Write(Properties.Resources.Exporting, ote.FileExtension, currentObject);
                 AccessObject accessObject = AccessObject.CreateInstance(App, currentObject.ObjectType, currentObject.ToString());
                 accessObject.Options = currentObject.Options;
                 string outputFile = Path.Combine(RootPath, ote.Container.InvariantName, currentObject.ToString()) + 
                                     String.Concat(".", ote.FileExtension, ".txt");
                 accessObject.Save(outputFile);
-                Console.WriteLine(": Ok");
+                Console.WriteLine(Properties.Resources.ColonOk);
             }
+            App.Dispose();
             return this;
         }
 
@@ -87,7 +92,7 @@ namespace asvn {
             InitializeAccessApplication();
 
             string pattern = match.Groups[2].Value;
-            if (pattern.IndexOf("*") != -1)
+            if (pattern == "*")
                 pattern = "^" + pattern.Replace("*", ".*") + "$";
 
             if (match.Groups[1].Value == "*") {

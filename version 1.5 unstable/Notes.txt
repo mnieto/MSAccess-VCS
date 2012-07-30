@@ -26,15 +26,15 @@ Save/Restore command bars and menus
 Remove dead code
 Add more options to contextual menu
 Replace options dialog for:
--Configuratión for file comparation utility like WinMerge or WinDiff
+-Configuration for file comparation utility like WinMerge or WinDiff
 -Delete files that do not correspond with any database object (deleted database objects)
 -Repository of configurations for different databases
 	-Source control repository path and credentials
 	-Working copy path
+Tracelog with verbose output: Redirect it to stdout when invoke from asvn
 Fix FxCopy & StyleCop warnings
 More technical documentation
 Unit tests
-Command line support
 MS Access 2007-2010 support
 Generic interface to source control tools, specific interface to SVN
 Integrate as Access AddIn

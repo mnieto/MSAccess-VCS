@@ -10,13 +10,15 @@ namespace asvn {
     internal class CommandLineImport : CommandLine {
 
         private Containers containers = null;
+        private CommandLine baseCommandLine;
 
         private Dictionary<string, bool> optionParams = new Dictionary<string, bool>()  {
                 { "allowdatalost", false},
                 { "overwritedatabase", false}
         };
 
-        internal CommandLineImport() {
+        internal CommandLineImport(CommandLine baseCommandLine) {
+            this.baseCommandLine = baseCommandLine;
             Objects = new List<IObjecOptions>();
         }
         
@@ -46,11 +48,11 @@ namespace asvn {
             if (App == null && Objects.Count > 0)
                 InitializeAccessApplication();
             foreach (IObjecOptions currentObject in Objects) {
-                Console.Write("Loading {0}", currentObject);
+                Console.Write(Properties.Resources.Loading, currentObject);
                 AccessObject accessObject = AccessObject.CreateInstance(App, currentObject.ObjectType, currentObject.ToString());
                 accessObject.Options = currentObject.Options;
                 accessObject.Load(currentObject.Name);
-                Console.WriteLine(": Ok");
+                Console.WriteLine(Properties.Resources.ColonOk);
             }
             return this;
         }
@@ -116,35 +118,6 @@ namespace asvn {
                 }
             }
             return objectOptions;
-        }
-
-        /// <summary>
-        /// Process optional options for import command
-        /// </summary>
-        /// <param name="args">command line parameters</param>
-        /// <param name="possibleOptions">list of possible options. Options not in this list will generate CommandLineException</param>
-        /// <returns>next parameter to be processed</returns>
-        private int ProcessOptions(string[] args, Dictionary<string, bool> possibleOptions) {
-            //while parameters are options (at least, next parameter after options is databasefile; options begin with - or /
-            int i = 0;
-            while (i < args.Length - 2 && "-/".IndexOf(args[i][0], 0) != -1) {
-
-                //Initialize options for each iteration
-                List<string> keys = new List<string>(optionParams.Keys);
-                foreach (string key in keys) {
-                    optionParams[key] = false;
-                }
-
-                if (!Regex.IsMatch(args[i], @"[-/]\w+"))
-                    throw new CommandLineException(String.Format(Properties.Resources.InvalidOption, args[i]));
-                string option = args[i].Substring(1).ToLower();
-                if (optionParams.ContainsKey(option))
-                    optionParams[option] = true;
-                else
-                    throw new CommandLineException(String.Format(Properties.Resources.InvalidOption, args[i]));
-                i++;
-            }
-            return i;
         }
 
         /// <summary>

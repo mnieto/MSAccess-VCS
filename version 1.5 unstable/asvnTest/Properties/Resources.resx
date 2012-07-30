@@ -117,65 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccessDenied" xml:space="preserve">
-    <value>Access denied. Please, check that you have rights for the specified file.</value>
+  <data name="ExportAllFormsOutput" xml:space="preserve">
+    <value>Conecting...
+Exporting frm.Currencies: Ok
+Exporting frm.Details: Ok
+Exporting frm.Master: Ok
+</value>
   </data>
-  <data name="AskForHelp" xml:space="preserve">
-    <value>Write asvn -h for help.</value>
-  </data>
-  <data name="AsvnError" xml:space="preserve">
-    <value>asvn error:</value>
-  </data>
-  <data name="ColonOk" xml:space="preserve">
-    <value>: Ok</value>
-  </data>
-  <data name="Conecting" xml:space="preserve">
-    <value>Conecting...</value>
-  </data>
-  <data name="DatabaseObjectMustBeFirst" xml:space="preserve">
-    <value>Database objects / database files must be the first in the collection</value>
-  </data>
-  <data name="ErrorProcessingResponseFile" xml:space="preserve">
-    <value>Error processing response file at line {0}: {1}</value>
-  </data>
-  <data name="ExpectedValidCommand" xml:space="preserve">
-    <value>Expected a valid command</value>
-  </data>
-  <data name="Exporting" xml:space="preserve">
-    <value>Exporting {0}.{1}</value>
-  </data>
-  <data name="ForThisObjectType" xml:space="preserve">
-    <value>for this object type</value>
-  </data>
-  <data name="InvalidFileName" xml:space="preserve">
-    <value>Invalid file name '{0}' because do not exists or do not have access rights</value>
-  </data>
-  <data name="InvalidNumberOfOptions" xml:space="preserve">
-    <value>Invalid number of options for command</value>
-  </data>
-  <data name="InvalidObjectName" xml:space="preserve">
-    <value>Invalid accessObject name. Must be in 'xxx.name' format. Where xxx is a valid object type.</value>
-  </data>
-  <data name="InvalidOption" xml:space="preserve">
-    <value>Invalid option '{0}'</value>
-  </data>
-  <data name="InvalidPathForDatabase" xml:space="preserve">
-    <value>Invalid path for database or file do not exists</value>
-  </data>
-  <data name="Loading" xml:space="preserve">
-    <value>Loading {0}</value>
-  </data>
-  <data name="OutputPathDoNotExist" xml:space="preserve">
-    <value>Root path for output files do not exists</value>
-  </data>
-  <data name="PressAnyKeyToContinue" xml:space="preserve">
-    <value>Press any key to continue</value>
-  </data>
-  <data name="TypeObjectName" xml:space="preserve">
-    <value>Type an object name per line (Enter an empty line for terminate).</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Usage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Usage.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  <data name="ExportAllOutput" xml:space="preserve">
+    <value>Conecting...
+Exporting tbl.Currencies: Ok
+Exporting tbl.Details: Ok
+Exporting tbl.MasterTable: Ok
+Exporting frm.Currencies: Ok
+Exporting frm.Details: Ok
+Exporting frm.Master: Ok
+Exporting rpt.MasterTable: Ok
+Exporting bas.Another module: Ok
+Exporting bas.DateFunctions: Ok
+Exporting mcr.Macro1: Ok
+Exporting dbp.Database properties: Ok
+Exporting lib.References: Ok
+Exporting rel.Relations: Ok
+</value>
   </data>
 </root>

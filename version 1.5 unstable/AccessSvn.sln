@@ -9,14 +9,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccessScrCtrl", "AccessScrC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B5B70CA5-7A8A-4C1D-AFC5-7DC9FEBC5466}"
 	ProjectSection(SolutionItems) = preProject
+		AccessSvn.vsmdi = AccessSvn.vsmdi
+		Local.testsettings = Local.testsettings
 		Notes.txt = Notes.txt
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "AccessSVN Setup", "AccessSVN Setup\AccessSVN Setup.wixproj", "{B47D4587-BC82-42FA-AD3C-24FC726FE4BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "asvn", "asvn\asvn.csproj", "{48BC1AA1-E998-4C1F-9E79-A8C2B7FCFA77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "asvnTest", "asvnTest\asvnTest.csproj", "{4D2B2BE2-B111-447F-8969-4C035E32818B}"
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = AccessSvn.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -78,8 +86,21 @@ Global
 		{48BC1AA1-E998-4C1F-9E79-A8C2B7FCFA77}.Release|Mixed Platforms.Build.0 = Release|x86
 		{48BC1AA1-E998-4C1F-9E79-A8C2B7FCFA77}.Release|x86.ActiveCfg = Release|x86
 		{48BC1AA1-E998-4C1F-9E79-A8C2B7FCFA77}.Release|x86.Build.0 = Release|x86
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4D2B2BE2-B111-447F-8969-4C035E32818B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.0\lib\NET35;packages\Unity.Interception.2.1.505.0\lib\NET35
 	EndGlobalSection
 EndGlobal

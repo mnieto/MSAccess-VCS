@@ -1,10 +1,18 @@
 ﻿Usage:
-  asvn help|-h|-?
-  asvn i [-options] databaseFile [file1 file2 ...|@responseFile]
-  asvn e databaseFile exportFolder [objectname1 objectname2 ...|@resposeFile]
-  
+Main commands:
+  asvn [-general options] h[elp]|-? | i[import] | e[xport]
+Parameters for Import
+  [-options] databaseFile [file1 file2 ...|@responseFile]
+Parameters for Export
+  databaseFile exportFolder [*.*|objectname1 [objectname2 ...]|@resposeFile]
+
+General options
+ -v                  Verbose: verbose output to stdout
+ -w                  Wait: wait to any keystroke before end the program. Useful
+                     for interactive mode or for debugging
+ 
 Commands:
-  h -h -?            Show this message and exit.
+  h help -?          Show this message and exit.
   i import           Import file(s) to the database.
   e export           Export from the database to file(s).
                      
@@ -41,9 +49,14 @@ Parameters:
                      do not exist, asvn creates it.
 
   objectnameN        List of object to export to. Objects listed must follow
-                     the naming convention: type.objectName. If there isn't 
-                     objectName neither @responsefil, objectnames will be 
-                     readed from stdin
+                     the naming convention: type.objectName. You can use 
+					 wildcards. So:
+					  - frm.* will export all the forms
+					  - *.*   will export all the objects. 
+					  - *.C*  will export all the objects that begins with C
+					 If there isn't objectName neither @responsefile, 
+					 objectnames will be readed from stdin
 
 Files and objects with spaces must be quoted. For example: "frm.Order Details"
+For usage examples visit http://accesssvn.codeplex.com/documentation
 
