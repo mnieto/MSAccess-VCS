@@ -1,0 +1,42 @@
+REFERENCES
+========================================================================
+
+DAO Programming Code Examples
+http://allenbrowne.com/func-dao.html
+
+Properties management
+http://wiki.lessthandot.com/index.php/Custom_Database_Properties_Creation_and_Use
+
+Subversion Client API for .Net
+http://sharpsvn.open.collab.net/
+
+LoadFromText problems & solutions
+http://stackoverflow.com/questions/208397/loadfromtext-gives-error-2285-microsoft-office-access-cant-create-the-output-fi
+
+Create toolbar and menu bar in Access
+http://kbalertz.com/209974/Create-Command-Using-Visual-Basic-Access.aspx
+
+Access file format version
+http://www.vbmonster.com/Uwe/Forum.aspx/vb-db/2407/How-to-determine-an-Access-DB-s-file-format
+
+
+TODO in next versions
+========================================================================
+Save/Restore command bars and menus
+Remove dead code
+Add more options to contextual menu
+Replace options dialog for:
+-Configuration for file comparation utility like WinMerge or WinDiff
+-Delete files that do not correspond with any database object (deleted database objects)
+-Repository of configurations for different databases
+	-Source control repository path and credentials
+	-Working copy path
+Tracelog with verbose output: Redirect it to stdout when invoke from asvn
+Fix FxCopy & StyleCop warnings
+More technical documentation
+Unit tests
+MS Access 2007-2010 support
+Generic interface to source control tools, specific interface to SVN
+Integrate as Access AddIn
+
+

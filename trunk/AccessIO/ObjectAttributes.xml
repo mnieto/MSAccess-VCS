@@ -1,0 +1,80 @@
+﻿<?xml version="1.0"?>
+<AccessClasses  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://tempuri.org/ObjectAttributes.xsd file:///c:/Users/Miguel/Documents/Progs/AccessSVN/AccessSrcCtrl/ObjectAttributes.xsd">
+  <Class Name="Table" HasName ="true">
+    <Property>Attributes</Property>
+    <Property>Connect</Property>
+    <Property>ReplicaFilter</Property>
+    <Property>SourceTableName</Property>
+    <Property>ValidationRule</Property>
+    <Property>ValidationText</Property>
+  </Class>
+  <Class Name="Index" HasName="true">
+    <Property>Primary</Property>
+    <Property>Clustered</Property>
+    <Property>Unique</Property>
+    <Property>Requiered</Property>
+    <Property>IgnoreNulls</Property>
+  </Class>
+  <Class Name="IndexField" HasName="false">
+    <Property>Name</Property>
+    <Property>Descending</Property>
+  </Class>
+  <Class Name="Field" HasName ="true">
+    <Property>Attributes</Property>
+    <Property>CollatingOrder</Property>
+    <Property>Type</Property>
+    <Property>Name</Property>
+    <Property>OrdinalPosition</Property>
+    <Property>Size</Property>
+    <Property>SourceField</Property>
+    <Property>SourceTable</Property>
+    <Property>DataUpdatable</Property>
+    <Property>DefaultValue</Property>
+    <Property>ValidationRule</Property>
+    <Property>ValidationText</Property>
+    <Property>Required</Property>
+    <Property>AllowZeroLength</Property>
+    <Property>ColumnWidth</Property>
+    <Property>ColumnOrder</Property>
+    <Property>ColumnHidden</Property>
+    <Property>Description</Property>
+    <Property>DecimalPlaces</Property>
+    <Property>DisplayControl</Property>
+  </Class>
+  <Class Name="Database" HasName="false">
+    <Property>CollatingOrder</Property>
+    <Property>Name</Property>
+    <Property>Connect</Property>
+    <Property>Transactions</Property>
+    <Property>Updatable</Property>
+    <Property>QueryTimeout</Property>
+    <Property>Version</Property>
+    <Property>ReplicaID</Property>
+    <Property>DesignMasterID</Property>
+    <Property>ANSI Query Mode</Property>
+    <Property>Auto Compact</Property>
+    <Property>Show Values Limit</Property>
+    <Property>Show Values in Index</Property>
+    <Property>Show Values in Non-Indexed</Property>
+    <Property>Show Values in Remote</Property>
+    <Property>Show Values in Snapshot</Property>
+    <Property>Show Values in Server</Property>
+    <Property>Themed Form Controls</Property>
+    <Property>Use Default Page Folder</Property>
+    <Property>Use Default Connection File</Property>
+    <Property>Row Limit</Property>
+  </Class>
+  <Class Name="Reference" HasName="true">
+    <Property>FullPath</Property>
+    <Property>Guid</Property>
+  </Class>
+  <Class Name="Relation" HasName="true">
+    <Property>Attributes</Property>
+    <Property>PartialReplica</Property>
+    <Property>Table</Property>
+    <Property>ForeingTable</Property>
+  </Class>
+  <Class Name="FieldRelation" HasName ="true">
+    <Property>ForeingName</Property>
+  </Class>
+</AccessClasses>

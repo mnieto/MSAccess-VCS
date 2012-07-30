@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AccessIO.AccessObject">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAhIAAAAAAAAAAAAAAAAQAAAAAAAAAIIAAIAByAAA=</HashCode>
+      <FileName>AccessObject.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="App" />
+      <Property Name="ObjectType" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.StandardObject">
+    <Position X="5.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>StandardObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.CustomObject" Collapsed="true">
+    <Position X="10" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAEAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAEACAAA=</HashCode>
+      <FileName>CustomObjects\CustomObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.Table" Collapsed="true">
+    <Position X="11" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAkIIAAACAACAACAAAAAAAAAAgAAAIAAAAAUAAAAE=</HashCode>
+      <FileName>CustomObjects\Table.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.Relations" Collapsed="true">
+    <Position X="11" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkIAAAACAAAAACAAACAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>CustomObjects\Relations.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.Database" Collapsed="true">
+    <Position X="11" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CustomObjects\Database.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.AccessApp" Collapsed="true">
+    <Position X="2.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABKAAABAADAACAAABAAAAAEEQAAQAAAAAQAAAABAEUA=</HashCode>
+      <FileName>AccessApp.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProjectType" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.AccessMdb" Collapsed="true">
+    <Position X="1.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAAAEAACCBAAAAAAAEAAAAEAEAAgAAAAAAQAAA=</HashCode>
+      <FileName>AccessMdb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.AccessAdp" Collapsed="true">
+    <Position X="3.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAEAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>AccessAdp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.References" Collapsed="true">
+    <Position X="11" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkIAAAACAAAAACAAAAAAAAAAAAAAAEAAAAEAAAAA=</HashCode>
+      <FileName>CustomObjects\References.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.Index" Collapsed="true">
+    <Position X="8.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAMAAAAA=</HashCode>
+      <FileName>Index.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.Field" Collapsed="true">
+    <Position X="8.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAACAAAAACAAAAAAAAAEAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Field.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.AuxiliarObject" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAFAAAAACAAAAACAAAAAQAAAAAAAAAAIAAAEACAAA=</HashCode>
+      <FileName>AuxiliarObject.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.DatabaseDao" Collapsed="true">
+    <Position X="13.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAEAAAIA=</HashCode>
+      <FileName>CustomObjects\DatabaseDao.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.DatabasePrj" Collapsed="true">
+    <Position X="13.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAkIAAAAAAAAAACAAAAAAAAAgAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>CustomObjects\DatabasePrj.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.ObjectOptions">
+    <Position X="3.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAIAAAABAAAA=</HashCode>
+      <FileName>Metadata\ObjectOptions.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.Containers" Collapsed="true">
+    <Position X="5.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ICIAAAAAAAAIABAAAAAAAAACAAAJAAAAAAIAAAAAAAE=</HashCode>
+      <FileName>Metadata\Containers.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Field Name="NamesList" />
+    </ShowAsCollectionAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="AccessIO.ContainersAdp" Collapsed="true">
+    <Position X="4.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Metadata\ContainersAdp.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.ContainersMdb" Collapsed="true">
+    <Position X="6.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Metadata\ContainersMdb.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AccessIO.ContainerNames" Collapsed="true">
+    <Position X="3" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAAAAAAAAAACAAAAAABAICAAAAYEAAAAAgAA=</HashCode>
+      <FileName>Metadata\ContainerNames.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="AccessIO.ICustomObject">
+    <Position X="0.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAEACAAA=</HashCode>
+      <FileName>CustomObjects\ICustomObject.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="AccessIO.IObjecOptions" Collapsed="true">
+    <Position X="0.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAIAAAABAAAA=</HashCode>
+      <FileName>Metadata\IObjectOptions.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="AccessIO.AccessProjectType" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AccessProjectType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="AccessIO.ObjectType" Collapsed="true">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAEAAIAAAAAAAAAAYCIABggQAAwAAIEACQEAhAA=</HashCode>
+      <FileName>Metadata\ObjectType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

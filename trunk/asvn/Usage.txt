@@ -1,0 +1,62 @@
+﻿Usage:
+Main commands:
+  asvn [-general options] h[elp]|-? | i[import] | e[xport]
+Parameters for Import
+  [-options] databaseFile [file1 file2 ...|@responseFile]
+Parameters for Export
+  databaseFile exportFolder [*.*|objectname1 [objectname2 ...]|@resposeFile]
+
+General options
+ -v                  Verbose: verbose output to stdout
+ -w                  Wait: wait to any keystroke before end the program. Useful
+                     for interactive mode or for debugging
+ 
+Commands:
+  h help -?          Show this message and exit.
+  i import           Import file(s) to the database.
+  e export           Export from the database to file(s).
+                     
+Options:		     
+  -allowdatalost     For table objects. If the target table has data, asvn 
+                     raises an exception if this options is not specified
+                     
+  -overwritedatabase For database objects. If specified and target database 
+                     exists it is overwrited with a new empty one
+                     
+Parameters:		     
+  databasefile       Access database (mdb or adp file format) where Import or
+                     from Export files
+                     
+  fileN              File name (absolute or relative path) to import to. Can
+                     specify multiple files.
+                     Files must follow the naming convention:
+                     objectName.type.txt
+                     If specify files, response file is not allowed. If there
+                     isn't objectName neither @responsefil, objectnames will
+                     be readed from stdin.
+                     
+  @responsefile      When import, file containing list of files to import to.
+                                  Each line: [-options] filePath
+                     When export, file containing list of access object.
+                                  Each line: AccessObject
+                     names to export to.
+                     For each file to import, you can specify options 
+                     applicable for the corresponding object type. See Options
+                     section above 
+                     If specified, list of files / objectnames are not allowed
+                     
+  exportFolder       Folder where write the Access objects to. If the folder
+                     do not exist, asvn creates it.
+
+  objectnameN        List of object to export to. Objects listed must follow
+                     the naming convention: type.objectName. You can use 
+					 wildcards. So:
+					  - frm.* will export all the forms
+					  - *.*   will export all the objects. 
+					  - *.C*  will export all the objects that begins with C
+					 If there isn't objectName neither @responsefile, 
+					 objectnames will be readed from stdin
+
+Files and objects with spaces must be quoted. For example: "frm.Order Details"
+For usage examples visit http://accesssvn.codeplex.com/documentation
+
