@@ -59,6 +59,9 @@ namespace AccessIO {
                 case ".ADE":
                     app = new AccessAdp(fileName);
                     break;
+                case ".ACCDB":
+                    app = new AccessAccdb(fileName);
+                    break;
             }
             app.IntanceAccessApplication();
             app.InitializeAllowedObjetTypes();
@@ -83,6 +86,9 @@ namespace AccessIO {
                 case ".ADE":
                     containers = new ContainersAdp();
                     break;            
+                case ".ACCDB":
+                    containers = new ContainersAccdb();
+                    break;
             }
             return containers;
         }

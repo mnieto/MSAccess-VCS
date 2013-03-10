@@ -81,7 +81,7 @@
             // 
             // openDlg
             // 
-            this.openDlg.Filter = "Access database (*.mdb; *.adp)|*.mdb;*.adp";
+            this.openDlg.Filter = "Access database (*.mdb; *.adp;*.accdb)|*.mdb;*.adp;*.accdb";
             this.openDlg.SupportMultiDottedExtensions = true;
             this.openDlg.Title = "Select Access file";
             // 

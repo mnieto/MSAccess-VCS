@@ -120,6 +120,9 @@
   <data name="ErrorAtLineNum" xml:space="preserve">
     <value>Error at line {0}: {1}</value>
   </data>
+  <data name="Invalid2007FileFormat" xml:space="preserve">
+    <value>Selected file must be Access 2007 or upper file format.</value>
+  </data>
   <data name="InvalidFileFormat" xml:space="preserve">
     <value>You need to update to 'Access 2002-2003' file format from 'Tools -&gt;Database utilities -&gt; Convert project' before load/save file to/from the database.</value>
   </data>
