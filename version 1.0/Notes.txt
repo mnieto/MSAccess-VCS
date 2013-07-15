@@ -1,5 +1,0 @@
-DAO Programming Code Examples
-http://allenbrowne.com/func-dao.html
-
-Properties management
-http://wiki.lessthandot.com/index.php/Custom_Database_Properties_Creation_and_Use
