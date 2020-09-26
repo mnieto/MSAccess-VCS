@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
     public class AccessAccdb: AccessApp {

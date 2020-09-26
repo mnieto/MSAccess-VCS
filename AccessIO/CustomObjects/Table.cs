@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
-using dao;
+using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
     /// <summary>
@@ -221,7 +221,7 @@ namespace AccessIO {
 
                     //manage table relations
                     if (tableExists) {
-                        List<Relation> relationsList = new List<Relation>();
+                        List<dao.Relation> relationsList = new List<dao.Relation>();
                         foreach (dao.Relation relation in GetTableRelations(db)) {
                             dao.Relation newRelation = db.CreateRelation(relation.Name, relation.Table, relation.ForeignTable, relation.Attributes);
                             //try { newRelation.PartialReplica = relation.PartialReplica; } catch { }     //Accessing this property causes an exception ¿?
@@ -260,18 +260,18 @@ namespace AccessIO {
 
         private void AddCustomProperties(Dictionary<string, object> props) {
             PropertyCollectionDao propColl = new PropertyCollectionDao(tableDef, tableDef.Properties);
-            propColl.AddOptionalProperty(props, "Description", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "ConflictTable", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "ReplicaFilter", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "Orientation", DataTypeEnum.dbInteger);
-            propColl.AddOptionalProperty(props, "OrderByOn", DataTypeEnum.dbBoolean);
-            propColl.AddOptionalProperty(props, "SubdatasheetName", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "LinkChildFields", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "LinkMasterFields", DataTypeEnum.dbText);
-            propColl.AddOptionalProperty(props, "SubdatasheetHeight", DataTypeEnum.dbInteger);
-            propColl.AddOptionalProperty(props, "SubdatasheetExpanded", DataTypeEnum.dbBoolean);
-            propColl.AddOptionalProperty(props, "DefaultView", DataTypeEnum.dbInteger);
-            propColl.AddOptionalProperty(props, "OrderBy", DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "Description", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "ConflictTable", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "ReplicaFilter", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "Orientation", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "OrderByOn", dao.DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "SubdatasheetName", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "LinkChildFields", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "LinkMasterFields", dao.DataTypeEnum.dbText);
+            propColl.AddOptionalProperty(props, "SubdatasheetHeight", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "SubdatasheetExpanded", dao.DataTypeEnum.dbBoolean);
+            propColl.AddOptionalProperty(props, "DefaultView", dao.DataTypeEnum.dbInteger);
+            propColl.AddOptionalProperty(props, "OrderBy", dao.DataTypeEnum.dbText);
         }
 
         private dao.Field ReadField(ImportObject import) {
@@ -314,7 +314,7 @@ namespace AccessIO {
         }
 
         private List<dao.Relation> GetTableRelations(dao.Database db) {
-            List<dao.Relation> result = new List<Relation>();
+            List<dao.Relation> result = new List<dao.Relation>();
             foreach (dao.Relation relation in db.Relations) {
                 if (relation.Table == this.Name || relation.ForeignTable == this.Name)
                     result.Add(relation);

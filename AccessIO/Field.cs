@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using dao;
+using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
     /// <summary>

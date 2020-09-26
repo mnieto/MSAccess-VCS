@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using dao;
+using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
 //interesting access page
@@ -23,7 +23,7 @@ namespace AccessIO {
         }
 
         private void LoadLocaleStrings() {
-        
+
             FieldInfo[] fields = typeof(dao.LanguageConstants).GetFields(BindingFlags.Public | BindingFlags.Static);
             foreach (FieldInfo field in fields) {
                 string code = LangCode(field.GetValue(null).ToString());

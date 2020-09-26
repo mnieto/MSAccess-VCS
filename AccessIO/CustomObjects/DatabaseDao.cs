@@ -5,7 +5,7 @@ using Access = Microsoft.Office.Interop.Access;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Linq;
-using dao;
+using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
 
