@@ -62,7 +62,12 @@ namespace AccessScrCtrlUI {
         /// </summary>
         public ObjectTree() {
             InitializeComponent();
+            Disposed += ObjectTree_Disposed;
             tree.PathSeparator = System.IO.Path.DirectorySeparatorChar.ToString();
+        }
+
+        private void ObjectTree_Disposed(object sender, EventArgs e) {
+            App.QuitApplication();
         }
 
         /// <summary>

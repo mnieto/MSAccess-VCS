@@ -261,6 +261,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainFrm";
             this.Text = "Access Source Control";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
             this.tabControl1.ResumeLayout(false);
             this.saveTab.ResumeLayout(false);
             this.loadTab.ResumeLayout(false);

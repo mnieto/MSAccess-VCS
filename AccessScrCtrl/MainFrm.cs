@@ -202,5 +202,8 @@ namespace AccessScrCtrl {
 
         }
 
+        private void MainFrm_FormClosed(object sender, FormClosedEventArgs e) {
+            objectTree.Dispose();
+        }
     }
 }

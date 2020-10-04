@@ -133,7 +133,12 @@ namespace AccessIO {
         /// Free the MS Access instance
         /// </summary>
         public void QuitApplication() {
-            Application.Quit();
+            if (Application != null) {
+                Application.Quit();
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(Application);
+                Application = null;
+            }
+            
         }
 
         /// <summary>
@@ -190,10 +195,7 @@ namespace AccessIO {
         protected virtual void Dispose(bool dispoing) {
             if (!this.disposed) {
                 if (dispoing) {
-                    if (Application != null) {
-                        Application.Quit();
-                        Application = null;
-                    }
+                    QuitApplication();
                 }
                 disposed = true;
             }
