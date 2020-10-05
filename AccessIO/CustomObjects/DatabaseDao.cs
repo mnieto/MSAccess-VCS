@@ -68,7 +68,8 @@ namespace AccessIO {
                 string dbFileName = System.IO.Path.GetFileName(App.FileName);
                 export.WriteBegin(ClassName, dbFileName);
                 foreach (string item in propsToWrite.Keys) {
-                    propsToWrite[item].WriteTransform(export, db.Properties[item]);
+                    if (!(propsToWrite[item] is NullTransform))
+                        propsToWrite[item].WriteTransform(export, db.Properties[item]);
                 }
                 export.WriteEnd();
             }
@@ -76,15 +77,16 @@ namespace AccessIO {
         protected override Dictionary<string, IPropertyTransform> gatherProperties() {
 
             //Add known properties with special treatment
-            //other properties are not allways present. If they are present add them and write with NoActionTransform
-            //Use NullTransform for read only properties that do not should be written
             Dictionary<string, IPropertyTransform> propsToWrite = new Dictionary<string, IPropertyTransform>();
+            //Use NullTransform for read only properties that do not should be written
             NullTransform nullTransform = new NullTransform();
+            //other properties are not allways present. If they are present add them and write with NoActionTransform
             NoActionDataTypeTransoform noActionTransform = new NoActionDataTypeTransoform();
+
             propsToWrite.Add("Name", new FileNameDataTypeTransform());
             propsToWrite.Add("Transactions", nullTransform);
             propsToWrite.Add("RecordsAffected", nullTransform);
-            propsToWrite.Add("Build", nullTransform);
+            propsToWrite.Add("Build", nullTransform);     //Do not exists in accdb format
             propsToWrite.Add("Updatable", nullTransform);
             propsToWrite.Add("Connection", nullTransform);
             propsToWrite.Add("Version", nullTransform);
