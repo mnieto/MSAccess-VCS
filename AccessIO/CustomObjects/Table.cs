@@ -97,16 +97,16 @@ namespace AccessIO {
         /// </summary>
         /// <param name="fileName">File name where save the table definition</param>
         public override void Save(string fileName) {
-            
+
             MakePath(System.IO.Path.GetDirectoryName(fileName));
 
+            //We need to open the database, if we use the tableDef property it throws COMException randomly
             dao.DBEngine dbEngine = new dao.DBEngine();
             dao.Database db = dbEngine.OpenDatabase(App.FileName);
             dao.TableDef tbDef = db.TableDefs[Name];
 
             using (StreamWriter sw = new StreamWriter(fileName)) {
                 ExportObject export = new ExportObject(sw);
-                //export.ListProperties(tbDef.Name, tbDef.Properties);
                 export.WriteBegin(ClassName, TableName);
                 export.WriteProperty("Attributes", tbDef.Attributes);
                 export.WriteProperty("Connect", tbDef.Connect);
