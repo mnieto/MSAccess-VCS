@@ -1,5 +1,5 @@
-# MSAccess-SVN
-Export MSAccess object to text files and help to integrate with any source control management
+# MSAccess-VCS
+Export MSAccess object to text files and help to integrate with any version control system
 
 
 An MS Access solution is compound by any of the following components:
