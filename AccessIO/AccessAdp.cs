@@ -16,22 +16,6 @@ namespace AccessIO {
             this.AllowedContainers = new ContainersAdp();
         }
 
-        /// <summary>
-        /// Creates an array with the valid object types for this access file
-        /// </summary>
-        protected override void InitializeAllowedObjetTypes() {
-            AllowedObjetTypes = new ObjectType[]  {
-                ObjectType.Form,
-                ObjectType.Report,
-                ObjectType.DataAccessPage,  //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
-                ObjectType.Module,
-                ObjectType.Macro,
-                ObjectType.Property,
-                ObjectType.References
-            };
-        }
-
-
         public override List<AccessIO.IObjecOptions> LoadObjectNames(string containerInvariantName) {
             ContainerNames container = AllowedContainers.Find(containerInvariantName);
             if (container == null)
@@ -64,10 +48,6 @@ namespace AccessIO {
                 default:
                     throw new ArgumentException(Properties.Resources.NotAllowedObjectTypeException, "objectType");
             }
-        }
-
-        public override void CreateDatabase() {
-            Application.NewCurrentDatabase(System.IO.Path.GetFullPath(FileName));
         }
 
         public override void CreateDatabase(Dictionary<string, object> databaseProperties) {

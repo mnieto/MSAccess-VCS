@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Access = Microsoft.Office.Interop.Access;
+using dao = Microsoft.Office.Interop.Access.Dao;
 using System.IO;
 
 namespace AccessIO {
@@ -34,13 +35,6 @@ namespace AccessIO {
         /// </summary>
         public Containers AllowedContainers { get; protected set; }
         
-        /// <summary>
-        /// List of ObjectType object allowed depending on the file type: database or project
-        /// </summary>
-        public ObjectType[] AllowedObjetTypes {
-            get;
-            protected set;
-        }
 
         /// <summary>
         /// Create a new instance of an AccessApp derived class, depending on the file name extension of <paramref name="fileName"/>
@@ -53,18 +47,18 @@ namespace AccessIO {
             switch (Path.GetExtension(fileName).ToUpperInvariant()) { 
                 case ".MDE":
                 case ".MDB":
+                case ".MDA":
+                case ".ACCDB":
+                case ".ACCDA":
+                case ".ACCDE":
                     app = new AccessMdb(fileName);
                     break;
                 case ".ADP":
                 case ".ADE":
                     app = new AccessAdp(fileName);
                     break;
-                case ".ACCDB":
-                    app = new AccessAccdb(fileName);
-                    break;
             }
             app.IntanceAccessApplication();
-            app.InitializeAllowedObjetTypes();
             return app;
 
         }
@@ -80,15 +74,15 @@ namespace AccessIO {
                 case ".MDE":
                 case ".MDB":
                 case ".MDA":
+                case ".ACCDB":
+                case ".ACCDA":
+                case ".ACCDE":
                     containers = new ContainersMdb();
                     break;
                 case ".ADP":
                 case ".ADE":
                     containers = new ContainersAdp();
                     break;            
-                case ".ACCDB":
-                    containers = new ContainersAccdb();
-                    break;
             }
             return containers;
         }
@@ -113,13 +107,24 @@ namespace AccessIO {
         /// <summary>
         /// Create a new database of the appropiate type
         /// </summary>
-        public abstract void CreateDatabase();
+        public virtual void CreateDatabase() {
+            Application.NewCurrentDatabase(System.IO.Path.GetFullPath(FileName));
+        }
 
         /// <summary>
         /// Create a new database of the appropiate type and use database properties to initialize it
         /// </summary>
         /// <param name="databaseProperties">List of properties readed from file. Not all properties are used to create the database</param>
-        public abstract void CreateDatabase(Dictionary<string, object> databaseProperties);
+        public virtual void CreateDatabase(Dictionary<string, object> databaseProperties) {
+            //Could call to Application.NewCurrentDatabase, but this method has no options
+            //TODO: Add support for Access Version, ¿password, encryption?
+            Locales databaseLocales = new Locales();
+            string collating = databaseProperties["CollatingOrder"].ToString().Substring(2);
+            dao.Database db = Application.DBEngine.CreateDatabase(FileName, databaseLocales[collating]);
+            db.Close();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(db);
+            Application.OpenCurrentDatabase(FileName);
+        }
 
         /// <summary>
         /// Close the current database
@@ -144,7 +149,7 @@ namespace AccessIO {
         /// <summary>
         /// Initialize the allowed ObjectType depending on the file type: database or project
         /// </summary>
-        protected abstract void InitializeAllowedObjetTypes();
+        //protected abstract void InitializeAllowedObjetTypes();
 
         /// <summary>
         /// Returns a friendly contanier name for each Access object type
@@ -214,14 +219,14 @@ namespace AccessIO {
         /// </summary>
         /// <param name="objectType">ObjectType to query</param>
         /// <returns><c>true</c> if is an allowed type, else returns <c>false</c></returns>
-        [Obsolete("Use AllowedContainers.Find: if returns null, then the object type is not allowed")]
-        protected virtual bool IsAllowedType(ObjectType objectType) {
-            foreach (ObjectType ot in AllowedObjetTypes) {
-                if (ot == objectType)
-                    return true;
-            }
-            return false;
-        }
+        //[Obsolete("Use AllowedContainers.Find: if returns null, then the object type is not allowed")]
+        //protected virtual bool IsAllowedType(ObjectType objectType) {
+        //    foreach (ObjectType ot in AllowedObjetTypes) {
+        //        if (ot == objectType)
+        //            return true;
+        //    }
+        //    return false;
+        //}
 
         /// <summary>
         /// Returns a list of <see cref="ObjectOptions"/> 

@@ -51,7 +51,7 @@
   <Class Name="AccessIO.AccessApp" Collapsed="true">
     <Position X="2.5" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>gBKAAABAADAACAEABAAAAAEEQAAQAAAAAQAAAABAEUA=</HashCode>
+      <HashCode>gBKAAABAADAACAEABAAAAAAEAAAAAAAAAQAAAABAEUA=</HashCode>
       <FileName>AccessApp.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -62,14 +62,14 @@
   <Class Name="AccessIO.AccessMdb" Collapsed="true">
     <Position X="1" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AkAAAAAAAEAACCBAAAAAAAEEAAAEAEAAgQAAAAAQAAA=</HashCode>
+      <HashCode>AkAAAAAAAEAACCBAAAAAAAAAAAAEAEAAgQAAAAAQAAA=</HashCode>
       <FileName>AccessMdb.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AccessIO.AccessAdp" Collapsed="true">
-    <Position X="2.5" Y="2.5" Width="1.5" />
+    <Position X="3.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAAAAAAEEAAAAAAAAAQAIAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAEAAAAAAAAAQAIAAAAAAA=</HashCode>
       <FileName>AccessAdp.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -154,13 +154,6 @@
     <TypeIdentifier>
       <HashCode>AAAAEAAAAAAAAAAAAACAAAAAABAICAAAAYEAAAAAgAA=</HashCode>
       <FileName>Metadata\ContainerNames.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AccessIO.AccessAccdb" Collapsed="true">
-    <Position X="4" Y="2.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AkAAAAAAAEAACABAgAAAAAEEAAAEAEAAgQAAAAAQAAA=</HashCode>
-      <FileName>AccessAccdb.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="AccessIO.ICustomObject">

@@ -6,8 +6,9 @@ using dao = Microsoft.Office.Interop.Access.Dao;
 
 namespace AccessIO {
     public class AccessMdb : AccessApp {
-        
+
         private dao.Database database;
+        private const char tempPrefix = '~';    //prefix for temp objects in MSAccess.
 
         /// <summary>
         /// Underlying <see cref="dao.Database"/> object
@@ -42,25 +43,8 @@ namespace AccessIO {
             this.AllowedContainers = new ContainersMdb();
         }
 
-        /// <summary>
-        /// Creates an array with the valid object types for this access file
-        /// </summary>
-        protected override void InitializeAllowedObjetTypes() {
-            AllowedObjetTypes = new ObjectType[]  {
-                ObjectType.Table,
-                ObjectType.Query,
-                ObjectType.Form,
-                ObjectType.Report,
-                ObjectType.DataAccessPage,  //Partially supported because SaveAsText export it to binary format and this object is deprecatted begining with Office 2007
-                ObjectType.Module,
-                ObjectType.Macro,
-                ObjectType.General
-            };
-        }
-
-
-        public override System.Collections.Generic.List<AccessIO.IObjecOptions> LoadObjectNames(string containerInvariantName) {
-            
+        public override List<IObjecOptions> LoadObjectNames(string containerInvariantName) {
+        	
             Database = Application.CurrentDb();
 
             ContainerNames container = AllowedContainers.Find(containerInvariantName);
@@ -83,7 +67,7 @@ namespace AccessIO {
             return lst;
         }
 
-        private const char tempPrefix = '~';    //prefix for temp objects in MSAccess.
+
 
         private bool IsStandardContainerName(string containerName) {
             if (containerName == "Tables")      //We need to do some extra filtering on table's collection
@@ -96,10 +80,8 @@ namespace AccessIO {
 
         }
 
-
-
         private IEnumerable<IObjecOptions> GetDaoObjects(string containerName) {
-            switch (containerName) { 
+            switch (containerName) {
                 case "Tables":
                     return GetTables();
                 case "Queries":
@@ -158,22 +140,6 @@ namespace AccessIO {
                 db.Close();
             }
             Application.OpenCurrentDatabase(fullFileName);
-        }
-
-        public override void CreateDatabase() {
-            Application.NewCurrentDatabase(System.IO.Path.GetFullPath(FileName));
-        }
-
-        public override void CreateDatabase(Dictionary<string, object> databaseProperties) {
-            //Could call to Application.NewCurrentDatabase, but this method has no options
-            //TODO: Add support for Access Version, ¿password, encryption?
-            Locales databaseLocales = new Locales();
-            string collating = databaseProperties["CollatingOrder"].ToString().Substring(2);
-            dao.Database db = Application.DBEngine.CreateDatabase(FileName, databaseLocales[collating]);
-            db.Close();
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(db);
-            Application.OpenCurrentDatabase(FileName);
-
         }
 
     }

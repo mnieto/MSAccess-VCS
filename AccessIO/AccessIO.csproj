@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccessAccdb.cs" />
     <Compile Include="AccessAdp.cs" />
     <Compile Include="AccessApp.cs" />
     <Compile Include="AccessMdb.cs" />
@@ -85,7 +84,6 @@
     <Compile Include="Metadata\Containers.cs" />
     <Compile Include="Metadata\ContainersAdp.cs" />
     <Compile Include="Metadata\ContainersMdb.cs" />
-    <Compile Include="Metadata\ContainersAccdb.cs" />
     <Compile Include="Metadata\FileExtensions.cs" />
     <Compile Include="Metadata\IObjectOptions.cs" />
     <Compile Include="Metadata\ObjectOptions.cs" />
