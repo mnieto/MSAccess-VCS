@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.IO;
 using dao = Microsoft.Office.Interop.Access.Dao;
 
@@ -12,7 +12,9 @@ namespace AccessIO {
 
         dao.Relations relations;
 
-        public Relations(AccessApp app, string name, ObjectType objectType) : base(app, name, objectType) { }
+        public Relations(AccessApp app, string name, ObjectType objectType) : base(app, name, objectType) {
+            relations = App.Application.CurrentDb().Relations;
+        }
 
         public override void Save(string fileName) {
             //Make sure the path exists
@@ -42,19 +44,14 @@ namespace AccessIO {
                 }
                 export.WriteEnd();
             }
-
+            relations.Refresh();
         }
 
         public override void Load(string fileName) {
 
-            //Delete first the existent relations
-            dao.Database db = App.Application.CurrentDb();
-            dao.Relations relations = db.Relations;
-            foreach (dao.Relation item in relations) {
-                relations.Delete(item.Name);
-            }
-            relations.Refresh();
+            RemoveExistingRelations();
 
+            dao.Database db = App.Application.CurrentDb();
             using (StreamReader sr = new StreamReader(fileName)) {
                 ImportObject import = new ImportObject(sr);
                 import.ReadLine(2);      //Read 'Begin Relations' and 'Begin Relation' lines
@@ -81,6 +78,8 @@ namespace AccessIO {
                     }
 
                     import.ReadLine(2);         //Read 'End Relation' and ('Begin Relation or 'End Relations')
+
+                    EnsureRelationCanBeCreated(relation);
                     relations.Append(relation);
 
                 } while (!import.IsEnd);
@@ -108,5 +107,36 @@ namespace AccessIO {
             }
         }
 
+        private void RemoveExistingRelations() {
+            //Avoid problems iterating in the Relations collection while removing items
+            var names = new List<string>(relations.Count);
+            foreach (dao.Relation item in relations) {
+                names.Add(item.Name);
+            }
+
+            foreach (string relName in names) {
+                relations.Delete(relName);
+            }
+            relations.Refresh();
+        }
+
+        private void EnsureRelationCanBeCreated(dao.Relation relation) {
+            try {
+                //Relations automatically craates an index named as the relation name in the foreing table
+                //Make sure that index do not exist, or the relation creation will fail
+                dao.Database db = App.Application.CurrentDb();
+                db.TableDefs[relation.ForeignTable].Indexes.Delete(relation.Name);
+
+                //Remove relation itself
+                var rel = db.Relations[relation.Name];
+                if (rel != null)
+                    db.Relations.Delete(relation.Name);
+
+            } catch (System.Runtime.InteropServices.COMException ex) {
+                //Ignore only if the index we want to delete do not exists
+                if (ex.Source != "DAO.Indexes" || ex.ErrorCode != -2146825023)
+                    throw;
+            }
+        }
     }
 }
