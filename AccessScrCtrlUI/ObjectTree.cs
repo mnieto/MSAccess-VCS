@@ -67,7 +67,8 @@ namespace AccessScrCtrlUI {
         }
 
         private void ObjectTree_Disposed(object sender, EventArgs e) {
-            App.QuitApplication();
+            if (App != null)
+                App.QuitApplication();
         }
 
         /// <summary>
