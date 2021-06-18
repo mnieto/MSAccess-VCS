@@ -121,6 +121,9 @@
   <data name="AccessScrCtrl" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\resources\accessscrctrl.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
   <data name="ErrorLoadingObject" xml:space="preserve">
     <value>Error loading '{0}':
 {1}</value>
@@ -140,8 +143,15 @@
   <data name="ObjectsSaved" xml:space="preserve">
     <value>{0} objects saved</value>
   </data>
+  <data name="ProfileNotFound" xml:space="preserve">
+    <value>File '{0}' not found.</value>
+  </data>
   <data name="Saving" xml:space="preserve">
     <value>Saving {0}</value>
+  </data>
+  <data name="UnexpectedError" xml:space="preserve">
+    <value>Unexpected error:
+{0}</value>
   </data>
   <data name="WorkingCopyMissing" xml:space="preserve">
     <value>You must specify the working copy path before this action</value>

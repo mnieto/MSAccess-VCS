@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AccessIO;
+using AccessIO.Properties;
 
 namespace AccessScrCtrl {
     public partial class MainFrm : Form {
 
         private ImportOptions importOptions;
+        private Configuration Config { get; set; }
         private bool workingCopyTextBoxChanged = false;
 
         private string StatusInfo {
@@ -80,6 +83,41 @@ namespace AccessScrCtrl {
             }
             optionsButton.Enabled = true;
         }
+
+        private void DisplayMRU() {
+            var profiles = Config.LastProfiles();
+
+            UpperSeparatorMenu.Visible = profiles.Count() != 0;
+            int index = FileMenu.DropDownItems.IndexOfKey(nameof(UpperSeparatorMenu)) + 1;
+            int number = 1;
+            foreach (var profile in profiles) { 
+                var menuItem = new ToolStripMenuItem {
+                    Name = $"MRU{number}",
+                    Text = $"&{number} {profile.Name}",
+                    Tag = profile.FileName
+                };
+                menuItem.Click += new EventHandler(MRU_Profile_Click);
+                FileMenu.DropDownItems.Insert(index, menuItem);
+                index++;
+                number++;
+            }
+        }
+
+        private void RefreshMRU() {
+            var toBeRemoved = new List<ToolStripItem>();
+            foreach (ToolStripItem menuItem in FileMenu.DropDownItems) {
+                if (menuItem.Name.StartsWith("MRU")) {
+                    toBeRemoved.Add(menuItem);
+                }
+            }
+            foreach(var menuItem in toBeRemoved) {
+                FileMenu.DropDownItems.Remove(menuItem);
+            }
+            DisplayMRU();
+        }
+        
+
+
 
         private void loadButton_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(objectTree.App.WorkingCopyPath))
@@ -204,6 +242,39 @@ namespace AccessScrCtrl {
 
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e) {
             objectTree.Dispose();
+        }
+
+        private void MainFrm_Load(object sender, EventArgs e) {
+            Config = Configuration.LoadConfiguration();
+            DisplayMRU();            
+        }
+
+        private void ExitMenu_Click(object sender, EventArgs e) {
+            Close();
+        }
+
+        private void OpenMenu_Click(object sender, EventArgs e) {
+
+        }
+
+        private void MRU_Profile_Click(object sender, EventArgs e) {
+            if (sender is ToolStripMenuItem) {
+                var profileMenu = (ToolStripMenuItem)sender;
+                if (profileMenu.Tag != null) {
+                    string fileName = profileMenu.Tag.ToString();
+                    try {
+                        if (File.Exists(fileName)) {
+                            //TODO: Fill profile settings
+                        } else {
+                            MessageBox.Show(string.Format(Properties.Resources.ProfileNotFound, fileName),
+                                Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    } catch (Exception ex) {
+                        MessageBox.Show(string.Format(Properties.Resources.UnexpectedError, ex.Message),
+                            Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
         }
     }
 }
