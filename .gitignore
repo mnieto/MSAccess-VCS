@@ -360,3 +360,11 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# custom configuration
+TestResult/
+TestDatabase/
+*.mdb
+*.accdb
+*.ldb
+*.laccdb
