@@ -9,11 +9,12 @@ using System.Text;
 using System.Windows.Forms;
 using AccessIO;
 using AccessIO.Properties;
+using AccessScrCtrl.Profiles;
 
 namespace AccessScrCtrl {
     public partial class MainFrm : Form {
 
-        private ImportOptions importOptions;
+        private Profile Profile { get; set; }
         private Configuration Config { get; set; }
         private bool workingCopyTextBoxChanged = false;
 
@@ -26,62 +27,51 @@ namespace AccessScrCtrl {
             }
         }
 
+        public MainFrm(string[] args) : this() {
+            if (args.Length > 0) {
+                LoadProfile(args[0]);
+            }
+        }
+
         public MainFrm() {
             InitializeComponent();
-            importOptions = new ImportOptions();
+            Config = Configuration.LoadConfiguration();
+            DisplayMRU();
         }
 
         private void selectFileButton_Click(object sender, EventArgs e) {
             if (openDlg.ShowDialog() == DialogResult.OK) {
-                AttachFile();
+                fileNameTextBox.Text = openDlg.FileName;
+                if (!string.IsNullOrWhiteSpace(workingCopyTextBox.Text)) {
+                    Attach(fileNameTextBox.Text, workingCopyTextBox.Text);
+                }
             } else {
                 fileNameTextBox.Text = String.Empty;
                 saveButton.Enabled = false;
             }
         }
 
-        private void AttachFile() {
-            Cursor = Cursors.WaitCursor;
-            try {
-                StatusInfo = Properties.Resources.LoadingObjectsTree;
-                fileNameTextBox.Text = openDlg.FileName;
-                objectTree.FileName = fileNameTextBox.Text;
-                workingCopyTextBox.Text = System.IO.Path.GetDirectoryName(fileNameTextBox.Text);
-                if (!String.IsNullOrEmpty(workingCopyTextBox.Text))
-                    objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
-                saveButton.Enabled = true;
-                workingCopyTextBox.Focus();
-
-            } finally {
-                StatusInfo = string.Empty;
-                Cursor = Cursors.Default;
-            }
-        }
-
         private void selectFolderButton_Click(object sender, EventArgs e) {
-            if (!String.IsNullOrWhiteSpace(workingCopyTextBox.Text) && System.IO.Directory.Exists(workingCopyTextBox.Text)) {
+            if (!String.IsNullOrWhiteSpace(workingCopyTextBox.Text) && Directory.Exists(workingCopyTextBox.Text)) {
                 folderDlg.SelectedPath = workingCopyTextBox.Text;
             }
-            if (folderDlg.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
+            if (folderDlg.ShowDialog() == DialogResult.OK) {
                 workingCopyTextBox.Text = folderDlg.SelectedPath;
                 workingCopyTextBoxChanged = false;      //Change event is raised even if Text property is changed programaticaly
-                DoSetWorkingCopyPath();
+                if (!string.IsNullOrWhiteSpace(fileNameTextBox.Text) && !string.IsNullOrWhiteSpace(workingCopyTextBox.Text)) {
+                    Attach(fileNameTextBox.Text, workingCopyTextBox.Text);
+                }
             }
         }
 
-        private void DoSetWorkingCopyPath() {
-            if (objectTree.App != null)
-                objectTree.App.WorkingCopyPath = folderDlg.SelectedPath;
-            try {
-                Cursor = Cursors.WaitCursor;
-                StatusInfo = Properties.Resources.LoadingObjectsTree;
-                statusStrip.Refresh();
-                filesTree.WorkingCopyPath = folderDlg.SelectedPath;
-            } finally {
-                StatusInfo = string.Empty;
-                Cursor = Cursors.Default;
-            }
-            optionsButton.Enabled = true;
+        private void Attach(string accessFileName, string workingFolderName) {
+            var tempProfile = new Profile {
+                AccessFile = accessFileName,
+                WorkingCopy = workingFolderName
+            };
+            Cursor = Cursors.WaitCursor;
+            StatusInfo = Properties.Resources.LoadingObjectsTree;
+            backgroundAttach.RunWorkerAsync(tempProfile);
         }
 
         private void DisplayMRU() {
@@ -116,7 +106,25 @@ namespace AccessScrCtrl {
             DisplayMRU();
         }
         
+        private void LoadProfile(string profilePath) {
+            if (!File.Exists(profilePath)) {
+                MessageBox.Show(string.Format(Properties.Resources.ProfileNotFound, profilePath),
+                    Properties.Resources.Error, 
+                    MessageBoxButtons.OK, 
+                    MessageBoxIcon.Warning);
+            } else {
+                Profile = Config.LoadProfile(profilePath);
+                workingCopyTextBox.Text = Profile.WorkingCopy;
+                folderDlg.SelectedPath = workingCopyTextBox.Text;
+                
+                fileNameTextBox.Text = Profile.AccessFile;
+                openDlg.FileName = Profile.AccessFile;
+                Attach(Profile.AccessFile, Profile.WorkingCopy);
 
+                Config.AddProfile(Profile, profilePath);
+                RefreshMRU();
+            }
+        }
 
 
         private void loadButton_Click(object sender, EventArgs e) {
@@ -210,7 +218,6 @@ namespace AccessScrCtrl {
             StatusInfo = string.Empty;
             if (e.Error != null) {
                 MessageBox.Show(e.Error.Message, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                AttachFile();                       //load again MS Access
             } else {
                 MessageBox.Show(String.Format(Properties.Resources.ObjectsLoaded, e.TotalOjectsSaved), this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 objectTree.RefreshList();
@@ -219,9 +226,9 @@ namespace AccessScrCtrl {
         }
 
         private void optionsButton_Click(object sender, EventArgs e) {
-            ImportOptionsFrm frm = new ImportOptionsFrm(filesTree.ProjectType, importOptions, filesTree.ObjectNames(ObjectType.Table));
-            if (frm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                importOptions = frm.Options;
+            ImportOptionsFrm frm = new ImportOptionsFrm(filesTree.ProjectType, Profile.ImportOptions, filesTree.ObjectNames(ObjectType.Table));
+            if (frm.ShowDialog() == DialogResult.OK)
+                Profile.ImportOptions = frm.Options;
         }
 
         private void workingCopyTextBox_TextChanged(object sender, EventArgs e) {
@@ -230,31 +237,22 @@ namespace AccessScrCtrl {
 
         private void workingCopyTextBox_Leave(object sender, EventArgs e) {
             if (workingCopyTextBoxChanged && 
-                !String.IsNullOrWhiteSpace(workingCopyTextBox.Text) && 
-                System.IO.Directory.Exists(workingCopyTextBox.Text)) {
-
+                !string.IsNullOrWhiteSpace(workingCopyTextBox.Text) && 
+                Directory.Exists(workingCopyTextBox.Text) &&
+                !string.IsNullOrWhiteSpace(fileNameTextBox.Text))
+            {
                 workingCopyTextBoxChanged = false;
                 folderDlg.SelectedPath = workingCopyTextBox.Text;
-                DoSetWorkingCopyPath();
+                Attach(fileNameTextBox.Text, workingCopyTextBox.Text);
             }
-
         }
 
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e) {
             objectTree.Dispose();
         }
 
-        private void MainFrm_Load(object sender, EventArgs e) {
-            Config = Configuration.LoadConfiguration();
-            DisplayMRU();            
-        }
-
         private void ExitMenu_Click(object sender, EventArgs e) {
             Close();
-        }
-
-        private void OpenMenu_Click(object sender, EventArgs e) {
-
         }
 
         private void MRU_Profile_Click(object sender, EventArgs e) {
@@ -263,18 +261,30 @@ namespace AccessScrCtrl {
                 if (profileMenu.Tag != null) {
                     string fileName = profileMenu.Tag.ToString();
                     try {
-                        if (File.Exists(fileName)) {
-                            //TODO: Fill profile settings
-                        } else {
-                            MessageBox.Show(string.Format(Properties.Resources.ProfileNotFound, fileName),
-                                Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
+                        LoadProfile(fileName);
                     } catch (Exception ex) {
                         MessageBox.Show(string.Format(Properties.Resources.UnexpectedError, ex.Message),
                             Properties.Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
+        }
+
+        private void backgroundAttach_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
+            StatusInfo = string.Empty;
+            Cursor = Cursors.Default;
+            if (e.Error != null) {
+                MessageBox.Show(e.Error.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            } else {
+                optionsButton.Enabled = true;
+                saveButton.Enabled = true;
+            }
+        }
+
+        private void backgroundAttach_DoWork(object sender, DoWorkEventArgs e) {
+            var profile = (Profile)e.Argument;
+            objectTree.Attach(profile.AccessFile, profile.WorkingCopy);
+            filesTree.WorkingCopyPath = folderDlg.SelectedPath;
         }
     }
 }

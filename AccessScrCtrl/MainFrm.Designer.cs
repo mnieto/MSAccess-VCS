@@ -51,6 +51,7 @@
             this.UpperSeparatorMenu = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.backgroundAttach = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.saveTab.SuspendLayout();
             this.loadTab.SuspendLayout();
@@ -173,7 +174,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.objectTree.App = null;
-            this.objectTree.FileName = null;
             this.objectTree.Location = new System.Drawing.Point(6, 10);
             this.objectTree.Name = "objectTree";
             this.objectTree.Size = new System.Drawing.Size(328, 261);
@@ -278,33 +278,37 @@
             // newMenu
             // 
             this.newMenu.Name = "newMenu";
-            this.newMenu.Size = new System.Drawing.Size(180, 22);
+            this.newMenu.Size = new System.Drawing.Size(135, 22);
             this.newMenu.Text = "&New";
             // 
             // OpenMenu
             // 
             this.OpenMenu.Name = "OpenMenu";
-            this.OpenMenu.Size = new System.Drawing.Size(180, 22);
+            this.OpenMenu.Size = new System.Drawing.Size(135, 22);
             this.OpenMenu.Text = "&Open...";
-            this.OpenMenu.Click += new System.EventHandler(this.OpenMenu_Click);
             // 
             // UpperSeparatorMenu
             // 
             this.UpperSeparatorMenu.Name = "UpperSeparatorMenu";
-            this.UpperSeparatorMenu.Size = new System.Drawing.Size(177, 6);
+            this.UpperSeparatorMenu.Size = new System.Drawing.Size(132, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(132, 6);
             // 
             // ExitMenu
             // 
             this.ExitMenu.Name = "ExitMenu";
             this.ExitMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.ExitMenu.Size = new System.Drawing.Size(180, 22);
+            this.ExitMenu.Size = new System.Drawing.Size(135, 22);
             this.ExitMenu.Text = "E&xit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
+            // 
+            // backgroundAttach
+            // 
+            this.backgroundAttach.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundAttach_DoWork);
+            this.backgroundAttach.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundAttach_RunWorkerCompleted);
             // 
             // MainFrm
             // 
@@ -325,7 +329,6 @@
             this.Name = "MainFrm";
             this.Text = "Access Source Control";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainFrm_FormClosed);
-            this.Load += new System.EventHandler(this.MainFrm_Load);
             this.tabControl1.ResumeLayout(false);
             this.saveTab.ResumeLayout(false);
             this.loadTab.ResumeLayout(false);
@@ -366,6 +369,7 @@
         private System.Windows.Forms.ToolStripSeparator UpperSeparatorMenu;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem ExitMenu;
+        private System.ComponentModel.BackgroundWorker backgroundAttach;
     }
 }
 

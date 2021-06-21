@@ -18,6 +18,7 @@ namespace AccessScrCtrlUI {
     public partial class FilesTree : UserControl {
         
         private string workingCopyPath;
+        private delegate void FillTreeDelegate(string workingCopyPath);
         private TreeImages Images { get; set; }
 
         /// <summary>
@@ -36,7 +37,11 @@ namespace AccessScrCtrlUI {
         public string WorkingCopyPath {
             get { return workingCopyPath; }
             set {
-                FillTree(value);
+                if (tree.InvokeRequired) {
+                    tree.Invoke(new FillTreeDelegate(FillTree), value);
+                } else {
+                    FillTree(value);
+                }
                 workingCopyPath = value;
             }
         }
@@ -195,7 +200,7 @@ namespace AccessScrCtrlUI {
                     FillContainerFiles(di, node, names.ObjectTypes);
                 }
             }
-
+            rootNode.Expand();
         }
 
         private string BuildRootNodeText(string rootPath) {

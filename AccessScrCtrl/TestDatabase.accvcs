@@ -1,0 +1,27 @@
+{
+    "Name": "TestDatabase",
+    "Version": 1,
+    "AccessFile": "C:\\Users\\Miguel\\Documents\\progs\\MSAccess-SVN\\TestDatabase\\TestDatabase.accdb",
+    "WorkingCopy": "C:\\Users\\Miguel\\Documents\\progs\\MSAccess-SVN\\TestDatabase",
+    "LastSaveDateTime": "",
+    "LogLevel": "NFO",
+    "LogFileName": "",
+    "ImportOptions": {
+      "OverwriteDatabase": false,
+      "ConfirmImportedObjects": false,
+      "RemoveNotLoaded": false,
+      "AllowDataLostTables": [
+      ],
+      "Excludes": [
+      ]
+    },
+    "ExportOptions": {
+      "ExtensionNaming": "type.txt",
+      "ExportTableData": [
+      ],
+      "ExportTableFormat": "sql|csv",
+      "ExportQueryDefAs": "Definition",
+      "Excludes": [
+      ]
+    }
+  }

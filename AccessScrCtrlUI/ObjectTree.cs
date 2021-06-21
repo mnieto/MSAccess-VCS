@@ -9,8 +9,8 @@ using System.ComponentModel;
 namespace AccessScrCtrlUI {
     public partial class ObjectTree : UserControl {
 
-        private string fileName;
         private AccessApp app;
+        private delegate void FillTreeDelegate();
 
         /// <summary>
         /// Get or set the <see cref="AccessApp"/> object wich contains the objects to list
@@ -27,35 +27,13 @@ namespace AccessScrCtrlUI {
         }
 
         /// <summary>
-        /// Get or set Access file name wich contains the objects to list.
+        /// Gets Access file name wich contains the objects to list.
         /// </summary>
         /// <remarks>
         /// Setting this property, also sets the <see cref="App"/> property, open the database and fills the object tree
         /// </remarks>
-        [System.ComponentModel.Description("Get or set MS Access file name wich contains the objects to list.")]
-        [System.ComponentModel.Editor(typeof(System.Windows.Forms.Design.FileNameEditor), typeof(UITypeEditor))]
-        public string FileName {
-            get { return fileName; }
-            set {
-                fileName = value;
-                if (!String.IsNullOrEmpty(fileName)) {
-
-                    //It could fail for any of following circunstances:
-                    //User press cancel in security warning dialog when the database has VBA code
-                    //Macros security level is High and the database has VBA code
-                    //User cancel or fails the password for a passsword protected database
-                    //Database is upper version that the version of installed MS Access
-                    //Database is corrupted
-                    try {
-                        App = AccessApp.AccessAppFactory(value);
-                        App.OpenDatabase();
-                        FillObjectTree(App);
-                    } catch (Exception ex) {
-                        MessageBox.Show(ex.Message, this.ParentForm.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                    }
-                }
-            }
-        }
+        [System.ComponentModel.Description("Get MS Access file name wich contains the objects to list.")]
+        public string FileName { get; private set; }
 
         /// <summary>
         /// Default contructor
@@ -76,7 +54,8 @@ namespace AccessScrCtrlUI {
         /// </summary>
         /// <param name="fileName">Sets the <see cref="App"/> property and fills the object tree</param>
         public ObjectTree(string fileName) : base() {
-            App = AccessApp.AccessAppFactory(fileName);
+            FileName = fileName;
+            App = AccessApp.AccessAppFactory(FileName);
         }
         
         /// <summary>
@@ -85,6 +64,28 @@ namespace AccessScrCtrlUI {
         /// <param name="app">Setting this property also fills the object tree</param>
         public ObjectTree(AccessIO.AccessApp app): base() {
             App = app;
+        }
+
+        public void Attach(string fileName, string workingDirectory) {
+            FileName = fileName;
+            if (!string.IsNullOrEmpty(FileName)) {
+
+                //It could fail for any of following circunstances:
+                //User press cancel in security warning dialog when the database has VBA code
+                //Macros security level is High and the database has VBA code
+                //User cancel or fails the password for a passsword protected database
+                //Database is upper version that the version of installed MS Access
+                //Database is corrupted
+                try {
+                    App = AccessApp.AccessAppFactory(FileName);
+                    App.OpenDatabase();
+                    FillObjectTree(App);
+                    App.WorkingCopyPath = workingDirectory;
+                } catch {
+                    throw;
+                }
+            }
+
         }
 
         /// <summary>
@@ -169,12 +170,19 @@ namespace AccessScrCtrlUI {
         /// <param name="app">Access application</param>
         /// <exception cref="ArgumentNullException"> if <paramref name="app"/> is null</exception>
         private void FillObjectTree(AccessIO.AccessApp app) {
-            //TODO: Do the work in background
             if (app == null)
                 throw new ArgumentNullException("app");
 
+            if (tree.InvokeRequired) {
+                tree.Invoke(new FillTreeDelegate(FillTree));
+            } else {
+                FillTree();
+            }
+        }
+
+        private void FillTree() {
             const string key = "db";
-            Images = new TreeImages(AccessApp.ContainersFactory(fileName));
+            Images = new TreeImages(AccessApp.ContainersFactory(FileName));
             tree.ImageList = Images.ImageList;
             tree.ImageKey = key;
             tree.SelectedImageKey = key;
@@ -194,6 +202,7 @@ namespace AccessScrCtrlUI {
                     subItem.Nodes.Add(node);
                 }
             }
+            root.Expand();
         }
 
         /// <summary>

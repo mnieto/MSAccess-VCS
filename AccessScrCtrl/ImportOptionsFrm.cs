@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using AccessIO;
+using AccessScrCtrl.Profiles;
 
 namespace AccessScrCtrl {
     public partial class ImportOptionsFrm : Form {
@@ -22,10 +23,10 @@ namespace AccessScrCtrl {
         public ImportOptionsFrm(AccessProjectType projectType, ImportOptions options) {
             InitializeComponent();
             this.projectType = projectType;
-            this.options = (ImportOptions)options.Clone();
+            this.options = options;
             overwriteCheckBox.Checked = options.OverwriteDatabase;
-            overwritePromptCheckBox.Checked = options.Prompt;
-            deleteNotLoadedCheckBox.Checked = options.DeleteNotLoaded;
+            overwritePromptCheckBox.Checked = options.ConfirmImportedObjects;
+            deleteNotLoadedCheckBox.Checked = options.RemoveNotLoaded;
             if (projectType == AccessProjectType.Adp) {
                 allowDataLostCheckBox.Enabled = false;
                 tablesList.Enabled = false;
@@ -64,10 +65,10 @@ namespace AccessScrCtrl {
 
         private void okButton_Click(object sender, EventArgs e) {
             options.OverwriteDatabase = overwriteCheckBox.Checked;
-            options.Prompt = overwritePromptCheckBox.Checked;
-            options.DeleteNotLoaded = deleteNotLoadedCheckBox.Checked;
+            options.ConfirmImportedObjects = overwritePromptCheckBox.Checked;
+            options.RemoveNotLoaded = deleteNotLoadedCheckBox.Checked;
             if (projectType != AccessProjectType.Adp && tablesList.CheckedItems.Count > 0) {
-                options.AllowDataLost.AddRange(tablesList.CheckedItems.Cast<string>());
+                options.AllowDataLostTables.AddRange(tablesList.CheckedItems.Cast<string>());
             }
         }
     }
