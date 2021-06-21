@@ -19,7 +19,7 @@ namespace AccessScrCtrl.Profiles {
         }
 
         public void SaveConfiguration() {
-            File.WriteAllText(SettingsFileName, JsonConvert.SerializeObject(this));
+            File.WriteAllText(SettingsFileName, JsonConvert.SerializeObject(this, Formatting.Indented));
         }
 
         public IEnumerable<ProfileName> LastProfiles() {
@@ -54,6 +54,12 @@ namespace AccessScrCtrl.Profiles {
         public Profile LoadProfile(string profilePath) {
             var profile = JsonConvert.DeserializeObject<Profile>(File.ReadAllText(profilePath));
             return profile;
+        }
+
+        public void RemoveProfile(string profilePath) {
+            var p = Profiles.First(x => string.Equals(x.FileName, profilePath, StringComparison.InvariantCultureIgnoreCase));
+            Profiles.Remove(p);
+            SaveConfiguration();
         }
 
         public void SaveProfile(Profile profile, string profilePath) {

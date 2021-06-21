@@ -137,7 +137,8 @@ namespace AccessScrCtrl.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to File &apos;{0}&apos; not found..
+        ///   Looks up a localized string similar to File &apos;{0}&apos; not found.
+        ///Do you want to remove it from the Recent list?.
         /// </summary>
         internal static string ProfileNotFound {
             get {

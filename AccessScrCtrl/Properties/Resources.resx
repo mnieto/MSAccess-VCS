@@ -144,7 +144,8 @@
     <value>{0} objects saved</value>
   </data>
   <data name="ProfileNotFound" xml:space="preserve">
-    <value>File '{0}' not found.</value>
+    <value>File '{0}' not found.
+Do you want to remove it from the Recent list?</value>
   </data>
   <data name="Saving" xml:space="preserve">
     <value>Saving {0}</value>

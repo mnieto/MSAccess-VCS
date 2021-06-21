@@ -108,10 +108,14 @@ namespace AccessScrCtrl {
         
         private void LoadProfile(string profilePath) {
             if (!File.Exists(profilePath)) {
-                MessageBox.Show(string.Format(Properties.Resources.ProfileNotFound, profilePath),
+                var response = MessageBox.Show(string.Format(Properties.Resources.ProfileNotFound, profilePath),
                     Properties.Resources.Error, 
-                    MessageBoxButtons.OK, 
+                    MessageBoxButtons.YesNo, 
                     MessageBoxIcon.Warning);
+                if (response == DialogResult.Yes) {
+                    Config.RemoveProfile(profilePath);
+                    RefreshMRU();
+                }
             } else {
                 Profile = Config.LoadProfile(profilePath);
                 workingCopyTextBox.Text = Profile.WorkingCopy;
