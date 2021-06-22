@@ -35,7 +35,12 @@ namespace AccessScrCtrl {
 
         public MainFrm() {
             InitializeComponent();
-            Config = Configuration.LoadConfiguration();
+            try {
+                Config = Configuration.LoadConfiguration();
+            } catch {
+                //If any error occurs loading the configuration,create a default one
+                Config = new Configuration();
+            }
             DisplayMRU();
         }
 

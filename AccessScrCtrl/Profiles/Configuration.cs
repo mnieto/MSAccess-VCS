@@ -63,7 +63,7 @@ namespace AccessScrCtrl.Profiles {
         }
 
         public void SaveProfile(Profile profile, string profilePath) {
-            File.WriteAllText(profilePath, JsonConvert.SerializeObject(profile));
+            File.WriteAllText(profilePath, JsonConvert.SerializeObject(profile, Formatting.Indented));
         }
 
         public List<ProfileName> Profiles { get; set; } = new List<ProfileName>();
