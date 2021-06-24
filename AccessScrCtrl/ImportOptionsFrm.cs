@@ -12,25 +12,15 @@ using AccessScrCtrl.Profiles;
 namespace AccessScrCtrl {
     public partial class ImportOptionsFrm : Form {
 
-        private AccessProjectType projectType;
         private ImportOptions options;
 
+
         /// <summary>
-        /// Constructor. Initializes the form and fill the list of tables that will be available to configure their AllowDataLost property
+        /// Default constructor
         /// </summary>
-        /// <param name="projectType"></param>
-        /// <param name="options"></param>
-        public ImportOptionsFrm(AccessProjectType projectType, ImportOptions options) {
+        public ImportOptionsFrm() {
             InitializeComponent();
-            this.projectType = projectType;
-            this.options = options;
-            overwriteCheckBox.Checked = options.OverwriteDatabase;
-            overwritePromptCheckBox.Checked = options.ConfirmImportedObjects;
-            deleteNotLoadedCheckBox.Checked = options.RemoveNotLoaded;
-            if (projectType == AccessProjectType.Adp) {
-                allowDataLostCheckBox.Enabled = false;
-                tablesList.Enabled = false;
-            }
+            options = new ImportOptions();
         }
 
         /// <summary>
@@ -38,9 +28,15 @@ namespace AccessScrCtrl {
         /// </summary>
         /// <param name="projectType"></param>
         /// <param name="options"></param>
-        /// <param name="tableNames"></param>
-        public ImportOptionsFrm(AccessProjectType projectType, ImportOptions options, string[] tableNames): this(projectType, options) {
-            tablesList.Items.AddRange(tableNames);
+        public ImportOptionsFrm(ImportOptions options) : this() {
+            this.options = options;
+            overwriteCheckBox.Checked = options.OverwriteDatabase;
+            overwritePromptCheckBox.Checked = options.ConfirmImportedObjects;
+            deleteNotLoadedCheckBox.Checked = options.RemoveNotLoaded;
+            tablesGrid.AddValues(options.AllowDataLostTables);
+            excludesGrid.AddValues(options.Excludes);
+            okButton.Visible = true;
+            cancelButton.Visible = true;
         }
 
         /// <summary>
@@ -50,26 +46,17 @@ namespace AccessScrCtrl {
             get { return options; }
         }
 
-        private void allowDataLostCheckBox_CheckedChanged(object sender, EventArgs e) {
-            tablesList.Enabled = allowDataLostCheckBox.Checked;
-        }
-
         private void overwriteCheckBox_CheckedChanged(object sender, EventArgs e) {
             bool value = !overwriteCheckBox.Checked;
             deleteNotLoadedCheckBox.Enabled = value;
-            if (this.projectType != AccessProjectType.Adp) {
-                allowDataLostCheckBox.Enabled = value;
-                tablesList.Enabled = value && allowDataLostCheckBox.Checked;
-            }
         }
 
         private void okButton_Click(object sender, EventArgs e) {
             options.OverwriteDatabase = overwriteCheckBox.Checked;
             options.ConfirmImportedObjects = overwritePromptCheckBox.Checked;
             options.RemoveNotLoaded = deleteNotLoadedCheckBox.Checked;
-            if (projectType != AccessProjectType.Adp && tablesList.CheckedItems.Count > 0) {
-                options.AllowDataLostTables.AddRange(tablesList.CheckedItems.Cast<string>());
-            }
+            options.AllowDataLostTables = tablesGrid.GetValues().ToList();
+            options.Excludes = excludesGrid.GetValues().ToList();
         }
     }
 }

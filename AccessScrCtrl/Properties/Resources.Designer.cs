@@ -100,6 +100,24 @@ namespace AccessScrCtrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File not found..
+        /// </summary>
+        internal static string FileNotFound {
+            get {
+                return ResourceManager.GetString("FileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder doesn&apos;t exist..
+        /// </summary>
+        internal static string FolderNotFound {
+            get {
+                return ResourceManager.GetString("FolderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon Import {
@@ -152,6 +170,15 @@ namespace AccessScrCtrl.Properties {
         internal static string Saving {
             get {
                 return ResourceManager.GetString("Saving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Specify a file name.
+        /// </summary>
+        internal static string SpecifyFileName {
+            get {
+                return ResourceManager.GetString("SpecifyFileName", resourceCulture);
             }
         }
         

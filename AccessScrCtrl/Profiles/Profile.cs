@@ -1,7 +1,7 @@
 ﻿namespace AccessScrCtrl.Profiles {
-    class Profile {
+    public class Profile {
         public string Name { get; set; }
-        public int Version { get; set; }
+        public int Version { get; set; } = 1;
         public string AccessFile { get; set; }
         public string WorkingCopy { get; set; }
         public string LastSaveDateTime { get; set; }

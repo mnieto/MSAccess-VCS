@@ -95,6 +95,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\FolderPicker.cs" />
+    <Compile Include="Helpers\PathUtil.cs" />
+    <Compile Include="Helpers\ValidationHelper.cs" />
     <Compile Include="Profiles\Configuration.cs" />
     <Compile Include="ImportOptionsFrm.cs">
       <SubType>Form</SubType>
@@ -111,6 +114,12 @@
     <Compile Include="Profiles\ExportOptions.cs" />
     <Compile Include="Profiles\ImportOptions.cs" />
     <Compile Include="Profiles\Profile.cs" />
+    <Compile Include="Profiles\ProfileFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Profiles\ProfileFrm.Designer.cs">
+      <DependentUpon>ProfileFrm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Profiles\ProfileName.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -125,6 +134,9 @@
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Profiles\ProfileFrm.resx">
+      <DependentUpon>ProfileFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

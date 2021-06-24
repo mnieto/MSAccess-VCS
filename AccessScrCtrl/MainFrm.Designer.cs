@@ -38,7 +38,6 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.objectTree = new AccessScrCtrlUI.ObjectTree();
             this.loadTab = new System.Windows.Forms.TabPage();
-            this.optionsButton = new System.Windows.Forms.Button();
             this.filesTree = new AccessScrCtrlUI.FilesTree();
             this.loadButton = new System.Windows.Forms.Button();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
@@ -183,7 +182,6 @@
             // 
             // loadTab
             // 
-            this.loadTab.Controls.Add(this.optionsButton);
             this.loadTab.Controls.Add(this.filesTree);
             this.loadTab.Controls.Add(this.loadButton);
             this.loadTab.ImageKey = "Import";
@@ -194,18 +192,6 @@
             this.loadTab.TabIndex = 1;
             this.loadTab.Text = "Load";
             this.loadTab.UseVisualStyleBackColor = true;
-            // 
-            // optionsButton
-            // 
-            this.optionsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.optionsButton.Enabled = false;
-            this.optionsButton.Location = new System.Drawing.Point(178, 290);
-            this.optionsButton.Name = "optionsButton";
-            this.optionsButton.Size = new System.Drawing.Size(75, 23);
-            this.optionsButton.TabIndex = 14;
-            this.optionsButton.Text = "&Options...";
-            this.optionsButton.UseVisualStyleBackColor = true;
-            this.optionsButton.Click += new System.EventHandler(this.optionsButton_Click);
             // 
             // filesTree
             // 
@@ -280,6 +266,7 @@
             this.newMenu.Name = "newMenu";
             this.newMenu.Size = new System.Drawing.Size(135, 22);
             this.newMenu.Text = "&New";
+            this.newMenu.Click += new System.EventHandler(this.newMenu_Click);
             // 
             // OpenMenu
             // 
@@ -359,7 +346,6 @@
         private System.Windows.Forms.Button loadButton;
         private AccessScrCtrlUI.FilesTree filesTree;
         private System.Windows.Forms.ImageList imageList;
-        private System.Windows.Forms.Button optionsButton;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripStatusLabel infoToolStrip;
         private System.Windows.Forms.MenuStrip menuStrip1;

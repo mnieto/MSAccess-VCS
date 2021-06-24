@@ -234,12 +234,6 @@ namespace AccessScrCtrl {
             loadButton.Enabled = true;
         }
 
-        private void optionsButton_Click(object sender, EventArgs e) {
-            ImportOptionsFrm frm = new ImportOptionsFrm(filesTree.ProjectType, Profile.ImportOptions, filesTree.ObjectNames(ObjectType.Table));
-            if (frm.ShowDialog() == DialogResult.OK)
-                Profile.ImportOptions = frm.Options;
-        }
-
         private void workingCopyTextBox_TextChanged(object sender, EventArgs e) {
             workingCopyTextBoxChanged = true;
         }
@@ -258,6 +252,15 @@ namespace AccessScrCtrl {
 
         private void MainFrm_FormClosed(object sender, FormClosedEventArgs e) {
             objectTree.Dispose();
+        }
+
+        private void newMenu_Click(object sender, EventArgs e) {
+            var profileFrm = new ProfileFrm(null);
+            if (profileFrm.ShowDialog() == DialogResult.OK) {
+                Config.SaveProfile(profileFrm.Profile, profileFrm.ProfileFileName);
+                Config.AddProfile(profileFrm.Profile, profileFrm.ProfileFileName);
+                LoadProfile(profileFrm.ProfileFileName);
+            }
         }
 
         private void ExitMenu_Click(object sender, EventArgs e) {
@@ -285,7 +288,6 @@ namespace AccessScrCtrl {
             if (e.Error != null) {
                 MessageBox.Show(e.Error.Message, Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             } else {
-                optionsButton.Enabled = true;
                 saveButton.Enabled = true;
             }
         }

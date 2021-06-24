@@ -1,0 +1,17 @@
+{
+  "Name": "TestDatabase2",
+  "Version": 0,
+  "AccessFile": "..\\TestDatabase - copia.accdb",
+  "WorkingCopy": "..\\TestDatabase",
+  "LastSaveDateTime": null,
+  "LogLevel": null,
+  "LogFileName": null,
+  "ImportOptions": {
+    "OverwriteDatabase": false,
+    "ConfirmImportedObjects": false,
+    "RemoveNotLoaded": false,
+    "AllowDataLostTables": null,
+    "Excludes": null
+  },
+  "ExportOptions": null
+}

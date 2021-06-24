@@ -53,6 +53,8 @@ namespace AccessScrCtrl.Profiles {
 
         public Profile LoadProfile(string profilePath) {
             var profile = JsonConvert.DeserializeObject<Profile>(File.ReadAllText(profilePath));
+            profile.AccessFile = Helpers.PathUtil.GetFullPath(profile.AccessFile, profilePath);
+            profile.WorkingCopy = Helpers.PathUtil.GetFullPath(profile.WorkingCopy, profilePath);
             return profile;
         }
 
