@@ -255,7 +255,7 @@ namespace AccessScrCtrl {
         }
 
         private void newMenu_Click(object sender, EventArgs e) {
-            var profileFrm = new ProfileFrm(null);
+            var profileFrm = new ProfileFrm(fileNameTextBox.Text, workingCopyTextBox.Text);
             if (profileFrm.ShowDialog() == DialogResult.OK) {
                 Config.SaveProfile(profileFrm.Profile, profileFrm.ProfileFileName);
                 Config.AddProfile(profileFrm.Profile, profileFrm.ProfileFileName);

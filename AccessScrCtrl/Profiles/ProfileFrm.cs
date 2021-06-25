@@ -23,10 +23,17 @@ namespace AccessScrCtrl.Profiles {
             Validator = new Helpers.ValidationHelper<ProfileFrm>(errorProvider1);
         }
 
-        public ProfileFrm(Profile profile): this() {
-            Profile = profile;
+        
+        public ProfileFrm(string accessFileName, string workinCopy) : this() {
+            Profile = new Profile {
+                AccessFile = accessFileName,
+                WorkingCopy = workinCopy
+            };
+            accessNameTextBox.Text = accessFileName;
+            workingCopyTextBox.Text = workinCopy;
+            absoluteRadioButton.Checked = true;
         }
-
+        
         private void ProfileFrm_Load(object sender, EventArgs e) {
             ImportFrm = EmbedForm(new ImportOptionsFrm(), importTab);
         }
