@@ -24,39 +24,38 @@ namespace AccessScrCtrl {
         }
 
         /// <summary>
-        /// Constructor. Initializes the form and fill the list of tables that will be available to configure their AllowDataLost property
-        /// </summary>
-        /// <param name="projectType"></param>
-        /// <param name="options"></param>
-        public ImportOptionsFrm(ImportOptions options) : this() {
-            this.options = options;
-            overwriteCheckBox.Checked = options.OverwriteDatabase;
-            overwritePromptCheckBox.Checked = options.ConfirmImportedObjects;
-            deleteNotLoadedCheckBox.Checked = options.RemoveNotLoaded;
-            tablesGrid.AddValues(options.AllowDataLostTables);
-            excludesGrid.AddValues(options.Excludes);
-            okButton.Visible = true;
-            cancelButton.Visible = true;
-        }
-
-        /// <summary>
         /// Gets <see cref="ImportOptions"/> configured in this dialog
         /// </summary>
         public ImportOptions Options {
-            get { return options; }
-        }
+            get {
+                return new ImportOptions {
+                    OverwriteDatabase = overwriteCheckBox.Checked,
+                    ConfirmImportedObjects = overwritePromptCheckBox.Checked,
+                    RemoveNotLoaded = deleteNotLoadedCheckBox.Checked,
+                    AllowDataLostTables = tablesGrid.GetValues().ToList(),
+                    Excludes = excludesGrid.GetValues().ToList(),
+                };
+            } set {
+                if (value == null) {
+                    overwriteCheckBox.Checked = false;
+                    overwritePromptCheckBox.Checked = false;
+                    deleteNotLoadedCheckBox.Checked = false;
+                    tablesGrid.Clear();
+                    excludesGrid.Clear();
+                } else {
+                    overwriteCheckBox.Checked = value.OverwriteDatabase;
+                    overwritePromptCheckBox.Checked = value.ConfirmImportedObjects;
+                    deleteNotLoadedCheckBox.Checked = value.RemoveNotLoaded;
+                    tablesGrid.AddValues(value.AllowDataLostTables);
+                    excludesGrid.AddValues(value.Excludes);
+                }
+            }
 
+        }
         private void overwriteCheckBox_CheckedChanged(object sender, EventArgs e) {
             bool value = !overwriteCheckBox.Checked;
             deleteNotLoadedCheckBox.Enabled = value;
         }
 
-        private void okButton_Click(object sender, EventArgs e) {
-            options.OverwriteDatabase = overwriteCheckBox.Checked;
-            options.ConfirmImportedObjects = overwritePromptCheckBox.Checked;
-            options.RemoveNotLoaded = deleteNotLoadedCheckBox.Checked;
-            options.AllowDataLostTables = tablesGrid.GetValues().ToList();
-            options.Excludes = excludesGrid.GetValues().ToList();
-        }
     }
 }

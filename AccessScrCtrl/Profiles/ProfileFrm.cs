@@ -14,7 +14,6 @@ namespace AccessScrCtrl.Profiles {
         private ImportOptionsFrm ImportFrm { get; set; }
         private Helpers.ValidationHelper<ProfileFrm> Validator;
         internal Profile Profile { get; private set; }
-        internal string ProfileFileName => profileFileNameTextBox.Text;
         internal bool IsNewProfile => Profile == null;
 
         public ProfileFrm() {
@@ -23,7 +22,6 @@ namespace AccessScrCtrl.Profiles {
             Validator = new Helpers.ValidationHelper<ProfileFrm>(errorProvider1);
         }
 
-        
         public ProfileFrm(string accessFileName, string workinCopy) : this() {
             Profile = new Profile {
                 AccessFile = accessFileName,
@@ -33,9 +31,15 @@ namespace AccessScrCtrl.Profiles {
             workingCopyTextBox.Text = workinCopy;
             absoluteRadioButton.Checked = true;
         }
+
+        public ProfileFrm(Profile profile): this() {
+            Profile = profile;
+            DataBind();
+        }
         
         private void ProfileFrm_Load(object sender, EventArgs e) {
             ImportFrm = EmbedForm(new ImportOptionsFrm(), importTab);
+            ImportFrm.Options = Profile?.ImportOptions;
         }
 
         private void nameTextBox_TextChanged(object sender, EventArgs e) {
@@ -53,11 +57,6 @@ namespace AccessScrCtrl.Profiles {
             selectFileButton.Enabled = enabled;
             workingCopyTextBox.Enabled = enabled;
             selectWorkingCopyButton.Enabled = enabled;
-
-            if (enabled && relativeRadioButton.Checked) {
-                accessNameTextBox.Text = null;
-                workingCopyTextBox.Text = null;
-            }
         }
 
         private void profileFileNameTextBox_Validating(object sender, CancelEventArgs e) {
@@ -183,8 +182,16 @@ namespace AccessScrCtrl.Profiles {
                 Name = nameTextBox.Text,
                 AccessFile = accessNameTextBox.Text,
                 WorkingCopy = workingCopyTextBox.Text,
-                ImportOptions = ImportFrm.Options
+                ImportOptions = ImportFrm.Options,
+                FileName = profileFileNameTextBox.Text
             };
+        }
+
+        private void DataBind() {
+            nameTextBox.Text = Profile.Name;
+            accessNameTextBox.Text = Profile.AccessFile;
+            workingCopyTextBox.Text = Profile.WorkingCopy;
+            profileFileNameTextBox.Text = Profile.FileName;
         }
 
     }

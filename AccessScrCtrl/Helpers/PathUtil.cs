@@ -22,10 +22,10 @@ namespace AccessScrCtrl.Helpers {
             //on net standard 2.1 and net core 2.1 is available Path.GetFullPath(string, string)
             if (path == null)
                 throw new ArgumentNullException(nameof(path));
-            if (basePath == null)
-                throw new ArgumentNullException(nameof(basePath));
             if (Path.IsPathRooted(path))
                 return path;
+            if (basePath == null)
+                throw new ArgumentNullException(nameof(basePath));
             if (!Path.IsPathRooted(basePath))
                 throw new ArgumentException($"{nameof(basePath)} must be an absolute path");
 

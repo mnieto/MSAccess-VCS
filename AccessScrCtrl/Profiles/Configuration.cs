@@ -31,15 +31,15 @@ namespace AccessScrCtrl.Profiles {
         /// <summary>
         /// Adds or updates the profile in the MRU list
         /// </summary>
-        public void AddProfile(Profile profile, string profilePath) {
+        public void AddProfile(Profile profile) {
             var profileName = Profiles
-                .FirstOrDefault(x => string.Compare(x.FileName, profilePath, true) == 0);
+                .FirstOrDefault(x => string.Compare(x.FileName, profile.FileName, true) == 0);
             if (profileName != null) {
                 profileName.LastUsedOrder = 1;
             } else {
                 profileName = new ProfileName {
                     Name = profile.Name,
-                    FileName = profilePath,
+                    FileName = profile.FileName,
                     LastUsedOrder = 1
                 };
                 Profiles.Add(profileName);
@@ -53,8 +53,7 @@ namespace AccessScrCtrl.Profiles {
 
         public Profile LoadProfile(string profilePath) {
             var profile = JsonConvert.DeserializeObject<Profile>(File.ReadAllText(profilePath));
-            profile.AccessFile = Helpers.PathUtil.GetFullPath(profile.AccessFile, profilePath);
-            profile.WorkingCopy = Helpers.PathUtil.GetFullPath(profile.WorkingCopy, profilePath);
+            profile.FileName = profilePath;
             return profile;
         }
 
@@ -64,8 +63,8 @@ namespace AccessScrCtrl.Profiles {
             SaveConfiguration();
         }
 
-        public void SaveProfile(Profile profile, string profilePath) {
-            File.WriteAllText(profilePath, JsonConvert.SerializeObject(profile, Formatting.Indented));
+        public void SaveProfile(Profile profile) {
+            File.WriteAllText(profile.FileName, JsonConvert.SerializeObject(profile, Formatting.Indented));
         }
 
         public List<ProfileName> Profiles { get; set; } = new List<ProfileName>();

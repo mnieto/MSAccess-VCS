@@ -155,6 +155,42 @@ namespace AccessScrCtrl.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select Access file.
+        /// </summary>
+        internal static string OpenAccessFile {
+            get {
+                return ResourceManager.GetString("OpenAccessFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Microsoft Access (*.accdb;*.mdb;*.adp;*.mda;*.accda)|*.accdb;*.mdb;*.adp;*.mda;*.accda|Microsoft Access database (*.mdb;*.accdb)|*.mdb;*.accdb|Microsoft Access 2007 onwards database (*.accdb;*.accda)|*.accdb;*.accda|Microsoft Access up to 2007 database (*.mdb;*.mda)|*.mdb;*.mda.
+        /// </summary>
+        internal static string OpenAccessFilter {
+            get {
+                return ResourceManager.GetString("OpenAccessFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select profile file.
+        /// </summary>
+        internal static string OpenProfileFile {
+            get {
+                return ResourceManager.GetString("OpenProfileFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MS Access Source control version (*.accvcs)|*.accvcs|Json files (*.json)|*.json|All files (*.*)|*.*.
+        /// </summary>
+        internal static string OpenProfileFilter {
+            get {
+                return ResourceManager.GetString("OpenProfileFilter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File &apos;{0}&apos; not found.
         ///Do you want to remove it from the Recent list?.
         /// </summary>

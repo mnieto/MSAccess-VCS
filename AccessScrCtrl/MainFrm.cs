@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using AccessIO;
 using AccessIO.Properties;
+using AccessScrCtrl.Helpers;
 using AccessScrCtrl.Profiles;
 
 namespace AccessScrCtrl {
@@ -45,14 +46,16 @@ namespace AccessScrCtrl {
         }
 
         private void selectFileButton_Click(object sender, EventArgs e) {
-            if (openDlg.ShowDialog() == DialogResult.OK) {
-                fileNameTextBox.Text = openDlg.FileName;
-                if (!string.IsNullOrWhiteSpace(workingCopyTextBox.Text)) {
-                    Attach(fileNameTextBox.Text, workingCopyTextBox.Text);
+            using (var openDlg = CommonDialogs.OpenAccess(fileNameTextBox.Text)) {
+                if (openDlg.ShowDialog() == DialogResult.OK) {
+                    fileNameTextBox.Text = openDlg.FileName;
+                    if (!string.IsNullOrWhiteSpace(workingCopyTextBox.Text)) {
+                        Attach(fileNameTextBox.Text, workingCopyTextBox.Text);
+                    }
+                } else {
+                    fileNameTextBox.Text = String.Empty;
+                    saveButton.Enabled = false;
                 }
-            } else {
-                fileNameTextBox.Text = String.Empty;
-                saveButton.Enabled = false;
             }
         }
 
@@ -72,11 +75,16 @@ namespace AccessScrCtrl {
         private void Attach(string accessFileName, string workingFolderName) {
             var tempProfile = new Profile {
                 AccessFile = accessFileName,
-                WorkingCopy = workingFolderName
+                WorkingCopy = workingFolderName,
+                FileName = Profile?.FileName
             };
+            Attach(tempProfile);
+        }
+
+        private void Attach(Profile profile) {
             Cursor = Cursors.WaitCursor;
             StatusInfo = Properties.Resources.LoadingObjectsTree;
-            backgroundAttach.RunWorkerAsync(tempProfile);
+            backgroundAttach.RunWorkerAsync(profile);
         }
 
         private void DisplayMRU() {
@@ -123,15 +131,15 @@ namespace AccessScrCtrl {
                 }
             } else {
                 Profile = Config.LoadProfile(profilePath);
-                workingCopyTextBox.Text = Profile.WorkingCopy;
+                workingCopyTextBox.Text = Profile.WorkingCopyFullPath;
                 folderDlg.SelectedPath = workingCopyTextBox.Text;
                 
-                fileNameTextBox.Text = Profile.AccessFile;
-                openDlg.FileName = Profile.AccessFile;
-                Attach(Profile.AccessFile, Profile.WorkingCopy);
+                fileNameTextBox.Text = Profile.AccessFileFullPath;
+                Attach(Profile);
 
-                Config.AddProfile(Profile, profilePath);
+                Config.AddProfile(Profile);
                 RefreshMRU();
+                editMenu.Enabled = true;
             }
         }
 
@@ -257,15 +265,32 @@ namespace AccessScrCtrl {
         private void newMenu_Click(object sender, EventArgs e) {
             var profileFrm = new ProfileFrm(fileNameTextBox.Text, workingCopyTextBox.Text);
             if (profileFrm.ShowDialog() == DialogResult.OK) {
-                Config.SaveProfile(profileFrm.Profile, profileFrm.ProfileFileName);
-                Config.AddProfile(profileFrm.Profile, profileFrm.ProfileFileName);
-                LoadProfile(profileFrm.ProfileFileName);
+                Config.SaveProfile(profileFrm.Profile);
+                Config.AddProfile(profileFrm.Profile);
+                LoadProfile(profileFrm.Profile.FileName);
+            }
+        }
+
+        private void OpenMenu_Click(object sender, EventArgs e) {
+            using (var openDlg = CommonDialogs.OpenProfile(Profile?.FileName)) {
+                if (openDlg.ShowDialog() == DialogResult.OK) {
+                    LoadProfile(openDlg.FileName);
+                }
             }
         }
 
         private void ExitMenu_Click(object sender, EventArgs e) {
             Close();
         }
+
+        private void profileMenu_Click(object sender, EventArgs e) {
+            var profileFrm = new ProfileFrm(Profile);
+            if (profileFrm.ShowDialog() == DialogResult.OK) {
+                Config.SaveProfile(profileFrm.Profile);
+                LoadProfile(profileFrm.Profile.FileName);
+            }
+        }
+
 
         private void MRU_Profile_Click(object sender, EventArgs e) {
             if (sender is ToolStripMenuItem) {
@@ -294,7 +319,7 @@ namespace AccessScrCtrl {
 
         private void backgroundAttach_DoWork(object sender, DoWorkEventArgs e) {
             var profile = (Profile)e.Argument;
-            objectTree.Attach(profile.AccessFile, profile.WorkingCopy);
+            objectTree.Attach(profile.AccessFileFullPath, profile.WorkingCopyFullPath);
             filesTree.WorkingCopyPath = folderDlg.SelectedPath;
         }
     }

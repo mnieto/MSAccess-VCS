@@ -149,6 +149,18 @@
   <data name="ObjectsSaved" xml:space="preserve">
     <value>{0} objects saved</value>
   </data>
+  <data name="OpenAccessFile" xml:space="preserve">
+    <value>Select Access file</value>
+  </data>
+  <data name="OpenAccessFilter" xml:space="preserve">
+    <value>Microsoft Access (*.accdb;*.mdb;*.adp;*.mda;*.accda)|*.accdb;*.mdb;*.adp;*.mda;*.accda|Microsoft Access database (*.mdb;*.accdb)|*.mdb;*.accdb|Microsoft Access 2007 onwards database (*.accdb;*.accda)|*.accdb;*.accda|Microsoft Access up to 2007 database (*.mdb;*.mda)|*.mdb;*.mda</value>
+  </data>
+  <data name="OpenProfileFile" xml:space="preserve">
+    <value>Select profile file</value>
+  </data>
+  <data name="OpenProfileFilter" xml:space="preserve">
+    <value>MS Access Source control version (*.accvcs)|*.accvcs|Json files (*.json)|*.json|All files (*.*)|*.*</value>
+  </data>
   <data name="ProfileNotFound" xml:space="preserve">
     <value>File '{0}' not found.
 Do you want to remove it from the Recent list?</value>

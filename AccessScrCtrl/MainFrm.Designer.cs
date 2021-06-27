@@ -28,7 +28,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
             this.selectFileButton = new System.Windows.Forms.Button();
-            this.openDlg = new System.Windows.Forms.OpenFileDialog();
             this.label2 = new System.Windows.Forms.Label();
             this.workingCopyTextBox = new System.Windows.Forms.TextBox();
             this.selectFolderButton = new System.Windows.Forms.Button();
@@ -50,6 +49,8 @@
             this.UpperSeparatorMenu = new System.Windows.Forms.ToolStripSeparator();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripSeparator();
             this.ExitMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.editMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.profileMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundAttach = new System.ComponentModel.BackgroundWorker();
             this.tabControl1.SuspendLayout();
             this.saveTab.SuspendLayout();
@@ -86,12 +87,6 @@
             this.selectFileButton.Text = "···";
             this.selectFileButton.UseVisualStyleBackColor = true;
             this.selectFileButton.Click += new System.EventHandler(this.selectFileButton_Click);
-            // 
-            // openDlg
-            // 
-            this.openDlg.Filter = "Access database (*.mdb; *.adp;*.accdb)|*.mdb;*.adp;*.accdb";
-            this.openDlg.SupportMultiDottedExtensions = true;
-            this.openDlg.Title = "Select Access file";
             // 
             // label2
             // 
@@ -242,7 +237,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.FileMenu});
+            this.FileMenu,
+            this.editMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(383, 24);
@@ -264,33 +260,50 @@
             // newMenu
             // 
             this.newMenu.Name = "newMenu";
-            this.newMenu.Size = new System.Drawing.Size(135, 22);
+            this.newMenu.Size = new System.Drawing.Size(180, 22);
             this.newMenu.Text = "&New";
             this.newMenu.Click += new System.EventHandler(this.newMenu_Click);
             // 
             // OpenMenu
             // 
             this.OpenMenu.Name = "OpenMenu";
-            this.OpenMenu.Size = new System.Drawing.Size(135, 22);
+            this.OpenMenu.Size = new System.Drawing.Size(180, 22);
             this.OpenMenu.Text = "&Open...";
+            this.OpenMenu.Click += new System.EventHandler(this.OpenMenu_Click);
             // 
             // UpperSeparatorMenu
             // 
             this.UpperSeparatorMenu.Name = "UpperSeparatorMenu";
-            this.UpperSeparatorMenu.Size = new System.Drawing.Size(132, 6);
+            this.UpperSeparatorMenu.Size = new System.Drawing.Size(177, 6);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(132, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
             // 
             // ExitMenu
             // 
             this.ExitMenu.Name = "ExitMenu";
             this.ExitMenu.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.ExitMenu.Size = new System.Drawing.Size(135, 22);
+            this.ExitMenu.Size = new System.Drawing.Size(180, 22);
             this.ExitMenu.Text = "E&xit";
             this.ExitMenu.Click += new System.EventHandler(this.ExitMenu_Click);
+            // 
+            // editMenu
+            // 
+            this.editMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.profileMenu});
+            this.editMenu.Enabled = false;
+            this.editMenu.Name = "editMenu";
+            this.editMenu.Size = new System.Drawing.Size(39, 20);
+            this.editMenu.Text = "&Edit";
+            // 
+            // profileMenu
+            // 
+            this.profileMenu.Name = "profileMenu";
+            this.profileMenu.Size = new System.Drawing.Size(180, 22);
+            this.profileMenu.Text = "&Profile...";
+            this.profileMenu.Click += new System.EventHandler(this.profileMenu_Click);
             // 
             // backgroundAttach
             // 
@@ -333,7 +346,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox fileNameTextBox;
         private System.Windows.Forms.Button selectFileButton;
-        private System.Windows.Forms.OpenFileDialog openDlg;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox workingCopyTextBox;
         private System.Windows.Forms.Button selectFolderButton;
@@ -356,6 +368,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem ExitMenu;
         private System.ComponentModel.BackgroundWorker backgroundAttach;
+        private System.Windows.Forms.ToolStripMenuItem editMenu;
+        private System.Windows.Forms.ToolStripMenuItem profileMenu;
     }
 }
 
