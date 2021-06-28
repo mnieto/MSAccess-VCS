@@ -20,17 +20,24 @@ namespace AccessScrCtrlUI {
         }
 
         public void AddValues(IEnumerable<string> expressions) {
-            foreach(string expression in expressions) {
-                var row = (DataGridViewRow)gridView.RowTemplate.Clone();
-                row.CreateCells(gridView, expression);
-                gridView.Rows.Add(row);
+            if (expressions != null) {
+                foreach (string expression in expressions) {
+                    var row = (DataGridViewRow)gridView.RowTemplate.Clone();
+                    row.CreateCells(gridView, expression);
+                    gridView.Rows.Add(row);
+                }
             }
+        }
+
+        public void Clear() {
+            gridView.Rows.Clear();
         }
 
         public IEnumerable<string>GetValues() {
             return gridView.Rows.
                 Cast<DataGridViewRow>().
-                Select(x => x.Cells[0].ToString());
+                Where(x => x.IsNewRow == false).
+                Select(x => x.Cells[0].Value?.ToString());
         }
     }
 }
