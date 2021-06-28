@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccessScrCtrl.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -94,11 +95,13 @@ namespace AccessScrCtrl.Profiles {
         }
 
         private void selectProfileButton_Click(object sender, EventArgs e) {
-            saveFileDlg.CheckFileExists = !IsNewProfile;
-            if (saveFileDlg.ShowDialog() == DialogResult.OK) {
-                profileFileNameTextBox.Text = saveFileDlg.FileName;
-                if (string.IsNullOrEmpty(nameTextBox.Text)) {
-                    nameTextBox.Text = Path.GetFileNameWithoutExtension(profileFileNameTextBox.Text);
+            string profileName = profileFileNameTextBox.Text;
+            using (FileDialog dialog = IsNewProfile ? (FileDialog)CommonDialogs.OpenProfile(profileName) : CommonDialogs.SaveProfile(profileName)) {
+                if (dialog.ShowDialog() == DialogResult.OK) {
+                    profileFileNameTextBox.Text = dialog.FileName;
+                    if (string.IsNullOrEmpty(nameTextBox.Text)) {
+                        nameTextBox.Text = Path.GetFileNameWithoutExtension(profileFileNameTextBox.Text);
+                    }
                 }
             }
         }

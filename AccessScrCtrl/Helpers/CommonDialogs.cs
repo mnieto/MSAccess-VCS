@@ -23,5 +23,15 @@ namespace AccessScrCtrl.Helpers {
             };
             return result;
         }
+
+        public static SaveFileDialog SaveProfile(string selectedFile) {
+            var result = new SaveFileDialog {
+                Title = Properties.Resources.OpenProfileFile,
+                Filter = Properties.Resources.OpenProfileFilter,
+                FileName = selectedFile
+            };
+            return result;
+
+        }
     }
 }
