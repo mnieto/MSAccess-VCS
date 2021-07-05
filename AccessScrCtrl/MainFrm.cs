@@ -184,7 +184,6 @@ namespace AccessScrCtrl {
             
             if (objectTree.App != null)
                 objectTree.App.WorkingCopyPath = workingCopyTextBox.Text;
-            filesTree.WorkingCopyPath = folderDlg.SelectedPath;
 
             if (objectTree.App == null || String.IsNullOrEmpty(objectTree.App.WorkingCopyPath)) {
                 MessageBox.Show(Properties.Resources.WorkingCopyMissing, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
