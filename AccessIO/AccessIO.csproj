@@ -31,6 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -78,7 +79,6 @@
     <Compile Include="Field.cs" />
     <Compile Include="ImportExport\ExportObject.cs" />
     <Compile Include="ImportExport\ImportObject.cs" />
-    <Compile Include="ImportExport\ImportOptions.cs" />
     <Compile Include="ImportExport\IPropertyTransform.cs" />
     <Compile Include="ImportExport\Transformers.cs" />
     <Compile Include="Metadata\Containers.cs" />

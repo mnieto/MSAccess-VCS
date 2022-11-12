@@ -9,11 +9,11 @@ namespace AccessScrCtrl {
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main() {
+        static void Main(string[] args) {
             //TODO: see http://www.codeproject.com/KB/exception/ExceptionHandling.aspx for error handling
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainFrm());
+            Application.Run(new MainFrm(args));
         }
     }
 }

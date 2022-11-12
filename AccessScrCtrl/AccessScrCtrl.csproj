@@ -85,6 +85,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -95,6 +96,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\CommonDialogs.cs" />
+    <Compile Include="Helpers\FolderPicker.cs" />
+    <Compile Include="Helpers\PathUtil.cs" />
+    <Compile Include="Helpers\ValidationHelper.cs" />
+    <Compile Include="Profiles\Configuration.cs" />
     <Compile Include="ImportOptionsFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +113,16 @@
     <Compile Include="MainFrm.Designer.cs">
       <DependentUpon>MainFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Profiles\ExportOptions.cs" />
+    <Compile Include="Profiles\ImportOptions.cs" />
+    <Compile Include="Profiles\Profile.cs" />
+    <Compile Include="Profiles\ProfileFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Profiles\ProfileFrm.Designer.cs">
+      <DependentUpon>ProfileFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Profiles\ProfileName.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Names.Designer.cs">
@@ -119,6 +135,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Profiles\ProfileFrm.resx">
+      <DependentUpon>ProfileFrm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -134,6 +154,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Names.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="AccessScrCtl.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -144,6 +167,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestDatabase.accvcs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AccessScrCtrlUI\AccessScrCtrlUI.csproj">
@@ -163,6 +189,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\asvn\Resources\asvn.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

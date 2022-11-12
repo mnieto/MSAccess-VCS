@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExpressionGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExpressionGrid.Designer.cs">
+      <DependentUpon>ExpressionGrid.cs</DependentUpon>
+    </Compile>
     <Compile Include="FilesTree.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -79,6 +85,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ExpressionGrid.resx">
+      <DependentUpon>ExpressionGrid.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FilesTree.resx">
       <DependentUpon>FilesTree.cs</DependentUpon>
     </EmbeddedResource>

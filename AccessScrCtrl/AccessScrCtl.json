@@ -1,0 +1,48 @@
+{
+  "LogLevel": "NFO",
+  "Profiles": [
+    {
+      "Name": "my name2",
+      "FileName": "path/to/file.accvcs",
+      "LastUsedOrder": 2
+    },
+    {
+      "Name": "my name1",
+      "FileName": "path/to/file.accvcs",
+      "LastUsedOrder": 1
+    }
+  ],
+  "MRUNumber": 4,
+  "Default": {
+    "Name": "DefaultProfile",
+    "Version": 1,
+    "AccessFile": "path/to/file.mdb",
+    "WorkingCopy": "folderName",
+    "LastSaveDateTime": "",
+    "LogLevel": "NFO",
+    "LogFileName": "",
+    "ImportOptions": {
+      "OverwriteDatabase": false,
+      "ConfirmImportedObjects": false,
+      "RemoveNotLoaded": false,
+      "AllowDataLostTables": [
+        "TableName1",
+        "Pattern*"
+      ],
+      "Excludes": [
+        "Pattern*"
+      ]
+    },
+    "ExportOptions": {
+      "ExtensionNaming": "type.vb|type.txt|type",
+      "ExportTableData": [
+        "Pattern*"
+      ],
+      "ExportTableFormat": "sql|csv",
+      "ExportQueryDefAs": "Definition|sql|both",
+      "Excludes": [
+        "Pattern*"
+      ]
+    }
+  }
+}
